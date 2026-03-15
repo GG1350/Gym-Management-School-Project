@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DOMAIN\ValueObjects\Exercises.cs" />
+    <Compile Include="DOMAIN\Entities\Members.cs" />
+    <Compile Include="DOMAIN\Entities\Trainers.cs" />
+    <Compile Include="DOMAIN\Entities\Workouts.cs" />
+    <Compile Include="DOMAIN\Enum\Subscribtion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,9 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="APP\Interface\" />
-    <Folder Include="DOMAIN\Entities\" />
-    <Folder Include="DOMAIN\Enum\" />
-    <Folder Include="DOMAIN\ValueObjects\" />
     <Folder Include="INFRASTRUCTURE\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

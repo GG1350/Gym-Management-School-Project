@@ -1,0 +1,18 @@
+Gym Management [Project] Structure
+
+Hierarchy
+
+Tier 1 : Trainers
+Tier 2 : Members
+Tier 3 : Workouts
+Tier 4 : Exercises
+
+
+Subscriptions:
+    Day - 5 euro
+    Month - 30 euro
+    Month + Trainer - 60 euro
+    Trimester - 80 euro
+    Trimester + Trainer - 160 euro
+    Year - 300 euro
+    Year + Trainer - 600 euro

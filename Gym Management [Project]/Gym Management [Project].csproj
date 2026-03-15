@@ -49,5 +49,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="APP\Interface\" />
+    <Folder Include="DOMAIN\Entities\" />
+    <Folder Include="DOMAIN\Enum\" />
+    <Folder Include="DOMAIN\ValueObjects\" />
+    <Folder Include="INFRASTRUCTURE\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

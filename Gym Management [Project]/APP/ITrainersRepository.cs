@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gym_Management__Project_.APP
 {
-    internal interface ITrainersRepository
+    public interface ITrainersRepository
     {
     }
 }

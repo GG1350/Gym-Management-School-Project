@@ -80,7 +80,10 @@
     <Compile Include="DOMAIN\Entities\Trainers.cs" />
     <Compile Include="DOMAIN\Entities\Workouts.cs" />
     <Compile Include="DOMAIN\Enum\Subscribtion.cs" />
+    <Compile Include="INFRASTRUCTURE\FileMemberRepository.cs" />
     <Compile Include="INFRASTRUCTURE\FileStorage.cs" />
+    <Compile Include="INFRASTRUCTURE\FileTrainersRepository.cs" />
+    <Compile Include="INFRASTRUCTURE\FileWorkoutRepository.cs" />
     <Compile Include="INFRASTRUCTURE\GymStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

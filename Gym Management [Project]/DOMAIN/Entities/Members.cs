@@ -57,5 +57,10 @@ namespace Gym_Management__Project_.DOMAIN.Entities
                 Console.WriteLine($"An error occurred while adding the workout: {ex.Message}");
             }
         }
+        public void RemoveWorkout(int id)
+        {
+            if (id < 1) throw new ArgumentNullException("The Id must be more than 0");
+            Workouts.RemoveAt(id - 1);
+        }
     }
 }

@@ -16,8 +16,8 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public Trainers(int id, string firstName, string lastName, List<Members> members)
         {
             if(id<0) {throw new ArgumentException("Id must be at least 0");}
-            if(string.IsNullOrEmpty(firstName)) {throw new ArgumentException("First name is required"); }
-            if(string.IsNullOrEmpty(lastName)) {throw new ArgumentException("Last name is required"); }
+            if(string.IsNullOrEmpty(firstName)) throw new ArgumentException("First name is required");
+            if(string.IsNullOrEmpty(lastName)) throw new ArgumentException("Last name is required");
 
             Id = id;
             FirstName = firstName;
@@ -27,7 +27,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
 
         public void AddMember(Members member)
         {
-            if (member == null) { throw new ArgumentNullException("The given information is not correct"); }
+            if (member == null) throw new ArgumentNullException("The given information is not correct");
             try
             {
                 Members.Add(member);
@@ -39,7 +39,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         }
          public void RemoveMember(int id)
         {
-            if (id<1) { throw new ArgumentNullException("The Id must be more than 0"); }
+            if (id<1) throw new ArgumentNullException("The Id must be more than 0");
             Members.RemoveAt(id-1);
         }
     }

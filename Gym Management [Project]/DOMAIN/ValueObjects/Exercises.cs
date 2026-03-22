@@ -14,14 +14,11 @@ namespace Gym_Management__Project_.DOMAIN.Entities
 
         public Exercises(string name, int durationMinutes, double met)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Exercise name is required");
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Exercise name is required");
 
-            if (durationMinutes <= 0)
-                throw new ArgumentException("Duration must be greater than 0");
+            if (durationMinutes <= 0) throw new ArgumentException("Duration must be greater than 0");
 
-            if (met <= 0)
-                throw new ArgumentException("MET must be greater than 0");
+            if (met <= 0) throw new ArgumentException("MET must be greater than 0");
 
             Name = name;
             DurationMinutes = durationMinutes;

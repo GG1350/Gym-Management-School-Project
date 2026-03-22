@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gym_Management__Project_.DOMAIN.Entities
+namespace Gym_Management__Project_.DOMAIN.Enum
 {
-    public class Members
+    public enum WorkoutType
     {
-
+        //TO DO
     }
 }

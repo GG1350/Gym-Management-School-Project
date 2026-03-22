@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Gym_Management__Project_.DOMAIN.Enum
 {
-    internal class Subscribtion
+    public enum Subscribtion
     {
+        Day,
+        Month,
+        MonthTrainer,
+        Trimester,
+        TrimesterTrainer,
+        Year,
+        YearTrainer
     }
 }

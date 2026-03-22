@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Gym_Management__Project_.DOMAIN.Entities
 {
-    internal class Trainers
+    public class Trainers
     {
+        public int Id   { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+
     }
 }

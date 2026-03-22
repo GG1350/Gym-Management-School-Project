@@ -8,5 +8,6 @@ namespace Gym_Management__Project_.DOMAIN.Entities
 {
     internal class Members
     {
+
     }
 }

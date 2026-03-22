@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Gym_Management__Project_.DOMAIN.Entities
 {
-    internal class Exercises
+    public class Exercises
     {
     }
 }

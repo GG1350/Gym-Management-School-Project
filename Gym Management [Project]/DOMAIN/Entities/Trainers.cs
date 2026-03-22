@@ -12,6 +12,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public List<Members> Members { get; set; } = new List<Members> ();
+        public bool IsAvailable { get; set; } = true;
 
         public Trainers(int id, string firstName, string lastName, List<Members> members)
         {
@@ -37,7 +38,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
                 Console.WriteLine($"An error occurred while adding the member: {ex.Message}");
             }
         }
-         public void RemoveMember(int id)
+        public void RemoveMember(int id)
         {
             if (id<1) throw new ArgumentNullException("The Id must be more than 0");
             Members.RemoveAt(id-1);

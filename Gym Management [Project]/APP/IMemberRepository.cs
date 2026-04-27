@@ -8,6 +8,8 @@ namespace Gym_Management__Project_.APP
 {
     public interface IMemberRepository
     {
-
+        Account GetById(int id);
+        void Save(Account account);
+        IReadOnlyList<Account> GetAll();
     }
 }

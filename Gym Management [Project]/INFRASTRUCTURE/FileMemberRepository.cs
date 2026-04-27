@@ -59,5 +59,21 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             storage.Save(db);
 
         }
+
+        public Account GetById(int id)
+        {
+            var db = storage.Load();
+
+            foreach (var account in db.Accounts)
+            {
+                if (account.Id == id)
+                {
+                    return account;
+                }
+            }
+
+            throw new Exception($"Account with Id {id} not found");
+
+        }
     }
 }

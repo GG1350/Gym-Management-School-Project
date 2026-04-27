@@ -12,47 +12,62 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
     {
         private readonly FileStorage storage;
 
-        public FileAccountRepository(FileStorage storage)
+        public FileMemberRepository(FileStorage storage)
         {
             this.storage = storage;
         }
 
-        public IReadOnlyList<Account> GetAll()
+        public IReadOnlyList<Members> GetAll()
         {
             var db = storage.Load();
-            return db.Accounts;
+            return db.Members;
         }
 
-        public void Save(Account account)
+        public void Save(Members Members)
         {
             var db = storage.Load();
 
-            if (account.Id == 0)
+            if (Members.Id == 0)
             {
-                var newAccount = new Account(
-                    //int id, string name, AccountType type, Money balance
-                    db.NextId++,
-                    account.Name,
-                    account.Type,
-                    account.Balance
-                    );
-                db.Accounts.Add(newAccount);
+                if (Members.HasTrainer == true)
+                {
+                    bool found = true;
+                    var newMembers = new Members(
+                        db.NextId++,
+                        Members.FirstName,
+                        Members.LastName,
+                        Members.Workouts,
+                        Members.SubscribtionType
+                        );
+                    db.Members.Add(newMembers);
+                }
+                else
+                {
+                    bool found = true;
+                    var newMembers = new Members(
+                        db.NextId++,
+                        Members.FirstName,
+                        Members.LastName,
+                        Members.SubscribtionType
+                        );
+                    db.Members.Add(newMembers);
+                }
             }
             else
             {
-                bool found = false;
-                for (int i = 0; i < db.Accounts.Count; i++)
+                bool found = true;
+                for (int i = 0; i < db.Members.Count; i++)
                 {
-                    if (db.Accounts[i].Id == account.Id)
+                    if (db.Members[i].Id == Members.Id)
                     {
-                        db.Accounts[i] = account;
+                        db.Members[i] = Members;
                         found = true;
                         break;
                     }
                 }
                 if (!found)
                 {
-                    throw new Exception("Account not found");
+                    throw new Exception("Member not found");
                 }
             }
 
@@ -60,35 +75,19 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
         }
 
-        public Account GetById(int id)
+        public Members GetById(int id)
         {
             var db = storage.Load();
 
-            foreach (var account in db.Accounts)
+            foreach (var Members in db.Members)
             {
-                if (account.Id == id)
+                if (Members.Id == id)
                 {
-                    return account;
+                    return Members;
                 }
             }
 
-            throw new Exception($"Account with Id {id} not found");
-
-        }
-        
-        public Account GetById(int id)
-        {
-            var db = storage.Load();
-
-            foreach (var account in db.Accounts)
-            {
-                if (account.Id == id)
-                {
-                    return account;
-                }
-            }
-
-            throw new Exception($"Account with Id {id} not found");
+            throw new Exception($"Members with Id {id} not found");
 
         }
     }

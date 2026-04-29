@@ -59,5 +59,21 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             storage.Save(db);
         }
+
+        public Workouts GetById(int id)
+        {
+            var db = storage.Load();
+
+            foreach (var Workouts in db.Workouts)
+            {
+                if (Workouts.Id == id)
+                {
+                    return Workouts;
+                }
+            }
+
+            throw new Exception($"Workouts with Id {id} not found");
+
+        }
     }
 }

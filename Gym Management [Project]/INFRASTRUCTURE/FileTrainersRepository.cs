@@ -60,6 +60,23 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
 
             storage.Save(db);
+
         }
-    }
+
+        public Trainers GetById(int id)
+        {
+            var db = storage.Load();
+
+            foreach (var Trainers in db.Trainers)
+            {
+                if (Trainers.Id == id)
+                {
+                    return Trainers;
+                }
+            }
+
+            throw new Exception($"Trainers with Id {id} not found");
+
+        }
+    } 
 }

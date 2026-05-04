@@ -114,7 +114,10 @@ namespace Gym_Management__Project_.ConsoleUI
             //Console.ReadLine();
         }
 
-        private void AddTrainer() { }
+        private void AddTrainer() 
+        {
+            
+        }
 
         private void CreateTrainingProgram() { }
 

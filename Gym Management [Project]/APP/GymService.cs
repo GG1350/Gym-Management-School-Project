@@ -21,13 +21,15 @@ namespace Gym_Management__Project_.APP
             this.workoutRepository = workoutRepository;
         }
 
-        public void CreateTrainer(string FName, string LName)
+        public void CreateTrainer(string FName, string LName, List<Members>members)
         {
-            var Trainer = new Trainers(FName,LName);
+            var Trainer = new Trainers(0,FName,LName,members);
+            trainersRepository.Save(Trainer);
         }
         public void CreateMember(string FName, string LName, Subscribtion SubType)
         {
-            var Member = new Members(FName,LName,SubType);
+            var Member = new Members(0,FName,LName,SubType);
+            memberRepository.Save(Member);
         }
 
         public IReadOnlyList<Trainers> GetTrainers()

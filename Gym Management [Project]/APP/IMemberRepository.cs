@@ -10,7 +10,7 @@ namespace Gym_Management__Project_.APP
     public interface IMemberRepository
     {
         Members GetById(int id);
-        void Save(Members members);
+        void Save(Members member);
         IReadOnlyList<Members> GetAll();
     }
 }

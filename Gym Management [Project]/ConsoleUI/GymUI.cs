@@ -67,29 +67,29 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+====================================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("      ==== GYM SYSTEM ====");
+            Console.WriteLine("  ❚█══█❚ ==== GYM SYSTEM ==== ❚█══█❚");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+====================================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[1] "); Console.ResetColor(); Console.WriteLine("Create MEMBER account");
+            Console.Write(" [1] "); Console.ResetColor(); Console.WriteLine("👤✙ Create MEMBER account 👤✙");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[2] "); Console.ResetColor(); Console.WriteLine("Show plan");
+            Console.Write(" [2] "); Console.ResetColor(); Console.WriteLine("Show plan");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Trainers");
+            Console.Write(" [3] "); Console.ResetColor(); Console.WriteLine("👴 Trainers 👴");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write(" [4] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write(" [5] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("[X] Exit");
+            Console.WriteLine(" [X] Exit");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+====================================+");
             Console.ResetColor();
         }
 

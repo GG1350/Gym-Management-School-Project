@@ -68,10 +68,9 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
-            Console.WriteLine("+==============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("==== GYM SYSTEM ====\n");
+            Console.WriteLine("      ==== GYM SYSTEM ====");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
@@ -90,7 +89,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("[X] Exit");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }

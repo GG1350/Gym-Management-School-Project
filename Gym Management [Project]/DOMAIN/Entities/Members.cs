@@ -18,16 +18,13 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public bool HasTrainer => SubscribtionType == Subscribtion.MonthTrainer || SubscribtionType == Subscribtion.TrimesterTrainer || SubscribtionType == Subscribtion.YearTrainer;
 
         //For member with a trainer
-        public Members(int id, string firstName, string lastName, List<Workouts> workouts, Subscribtion subscribtionType)
+        public Members(string firstName, string lastName, Subscribtion subscribtionType)
         {
-            if (id < 0) throw new ArgumentException("Id must be at least 0");
             if (string.IsNullOrEmpty(firstName)) throw new ArgumentException("A first name is required");
             if (string.IsNullOrEmpty(lastName)) throw new ArgumentException("A last name is required");
 
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
-            Workouts = workouts;
             CardStatus = MemberCard.Active;
             SubscribtionType = subscribtionType;
         }

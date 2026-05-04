@@ -16,3 +16,23 @@ Subscriptions:
     Trimester + Trainer - 160 euro
     Year - 300 euro
     Year + Trainer - 600 euro
+
+
+Functions:
+Member registration
+Subscription management
+Add trainer
+Create program
+Add exercise
+Edit exercise
+Check progress
+Book training
+Unbook training
+Trainer check(clients, timetable)
+Manage timetable
+Check gym busyness
+Manage types of trainings
+Check most used exercises
+Manage member cards
+Training History
+Check active members

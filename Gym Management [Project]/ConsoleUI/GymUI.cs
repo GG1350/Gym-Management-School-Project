@@ -32,29 +32,23 @@ namespace Gym_Management__Project_.ConsoleUI
                 switch (input)
                 {
                     case "1":
-                        CreateMemberAccount();
+                        RegistrateMemberAccount();
                         break;
                     case "2":
-                        ShowWorkoutPlan();
                         Winput = Console.ReadLine();
                         switch (Winput)
                         {
                             case "1":
-                                AddExercise();
                                 break;
                             case "2":
-                                RemoveExercise();
                                 break;
                         }
                         break;
                     case "3":
-                        AddTransaction();
                         break;
                     case "4":
-                        ShowAccount();
                         break;
                     case "5":
-                        ShowTransaction();
                         break;
                     case "x":
                         running = false;
@@ -67,33 +61,33 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+====================================+");
+            Console.WriteLine("+==============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("  ❚█══█❚ ==== GYM SYSTEM ==== ❚█══█❚");
+            Console.WriteLine("      ==== GYM SYSTEM ====");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+====================================+");
+            Console.WriteLine("+==============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(" [1] "); Console.ResetColor(); Console.WriteLine("👤✙ Create MEMBER account 👤✙");
+            Console.Write("[1] "); Console.ResetColor(); Console.WriteLine("Create MEMBER account");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(" [2] "); Console.ResetColor(); Console.WriteLine("Show plan");
+            Console.Write("[2] "); Console.ResetColor(); Console.WriteLine("Show plan");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(" [3] "); Console.ResetColor(); Console.WriteLine("👴 Trainers 👴");
+            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Trainers");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(" [4] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write(" [5] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(" [X] Exit");
+            Console.WriteLine("[X] Exit");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+====================================+");
+            Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
 
-        private void CreateMemberAccount()
+        private void RegistrateMemberAccount()
         {
             //Console.Write("Name: ");
             //string name = Console.ReadLine();
@@ -120,34 +114,34 @@ namespace Gym_Management__Project_.ConsoleUI
             //Console.ReadLine();
         }
 
-        private void ShowTransaction()
-        {
+        private void AddTrainer() { }
 
-        }
+        private void CreateTrainingProgram() { }
 
-        private void ShowAccount()
-        {
+        private void EditTrainingProgram() { }
 
-        }
+        private void CheckProgress() { }//calories; visits;
 
-        private void AddTransaction()
-        {
+        private void BookTraining() { }
 
-        }
+        private void UnbookTrainint() { }
 
-        private void ShowWorkoutPlan()
-        {
+        private void CheckTrainer() { }
 
-        }
+        private void ManageTrainerTimetable() { }
 
-        private void AddExercise()
-        {
+        private void CheckGymBusyness() { }
 
-        }
+        private void CheckTypesOfTrainings() { }
 
-        private void RemoveExercise()
-        {
+        private void CheckMostUsedExercises() { }
 
-        }
+        private void ManageMemeberCards() { }
+
+        private void TrainingHistory() { }
+
+        private void CheckActiveMembers() { }
     }
 }
+
+

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Gym_Management__Project_.APP;
+using Gym_Management__Project_.DOMAIN.Entities;
+using Gym_Management__Project_.DOMAIN.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Gym_Management__Project_.APP;
-using Gym_Management__Project_.DOMAIN.Enum;
 
 namespace Gym_Management__Project_.ConsoleUI
 {
@@ -74,7 +75,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("[2] "); Console.ResetColor(); Console.WriteLine("Show plan");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Trainers");
+            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Actions with Trainers");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -116,9 +117,37 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void AddTrainer() 
         {
-            
+            Console.WriteLine("First name: ");
+            string FName = Console.ReadLine();
+            Console.WriteLine("Last name: ");
+            string LName = Console.ReadLine();
+            List<Members> members = new List<Members>();
+            gymService.CreateTrainer(FName, LName, members);
         }
 
+        private void ShowTrainers()//TO TUNE
+        {
+            var trainers = gymService.GetTrainers();
+            foreach(var t in trainers) Console.WriteLine($"{t.FirstName} {t.LastName}");
+        }
+        private void AddMember()//TO TUNE
+        {
+            Console.WriteLine("First name: ");
+            string FName = Console.ReadLine();
+            Console.WriteLine("Last name: ");
+            string LName = Console.ReadLine();
+            Console.WriteLine("Choose the trainer you want or leave empty if you do not want one: ");
+            ShowTrainers();
+            string TrainerName=Console.ReadLine();
+            Console.WriteLine();
+        }
+
+        private void ShowMembers()
+        {
+            var members = gymService.GetMembers();
+            foreach (var m in members) Console.WriteLine($"{m.FirstName} {m.LastName}");
+            Console.ReadLine();
+        }
         private void CreateTrainingProgram() { }
 
         private void EditTrainingProgram() { }
@@ -127,7 +156,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void BookTraining() { }
 
-        private void UnbookTrainint() { }
+        private void UnbookTraining() { }
 
         private void CheckTrainer() { }
 

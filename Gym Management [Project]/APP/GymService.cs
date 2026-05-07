@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Gym_Management__Project_.INFRASTRUCTURE;
+using System.Runtime.CompilerServices;
 
 namespace Gym_Management__Project_.APP
 {
     public class GymService
     {
         private readonly IMemberRepository memberRepository;
-        private readonly ITrainersRepository trainersRepository;
+        private ITrainersRepository trainersRepository;
         private readonly IWorkoutRepository workoutRepository;
 
         public GymService(IMemberRepository memberRepository, ITrainersRepository trainersRepository, IWorkoutRepository workoutRepository)
@@ -23,7 +25,7 @@ namespace Gym_Management__Project_.APP
 
         public void CreateTrainer(string FName, string LName, List<Members>members)
         {
-            var Trainer = new Trainers(0,FName,LName,members);
+            Trainers Trainer = new Trainers(0,FName,LName,members);
             trainersRepository.Save(Trainer);
         }
         public void CreateMember(string FName, string LName, Subscribtion SubType)

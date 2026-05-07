@@ -24,18 +24,18 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             return db.Trainers;
         }
 
-        public void Save(Trainers Trainers)
+        public void Save(Trainers trainer)
         {
             var db = storage.Load();
 
-            if (Trainers.Id == 0)
+            if (trainer.Id == 0)
             {
                 bool found = true;
                 var newTrainers = new Trainers(
                     db.NextId++,
-                    Trainers.FirstName,
-                    Trainers.LastName,
-                    Trainers.Members
+                    trainer.FirstName,
+                    trainer.LastName,
+                    trainer.Members
                     );
                 db.Trainers.Add(newTrainers);
             }
@@ -45,9 +45,9 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
                 for (int i = 0; i < db.Trainers.Count; i++)
                 {
-                    if (db.Trainers[i].Id == Trainers.Id)
+                    if (db.Trainers[i].Id == trainer.Id)
                     {
-                        db.Trainers[i] = Trainers;
+                        db.Trainers[i] = trainer;
                         isFound = true;
                         break;
                     }

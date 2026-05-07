@@ -11,7 +11,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public int Id   { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public List<Members> Members { get; set; } = new List<Members> ();
+        public List<Members> Members { get; set; }
         public bool IsAvailable { get; set; } = true;
 
         public Trainers(int id, string firstName, string lastName, List<Members> members)

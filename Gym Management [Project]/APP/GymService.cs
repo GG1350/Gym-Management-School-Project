@@ -43,5 +43,14 @@ namespace Gym_Management__Project_.APP
         {
             return memberRepository.GetAll();
         }
+        public void CreateWorkout(List<Exercises> workouts)
+        {
+            Workouts Workout = new Workouts(0, workouts);
+            workoutRepository.Save(Workout);
+        }
+        public IReadOnlyList<Workouts> GetWorkouts()
+        {
+            return workoutRepository.GetAll();
+        }
     }
 }

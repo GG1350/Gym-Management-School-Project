@@ -10,13 +10,11 @@ namespace Gym_Management__Project_.DOMAIN.Entities
     public class Workouts
     {
         public int Id { get; set; }
-        public WorkoutType Type { get; set; }
         public List<Exercises> Exercises { get; set; } = new List<Exercises>();
         
-        public Workouts(int id, WorkoutType type, List<Exercises> exercises)
+        public Workouts(int id, List<Exercises> exercises)
         {
             Id = id;
-            Type = type;
             Exercises = exercises;
         }
 

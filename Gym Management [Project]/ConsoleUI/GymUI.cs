@@ -52,6 +52,7 @@ namespace Gym_Management__Project_.ConsoleUI
                         ShowMembers();
                         break;
                     case "5":
+                        CreateWorkout();
                         break;
                     case "x":
                         running = false;
@@ -81,7 +82,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("CreateWorkout");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("[X] Exit");
             Console.ResetColor();
@@ -163,10 +164,15 @@ namespace Gym_Management__Project_.ConsoleUI
         }
         private void CreateWorkout() 
         {
-        
+            Console.WriteLine("What exercises do you want to add in the workout?");
         }
 
-        private void EditWorkout() { }
+        private void EditWorkout()
+        {
+            var workouts = gymService.GetWorkouts();
+            foreach (var w in workouts) Console.WriteLine($"What changes you want in the workout {w.Id}:");
+            Console.ReadLine();
+        }
 
         private void CheckProgress() { }//calories; visits;
 

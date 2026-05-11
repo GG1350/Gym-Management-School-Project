@@ -134,7 +134,6 @@
     <Compile Include="APP\IWorkoutRepository.cs" />
     <Compile Include="ConsoleUI\GymUI.cs" />
     <Compile Include="DOMAIN\Enum\MemberCard.cs" />
-    <Compile Include="DOMAIN\Enum\WorkoutType.cs" />
     <Compile Include="DOMAIN\ValueObjects\Exercises.cs" />
     <Compile Include="DOMAIN\Entities\Members.cs" />
     <Compile Include="DOMAIN\Entities\Trainers.cs" />

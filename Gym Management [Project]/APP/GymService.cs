@@ -28,9 +28,9 @@ namespace Gym_Management__Project_.APP
             Trainers Trainer = new Trainers(0,FName,LName,members);
             trainersRepository.Save(Trainer);
         }
-        public void CreateMember(string FName, string LName, Subscribtion SubType)
+        public void CreateMember(string FName, string LName, List<Workouts> workouts, Subscribtion SubType)
         {
-            var Member = new Members(0,FName,LName,SubType);
+            var Member = new Members(0,FName,LName,workouts,SubType);
             memberRepository.Save(Member);
         }
 

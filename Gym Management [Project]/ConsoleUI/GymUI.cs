@@ -29,7 +29,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
                 Console.Write("Choose: ");
                 string input = Console.ReadLine();
-                string Winput;
+                string Winput;//workoutUI
                 switch (input)
                 {
                     case "1":
@@ -46,8 +46,10 @@ namespace Gym_Management__Project_.ConsoleUI
                         }
                         break;
                     case "3":
+                        AddMember();
                         break;
                     case "4":
+                        ShowMembers();
                         break;
                     case "5":
                         break;
@@ -125,32 +127,46 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateTrainer(FName, LName, members);
         }
 
-        private void ShowTrainers()//TO TUNE
+        private void ShowTrainers()//TO TUNE: to show more info
         {
             var trainers = gymService.GetTrainers();
             foreach(var t in trainers) Console.WriteLine($"{t.FirstName} {t.LastName}");
         }
-        private void AddMember()//TO TUNE
+
+        private void AddMember()
         {
             Console.WriteLine("First name: ");
             string FName = Console.ReadLine();
             Console.WriteLine("Last name: ");
             string LName = Console.ReadLine();
-            Console.WriteLine("Choose the trainer you want or leave empty if you do not want one: ");
-            ShowTrainers();
-            string TrainerName=Console.ReadLine();
-            Console.WriteLine();
+            Console.WriteLine("What type of subscription do you want by id: ");
+            foreach (Subscribtion s in Enum.GetValues(typeof(Subscribtion)))
+            {
+                Console.WriteLine($"{(int)s} - {s}");
+            }
+            var id = int.Parse(Console.ReadLine());
+            if (!Enum.IsDefined(typeof(Subscribtion), id))
+            {
+                Console.WriteLine("Wrong id!");
+                return;
+            }
+            var subscribtion = (Subscribtion)id;
+            List<Workouts> workouts = new List<Workouts>();
+            gymService.CreateMember( FName, LName, workouts, subscribtion);
         }
 
-        private void ShowMembers()
+        private void ShowMembers()//TO TUNE: to show more info
         {
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.FirstName} {m.LastName}");
             Console.ReadLine();
         }
-        private void CreateTrainingProgram() { }
+        private void CreateWorkout() 
+        {
+        
+        }
 
-        private void EditTrainingProgram() { }
+        private void EditWorkout() { }
 
         private void CheckProgress() { }//calories; visits;
 

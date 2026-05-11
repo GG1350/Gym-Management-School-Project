@@ -48,6 +48,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                         db.NextId++,
                         Members.FirstName,
                         Members.LastName,
+                        Members.Workouts,
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);

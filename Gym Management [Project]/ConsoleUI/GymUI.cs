@@ -165,6 +165,7 @@ namespace Gym_Management__Project_.ConsoleUI
         private void CreateWorkout() 
         {
             Console.WriteLine("What exercises do you want to add in the workout?");
+            Console.ReadLine();
         }
 
         private void EditWorkout()

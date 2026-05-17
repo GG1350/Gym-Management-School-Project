@@ -13,6 +13,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public string LastName { get; set; } = string.Empty;
         public List<Members> Members { get; set; }
         public bool IsAvailable { get; set; } = true;
+        public List<Workouts> Schedule { get { return new List<Workouts>(); } set { if (Schedule.Count > 3) throw new Exception("The trainer is too busy for the day"); } }
 
         public Trainers(int id, string firstName, string lastName, List<Members> members)
         {

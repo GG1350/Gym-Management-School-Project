@@ -33,7 +33,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 switch (input)
                 {
                     case "1":
-                        
+                        BookTraining();
                         break;
                     case "2":
                         Winput = Console.ReadLine();
@@ -104,7 +104,11 @@ namespace Gym_Management__Project_.ConsoleUI
         private void ShowTrainers()//TO TUNE: to show more info
         {
             var trainers = gymService.GetTrainers();
-            foreach(var t in trainers) Console.WriteLine($"{t.FirstName} {t.LastName}");
+            foreach (var t in trainers)
+            {
+                string availability = t.IsAvailable ? "Available" : "Not Available";
+                Console.WriteLine($"{t.Id} {t.FirstName} {t.LastName} {availability}"); 
+            }
             Pause();
         }
 
@@ -134,8 +138,7 @@ namespace Gym_Management__Project_.ConsoleUI
         private void ShowMembers()//TO TUNE: to show more info
         {
             var members = gymService.GetMembers();
-            foreach (var m in members) Console.WriteLine($"{m.FirstName} {m.LastName}");
-            Pause();
+            foreach (var m in members) Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
         }
         private void CreateWorkout() //kosyo
         {
@@ -164,21 +167,34 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void CheckProgress() //calories; visits;
+        private void BookTraining() //make validations
         {
+            Console.WriteLine("Who wants to book a training(write the id)?");
+            ShowMembers();
+            var members = gymService.GetMembers();
+            int memberId = int.Parse(Console.ReadLine());
+            if (memberId == 0) throw new Exception("Invalid member id!");
 
-        }
-
-        private void BookTraining() 
-        {
-        
+            Console.WriteLine("Which available trainer is to be booked(write the id)?");
+            var trainers = gymService.GetTrainers();
+            foreach (var t in trainers)
+            {
+                if (t.IsAvailable) Console.WriteLine($"{t.Id} {t.FirstName} {t.LastName}");
+            }
+            int trainerId = int.Parse(Console.ReadLine());
+            if(trainerId ==0) throw new Exception("Invalid trainer id!");
+            if (trainers[trainerId].FirstName == null&& trainers[trainerId].LastName == null) throw new Exception("There is no such trainer in out gym");
+            //trainers[trainerId].Schedule.Add();
         }
 
         private void UnbookTraining() 
         {
         
         }
+        private void CheckProgress() //calories; visits;
+        {
 
+        }
         private void CheckTrainer() 
         {
         
@@ -224,7 +240,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void Pause()
         {
-            Console.WriteLine("Press any Enter to continue...");
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadKey();
         }
     }

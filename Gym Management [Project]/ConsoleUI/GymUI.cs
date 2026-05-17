@@ -33,7 +33,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 switch (input)
                 {
                     case "1":
-                        RegistrateMemberAccount();
+                        
                         break;
                     case "2":
                         Winput = Console.ReadLine();
@@ -91,33 +91,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
         }
 
-        private void RegistrateMemberAccount()
-        {
-            //Console.Write("Name: ");
-            //string name = Console.ReadLine();
-            //Console.WriteLine("Type:");
-            //Console.WriteLine("Cash: 0");
-            //Console.WriteLine("Bank: 1");
-            //Console.WriteLine("DebitCard: 2");
-            //Console.WriteLine("VirtualCard: 3");
-            //Console.WriteLine("SavingBank: 4");
-            //Console.Write("Choos type: ");
-            //int type = int.Parse(Console.ReadLine());
-            //var typeAccount = (AccountType)type;
-            //Console.Write("Initial amount: ");
-            //decimal amount = decimal.Parse(Console.ReadLine());
-            //try
-            //{
-            //    gymService.CreateAccount(name, typeAccount, amount);
-            //    Console.WriteLine("New account created!");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-            //Console.ReadLine();
-        }
-
         private void AddTrainer() 
         {
             Console.WriteLine("First name: ");
@@ -132,6 +105,7 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             var trainers = gymService.GetTrainers();
             foreach(var t in trainers) Console.WriteLine($"{t.FirstName} {t.LastName}");
+            Pause();
         }
 
         private void AddMember()
@@ -154,48 +128,105 @@ namespace Gym_Management__Project_.ConsoleUI
             var subscribtion = (Subscribtion)id;
             List<Workouts> workouts = new List<Workouts>();
             gymService.CreateMember( FName, LName, workouts, subscribtion);
+            Pause();
         }
 
         private void ShowMembers()//TO TUNE: to show more info
         {
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.FirstName} {m.LastName}");
-            Console.ReadLine();
+            Pause();
         }
-        private void CreateWorkout() 
+        private void CreateWorkout() //kosyo
         {
             Console.WriteLine("What exercises do you want to add in the workout?");
-            Console.ReadLine();
+            Pause();
         }
 
-        private void EditWorkout()
+        private void EditWorkout()//kosyo
         {
             var workouts = gymService.GetWorkouts();
             foreach (var w in workouts) Console.WriteLine($"What changes you want in the workout {w.Id}:");
-            Console.ReadLine();
+            Pause();
         }
 
-        private void CheckProgress() { }//calories; visits;
+        private void ShowWorkout() { }//kosyo, needs to show the workout by a specified id and the exercises in it. Overalps with the show exercises
 
-        private void BookTraining() { }
+        private Exercises AddExercise()//this will be used with the creation and editing of the workout
+        {
+            Console.WriteLine("What exercise do you want to add in the workout?");
+            string name = Console.ReadLine();
+            Console.WriteLine("How long will the exercise last (in minutes)?");
+            int duration = int.Parse(Console.ReadLine());
+            Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
+            double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
+            return new Exercises(name, duration, met);
+            Pause();
+        }
 
-        private void UnbookTraining() { }
+        private void CheckProgress() //calories; visits;
+        {
 
-        private void CheckTrainer() { }
+        }
 
-        private void ManageTrainerTimetable() { }
+        private void BookTraining() 
+        {
+        
+        }
 
-        private void CheckGymBusyness() { }
+        private void UnbookTraining() 
+        {
+        
+        }
 
-        private void CheckTypesOfTrainings() { }
+        private void CheckTrainer() 
+        {
+        
+        }
 
-        private void CheckMostUsedExercises() { }
+        private void ManageTrainerTimetable() 
+        {
+        
+        }
 
-        private void ManageMemeberCards() { }
+        private void CheckGymBusyness() 
+        {
+        
+        }
 
-        private void TrainingHistory() { }
+        private void CheckTypesOfTrainings() 
+        {
+        
+        }
 
-        private void CheckActiveMembers() { }
+        private void CheckMostUsedExercises() 
+        {
+        
+        }
+
+        private void ManageMemeberCards() 
+        {
+        
+        }
+
+        private void TrainingHistory() 
+        {
+        
+        }
+
+        private void CheckActiveMembers() 
+        {
+        
+        }
+
+
+
+
+        private void Pause()
+        {
+            Console.WriteLine("Press any Enter to continue...");
+            Console.ReadKey();
+        }
     }
 }
 

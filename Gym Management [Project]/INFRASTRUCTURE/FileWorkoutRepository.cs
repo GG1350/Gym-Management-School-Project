@@ -32,6 +32,8 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                 bool found = true;
                 var newWorkouts = new Workouts(
                     db.NextId++,
+                    Workouts.MemberId,
+                    Workouts.Name,
                     Workouts.Exercises
                     );
                 db.Workouts.Add(newWorkouts);

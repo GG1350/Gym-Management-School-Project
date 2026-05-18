@@ -1,12 +1,13 @@
 ﻿using Gym_Management__Project_.DOMAIN.Entities;
 using Gym_Management__Project_.DOMAIN.Enum;
+using Gym_Management__Project_.INFRASTRUCTURE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Gym_Management__Project_.INFRASTRUCTURE;
-using System.Runtime.CompilerServices;
 
 namespace Gym_Management__Project_.APP
 {
@@ -33,6 +34,11 @@ namespace Gym_Management__Project_.APP
             var Member = new Members(0,FName,LName,workouts,SubType);
             memberRepository.Save(Member);
         }
+        public void BookTraining(int mId, int tId,int wId)
+        {
+            memberRepository.Update(mId,wId);
+            trainersRepository.Update(tId,wId,mId);
+        }
 
         public IReadOnlyList<Trainers> GetTrainers()
         {
@@ -43,9 +49,9 @@ namespace Gym_Management__Project_.APP
         {
             return memberRepository.GetAll();
         }
-        public void CreateWorkout(List<Exercises> workouts)
+        public void CreateWorkout(int memberId,string name,List<Exercises> exercises)
         {
-            Workouts Workout = new Workouts(0, workouts);
+            Workouts Workout = new Workouts(0,memberId,name, exercises);
             workoutRepository.Save(Workout);
         }
         public IReadOnlyList<Workouts> GetWorkouts()

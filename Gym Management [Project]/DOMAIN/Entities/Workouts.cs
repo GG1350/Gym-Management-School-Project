@@ -10,30 +10,16 @@ namespace Gym_Management__Project_.DOMAIN.Entities
     public class Workouts
     {
         public int Id { get; set; }
+        public int MemberId {  get; set; }
+        public string Name { get; set; }
         public List<Exercises> Exercises { get; set; } = new List<Exercises>();
-        
-        public Workouts(int id, List<Exercises> exercises)
+        public Workouts() { }
+        public Workouts(int id,int memberId,string name, List<Exercises> exercises)
         {
             Id = id;
+            MemberId = memberId;
+            Name = name;
             Exercises = exercises;
-        }
-
-        public void AddExercise(Exercises exercise)
-        {
-            if (exercise == null) throw new ArgumentNullException("The given information is not correct");
-            try
-            {
-                Exercises.Add(exercise);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while adding the exercise: {ex.Message}");
-            }
-        }
-        public void RemoveExercise(int id)
-        {
-            if (id < 1) throw new ArgumentNullException("The Id must be more than 0");
-            Exercises.RemoveAt(id - 1);
         }
     }
 }

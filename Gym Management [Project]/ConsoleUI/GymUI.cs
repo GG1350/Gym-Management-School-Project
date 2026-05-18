@@ -153,7 +153,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void ShowWorkout() { }//kosyo, needs to show the workout by a specified id and the exercises in it. Overalps with the show exercises
+        private void ShowWorkout() { }//kosyo; needs to show the workout by a specified id and the exercises in it. Overalps with the show exercises
 
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {
@@ -183,13 +183,26 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             int trainerId = int.Parse(Console.ReadLine());
             if(trainerId ==0) throw new Exception("Invalid trainer id!");
-            if (trainers[trainerId].FirstName == null&& trainers[trainerId].LastName == null) throw new Exception("There is no such trainer in out gym");
-            //trainers[trainerId].Schedule.Add();
+            if (trainers.Count<trainerId) throw new Exception("There is no such trainer in our gym");
+            Console.WriteLine("Which of your workouts do you want to book(write the Id): ");
+            foreach(var w in members[memberId].Workouts)
+            {
+                Console.WriteLine(w.Id + w.Name + "\nExercises:" + w.Exercises);
+            }
+            int WorkoutId = int.Parse(Console.ReadLine());
+            gymService.BookTraining(memberId,trainerId,WorkoutId);
+            Pause();
         }
 
-        private void UnbookTraining() 
+        private void UnbookTraining() //TO DO
         {
-        
+            Console.WriteLine("Who wants to unbook a training (write the id)?");
+            ShowMembers();
+            var members = gymService.GetMembers();
+            int memberId = int.Parse(Console.ReadLine());
+            if (memberId == 0) throw new Exception("Invalid member id!");
+
+            
         }
         private void CheckProgress() //calories; visits;
         {

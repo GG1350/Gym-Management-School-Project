@@ -35,7 +35,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                     db.NextId++,
                     trainer.FirstName,
                     trainer.LastName,
-                    trainer.Members
+                    trainer.members
                     );
                 db.Trainers.Add(newTrainers);
             }
@@ -77,6 +77,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             throw new Exception($"Trainers with Id {id} not found");
 
+        }
+        public void Update(int id, int wId,int mId)
+        {
+            var db = storage.Load();
+            db.Trainers[id].Schedule.Add(db.Members[mId].MemberWorkouts[wId]);
+            storage.Save(db);
         }
     } 
 }

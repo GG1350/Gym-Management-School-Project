@@ -36,7 +36,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                         db.NextId++,
                         Members.FirstName,
                         Members.LastName,
-                        Members.Workouts,
+                        Members.MemberWorkouts,
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);
@@ -48,7 +48,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                         db.NextId++,
                         Members.FirstName,
                         Members.LastName,
-                        Members.Workouts,
+                        Members.MemberWorkouts,
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);
@@ -90,6 +90,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             throw new Exception($"Members with Id {id} not found");
 
+        }
+        public void Update(int id, int wId)
+        {
+            var db = storage.Load();
+            db.Members[id].progress.Add(db.Members[id].MemberWorkouts[wId]);
+            storage.Save(db);
         }
     }
 }

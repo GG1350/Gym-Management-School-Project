@@ -21,7 +21,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=GymDB;Integrated Security=True;");
+            => optionsBuilder.UseSqlServer("Server=DESKTOP-VIPRQ43\\LOCALDB;Database=GymDB;Integrated Security=True;");
 
         public DbSet<Members> Members { get; set; }
         public DbSet<Trainers> Trainers { get; set; }

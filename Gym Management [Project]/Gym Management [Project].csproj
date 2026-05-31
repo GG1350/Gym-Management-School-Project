@@ -225,7 +225,7 @@
     <Compile Include="APP\IWorkoutRepository.cs" />
     <Compile Include="ConsoleUI\GymUI.cs" />
     <Compile Include="DOMAIN\Enum\MemberCard.cs" />
-    <Compile Include="DOMAIN\ValueObjects\Exercises.cs" />
+    <Compile Include="DOMAIN\Entities\Exercises.cs" />
     <Compile Include="DOMAIN\Entities\Members.cs" />
     <Compile Include="DOMAIN\Entities\Trainers.cs" />
     <Compile Include="DOMAIN\Entities\Workouts.cs" />
@@ -237,6 +237,11 @@
     <Compile Include="INFRASTRUCTURE\FileWorkoutRepository.cs" />
     <Compile Include="INFRASTRUCTURE\GymStorage.cs" />
     <Compile Include="ConsoleUI\Program.cs" />
+    <Compile Include="Migrations\20260531082636_InitialCreate.cs" />
+    <Compile Include="Migrations\20260531082636_InitialCreate.Designer.cs">
+      <DependentUpon>20260531082636_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

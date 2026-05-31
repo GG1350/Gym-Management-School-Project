@@ -12,6 +12,8 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public int DurationMinutes { get; set; }
         public double MET { get; set; }
 
+        public Exercises() { }
+
         public Exercises(string name, int durationMinutes, double met)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Exercise name is required");

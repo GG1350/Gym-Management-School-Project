@@ -230,6 +230,9 @@
     <Compile Include="DOMAIN\Entities\Trainers.cs" />
     <Compile Include="DOMAIN\Entities\Workouts.cs" />
     <Compile Include="DOMAIN\Enum\Subscribtion.cs" />
+    <Compile Include="INFRASTRUCTURE\EFRepositories\EFMemberRepo.cs" />
+    <Compile Include="INFRASTRUCTURE\EFRepositories\EFTrainersRepository.cs" />
+    <Compile Include="INFRASTRUCTURE\EFRepositories\EFWorkoutRepository.cs" />
     <Compile Include="INFRASTRUCTURE\EFRepositories\GymDbContext.cs" />
     <Compile Include="INFRASTRUCTURE\FileMemberRepository.cs" />
     <Compile Include="INFRASTRUCTURE\FileStorage.cs" />

@@ -241,6 +241,10 @@
     <Compile Include="Migrations\20260531082636_InitialCreate.Designer.cs">
       <DependentUpon>20260531082636_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20260531093321_ORM_supposedly_done.cs" />
+    <Compile Include="Migrations\20260531093321_ORM_supposedly_done.Designer.cs">
+      <DependentUpon>20260531093321_ORM_supposedly_done.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -163,8 +163,8 @@ namespace Gym_Management__Project_.ConsoleUI
             int duration = int.Parse(Console.ReadLine());
             Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
             double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
-            return new Exercises(name, duration, met);
             Pause();
+            return new Exercises(name, duration, met);
         }
 
         private void BookTraining() //make validations

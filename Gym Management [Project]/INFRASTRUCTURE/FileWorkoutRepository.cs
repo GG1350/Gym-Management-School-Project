@@ -29,12 +29,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             if (Workouts.Id == 0)
             {
-                bool found = true;
+                //bool found = true;
                 var newWorkouts = new Workouts(
                     db.NextId++,
                     Workouts.MemberId,
                     Workouts.Name,
-                    Workouts.Exercises
+                    Workouts.Exercises.ToList()
                     );
                 db.Workouts.Add(newWorkouts);
             }

@@ -30,12 +30,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             if (trainer.Id == 0)
             {
-                bool found = true;
+                //bool found = true;
                 var newTrainers = new Trainers(
                     db.NextId++,
                     trainer.FirstName,
                     trainer.LastName,
-                    trainer.members
+                    trainer.Members.ToList()
                     );
                 db.Trainers.Add(newTrainers);
             }
@@ -81,7 +81,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
         public void Update(int id, int wId,int mId)
         {
             var db = storage.Load();
-            db.Trainers[id].Schedule.Add(db.Members[mId].MemberWorkouts[wId]);
+            //db.Trainers[id].Schedule.Add(db.Members[mId].MemberWorkouts[wId]); HAS TO BE FIXED
             storage.Save(db);
         }
     } 

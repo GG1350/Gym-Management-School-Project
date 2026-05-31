@@ -31,24 +31,24 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             {
                 if (Members.HasTrainer == true)
                 {
-                    bool found = true;
+                    //bool found = true;
                     var newMembers = new Members(
                         db.NextId++,
                         Members.FirstName,
                         Members.LastName,
-                        Members.MemberWorkouts,
+                        Members.Workouts.ToList(),
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);
                 }
                 else
                 {
-                    bool found = true;
+                    //bool found = true;
                     var newMembers = new Members(
                         db.NextId++,
                         Members.FirstName,
                         Members.LastName,
-                        Members.MemberWorkouts,
+                        Members.Workouts.ToList(),
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);
@@ -94,7 +94,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
         public void Update(int id, int wId)
         {
             var db = storage.Load();
-            db.Members[id].progress.Add(db.Members[id].MemberWorkouts[wId]);
+            //db.Members[id].progress.Add(db.Members[id].Workouts[wId]); HAS TO BE FIXED
             storage.Save(db);
         }
     }

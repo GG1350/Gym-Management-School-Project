@@ -11,10 +11,11 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public string Name { get; set; } = string.Empty;
         public int DurationMinutes { get; set; }
         public double MET { get; set; }
+        public double CaloriesBurnt {  get; set; }
 
         public Exercises() { }
 
-        public Exercises(string name, int durationMinutes, double met)
+        public Exercises(string name, int durationMinutes, double met, double bodyWeight)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Exercise name is required");
 
@@ -28,15 +29,16 @@ namespace Gym_Management__Project_.DOMAIN.Entities
                       //compared to resting metabolism. A MET value of 1 represents the energy expenditure at rest, while higher values indicate more
                       //intense activities. For example, walking at a moderate pace might have a MET value of around 3.5, while running at a fast pace
                       //could have a MET value of 10 or more.
+            CaloriesBurnt = CalculateCalories(bodyWeight);
         }
 
-        public double CalculateCalories(double weightKg)
+        public double CalculateCalories(double bodyWeightKg)
         {
-            if (weightKg <= 0)
-                throw new ArgumentException("Weight must be greater than 0");
+            if (bodyWeightKg <= 0)
+                throw new ArgumentException("Body weight must be greater than 0");
 
             //double durationHours = DurationMinutes / 60.0;
-            return MET * weightKg * (DurationMinutes/60.0);
+            return MET * bodyWeightKg * (DurationMinutes/60.0);
         }
     }
 }

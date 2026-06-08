@@ -1,6 +1,7 @@
 ﻿using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
 using Gym_Management__Project_.DOMAIN.Enum;
+using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,13 +168,14 @@ namespace Gym_Management__Project_.ConsoleUI
             return new Exercises(name, duration, met);
         }
 
-        private void BookTraining() //make validations
+        private void BookTraining()
         {
             Console.WriteLine("Who wants to book a training(write the id)?");
             ShowMembers();
             var members = gymService.GetMembers();
+            Console.Write("Write your choice: ");
             int memberId = int.Parse(Console.ReadLine());
-            if (memberId == 0) throw new Exception("Invalid member id!");
+            if (memberId == 0||memberId>members.Count) throw new Exception("Invalid member id!");
 
             Console.WriteLine("Which available trainer is to be booked(write the id)?");
             var trainers = gymService.GetTrainers();
@@ -181,15 +183,18 @@ namespace Gym_Management__Project_.ConsoleUI
             {
                 if (t.IsAvailable) Console.WriteLine($"{t.Id} {t.FirstName} {t.LastName}");
             }
+            Console.Write("Write your choice: ");
             int trainerId = int.Parse(Console.ReadLine());
-            if(trainerId ==0) throw new Exception("Invalid trainer id!");
-            if (trainers.Count<trainerId) throw new Exception("There is no such trainer in our gym");
+            if(trainerId ==0||trainerId>trainers.Count) throw new Exception("Invalid trainer id!");
             Console.WriteLine("Which of your workouts do you want to book(write the Id): ");
+            if (members[memberId].Workouts.Count < 1) throw new Exception("You have no workout created!");
             foreach(var w in members[memberId].Workouts)
             {
                 Console.WriteLine(w.Id + w.Name + "\nExercises:" + w.Exercises);
             }
+            Console.Write("Write your choice: ");
             int WorkoutId = int.Parse(Console.ReadLine());
+            if (WorkoutId == 0 || WorkoutId > members[memberId].Workouts.Count) throw new Exception("Invalid workout id");
             gymService.BookTraining(memberId,trainerId,WorkoutId);
             Pause();
         }
@@ -248,10 +253,6 @@ namespace Gym_Management__Project_.ConsoleUI
         {
         
         }
-
-
-
-
         private void Pause()
         {
             Console.WriteLine("Press Enter to continue...");

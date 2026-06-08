@@ -13,6 +13,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public int MemberId {  get; set; }
         public Members Member { get; set; }
         public string Name { get; set; }
+        public double TotalCaloriesBurnt;
         public ICollection<Exercises> Exercises { get; set; } = new List<Exercises>();
 
         public Workouts() { }

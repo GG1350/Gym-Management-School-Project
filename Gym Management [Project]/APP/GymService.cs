@@ -34,10 +34,10 @@ namespace Gym_Management__Project_.APP
             var Member = new Members(0,FName,LName,workouts,SubType);
             memberRepository.Save(Member);
         }
-        public void BookTraining(int mId, int tId,int wId)
+        public void BookTraining(Members member, Trainers trainer, Workouts workout)
         {
-            memberRepository.Update(mId,wId);
-            trainersRepository.Update(tId,wId,mId);
+            memberRepository.Update(member);
+            trainersRepository.Update(trainer);
         }
 
         public IReadOnlyList<Trainers> GetTrainers()

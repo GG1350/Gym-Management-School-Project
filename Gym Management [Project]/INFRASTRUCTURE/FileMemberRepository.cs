@@ -91,7 +91,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             throw new Exception($"Members with Id {id} not found");
 
         }
-        public void Update(int id, int wId)
+        public void Update(Members member)
         {
             var db = storage.Load();
             //db.Members[id].progress.Add(db.Members[id].Workouts[wId]); HAS TO BE FIXED

@@ -21,7 +21,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         public Trainers GetById(int id)
         {
             var trainers = context.Trainers
-                //.Include(m => m.Workouts)
                 .FirstOrDefault(m => m.Id == id);
 
             if (trainers == null)
@@ -32,7 +31,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         public IReadOnlyList<Trainers> GetAll()
         {
             return context.Trainers
-                //.Include(m => m.Workouts)
                 .ToList();
         }
 
@@ -45,9 +43,9 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             context.SaveChanges();
         }
 
-        public void Update(int id, int wId, int mId)
+        public void Update(Trainers trainer)
         {
-            //context.Trainers.Update(trainers); ДА СЕ ОПРАВИ
+            //context.Trainers.Update(trainer); ДА СЕ ОПРАВИ
             //context.SaveChanges();
         }
     }

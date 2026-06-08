@@ -78,7 +78,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             throw new Exception($"Trainers with Id {id} not found");
 
         }
-        public void Update(int id, int wId,int mId)
+        public void Update(Trainers trainer)
         {
             var db = storage.Load();
             //db.Trainers[id].Schedule.Add(db.Members[mId].MemberWorkouts[wId]); HAS TO BE FIXED

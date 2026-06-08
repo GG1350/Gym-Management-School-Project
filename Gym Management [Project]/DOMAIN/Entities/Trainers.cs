@@ -13,8 +13,6 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public bool IsAvailable { get; set; } = true;
-        //public List<Members> members { get; set; } = new List<Members>();
-        //public List<Workouts> Schedule { get { return new List<Workouts>(); } set { if (Schedule.Count > 3) IsAvailable = false; throw new Exception("The trainer is too busy for the day"); } }
         public ICollection<Members> Members { get; private set; }
         = new List<Members>();
 

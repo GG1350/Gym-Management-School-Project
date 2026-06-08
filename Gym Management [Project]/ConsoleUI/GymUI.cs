@@ -101,7 +101,7 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateTrainer(FName, LName, members);
         }
 
-        private void ShowTrainers()//TO TUNE: to show more info
+        private void ShowTrainers()
         {
             var trainers = gymService.GetTrainers();
             foreach (var t in trainers)
@@ -135,7 +135,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void ShowMembers()//TO TUNE: to show more info
+        private void ShowMembers()
         {
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
@@ -199,11 +199,12 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("Who wants to unbook a training (write the id)?");
             ShowMembers();
             var members = gymService.GetMembers();
+            Console.Write("Write your choice: ");
             int memberId = int.Parse(Console.ReadLine());
-            if (memberId == 0) throw new Exception("Invalid member id!");
+            if (memberId == 0||memberId>members.Count) throw new Exception("Invalid member id!");
 
-            
         }
+        //optional
         private void CheckProgress() //calories; visits;
         {
 

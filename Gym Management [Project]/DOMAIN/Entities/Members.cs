@@ -15,12 +15,9 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public string LastName { get; set; } = string.Empty;
         public int? TranerId { get; set; }//could be null because not all members have a trainer
         public Trainers Trainer { get; set; }
-        //public Trainers Trainers { get; set; } = null;//SHOULD BE NULL!  !!!!!!!!!!!!!!!!!!
-        //public List<Workouts> MemberWorkouts { get; set; } = new List<Workouts>();
         public MemberCard CardStatus { get; set; }
         public Subscribtion SubscribtionType { get; set; }
         public bool HasTrainer => SubscribtionType == Subscribtion.MonthTrainer || SubscribtionType == Subscribtion.TrimesterTrainer || SubscribtionType == Subscribtion.YearTrainer;
-        //public List<Workouts> progress = new List<Workouts>();
         public ICollection<Workouts> Workouts { get; private set; }
         = new List<Workouts>();
         

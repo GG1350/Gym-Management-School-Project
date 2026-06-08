@@ -206,7 +206,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void UnbookTraining() //TO DO
+        private void UnbookTraining() //TO DO; kosyo
         {
             Console.WriteLine("Who wants to unbook a training (write the id)?");
             ShowMembers();
@@ -216,27 +216,21 @@ namespace Gym_Management__Project_.ConsoleUI
             if (memberId == 0||memberId>members.Count) throw new Exception("Invalid member id!");
 
         }
-        //optional
-        private void CheckProgress() //calories; visits;
+        private void CheckProgress() //calories; visits; kosyo
         {
 
         }
-        private void CheckTrainer() 
-        {
-        
-        }
-
-        private void ManageTrainerTimetable() 
+        private void CheckTrainer()//availability and members; kosyo
         {
         
         }
 
-        private void CheckGymBusyness() 
+        private void ManageTrainerTimetable() //maybe should happen with unbook training
         {
         
         }
 
-        private void CheckTypesOfTrainings() 
+        private void CheckGymBusyness() //get the availability of each trainer; kosyo
         {
         
         }
@@ -246,17 +240,17 @@ namespace Gym_Management__Project_.ConsoleUI
         
         }
 
-        private void ManageMemeberCards() 
+        private void ManageMemberCards() 
         {
         
         }
 
-        private void TrainingHistory() 
+        private void GetTrainingHistory() //the member's progress; kosyo
         {
         
         }
 
-        private void CheckActiveMembers() 
+        private void CheckActiveMembers() //members with active subscription; kosyo
         {
         
         }

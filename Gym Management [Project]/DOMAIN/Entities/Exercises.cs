@@ -9,8 +9,8 @@ namespace Gym_Management__Project_.DOMAIN.Entities
     public class Exercises
     {
         public string Name { get; set; } = string.Empty;
-        public int DurationMinutes { get; set; }
-        public double MET { get; set; }
+        public int DurationMinutes;
+        public double MET;
         public double CaloriesBurnt {  get; set; }
 
         public Exercises() { }

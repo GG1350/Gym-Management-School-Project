@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_Management__Project_.Migrations
 {
     [DbContext(typeof(GymDbContext))]
-    [Migration("20260531082636_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew")]
+    partial class A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,26 +24,35 @@ namespace Gym_Management__Project_.Migrations
             modelBuilder.Entity("Gym_Management__Project_.DOMAIN.Entities.Members", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CardStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<int>("SubscribtionType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TrainersId1")
+                    b.Property<double>("TotalCaloriesBurnt")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("TranerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrainersId1");
+                    b.HasIndex("TranerId");
 
                     b.ToTable("Members");
                 });
@@ -56,13 +65,17 @@ namespace Gym_Management__Project_.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
@@ -79,55 +92,32 @@ namespace Gym_Management__Project_.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MembersId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MembersId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TrainersId")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MembersId");
-
-                    b.HasIndex("MembersId1");
-
-                    b.HasIndex("TrainersId");
+                    b.HasIndex("MemberId");
 
                     b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("Gym_Management__Project_.DOMAIN.Entities.Members", b =>
                 {
-                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Trainers", "Trainers")
+                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Trainers", "Trainer")
                         .WithMany("Members")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Trainers", null)
-                        .WithMany("members")
-                        .HasForeignKey("TrainersId1");
+                        .HasForeignKey("TranerId");
                 });
 
             modelBuilder.Entity("Gym_Management__Project_.DOMAIN.Entities.Workouts", b =>
                 {
-                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Members", null)
-                        .WithMany("MemberWorkouts")
-                        .HasForeignKey("MembersId");
-
-                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Members", null)
+                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Members", "Member")
                         .WithMany("Workouts")
-                        .HasForeignKey("MembersId1");
-
-                    b.HasOne("Gym_Management__Project_.DOMAIN.Entities.Trainers", null)
-                        .WithMany("Schedule")
-                        .HasForeignKey("TrainersId");
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsMany("Gym_Management__Project_.DOMAIN.Entities.Exercises", "Exercises", b1 =>
                         {
@@ -135,6 +125,9 @@ namespace Gym_Management__Project_.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<double>("CaloriesBurnt")
+                                .HasColumnType("float");
 
                             b1.Property<int>("DurationMinutes")
                                 .HasColumnType("int");
@@ -147,17 +140,17 @@ namespace Gym_Management__Project_.Migrations
                                 .HasColumnType("nvarchar(100)")
                                 .HasMaxLength(100);
 
-                            b1.Property<int>("WorkoutPlanId")
+                            b1.Property<int>("WorkoutId")
                                 .HasColumnType("int");
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("WorkoutPlanId");
+                            b1.HasIndex("WorkoutId");
 
                             b1.ToTable("Exercises");
 
                             b1.WithOwner()
-                                .HasForeignKey("WorkoutPlanId");
+                                .HasForeignKey("WorkoutId");
                         });
                 });
 #pragma warning restore 612, 618

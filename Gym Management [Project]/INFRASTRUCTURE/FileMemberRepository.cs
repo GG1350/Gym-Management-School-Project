@@ -91,10 +91,13 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             throw new Exception($"Members with Id {id} not found");
 
         }
-        public void Update(Members member)
+        public void Update(int id, int wId,string action)
         {
             var db = storage.Load();
-            //db.Members[id].progress.Add(db.Members[id].Workouts[wId]); HAS TO BE FIXED
+            if (action == "book")
+            {
+                db.Members[id].progress.Add(db.Members[id].Workouts.ToList()[wId]);
+            }
             storage.Save(db);
         }
     }

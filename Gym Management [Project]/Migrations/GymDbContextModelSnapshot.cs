@@ -42,6 +42,9 @@ namespace Gym_Management__Project_.Migrations
                     b.Property<int>("SubscribtionType")
                         .HasColumnType("int");
 
+                    b.Property<double>("TotalCaloriesBurnt")
+                        .HasColumnType("float");
+
                     b.Property<int?>("TranerId")
                         .HasColumnType("int");
 
@@ -120,6 +123,9 @@ namespace Gym_Management__Project_.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<double>("CaloriesBurnt")
+                                .HasColumnType("float");
 
                             b1.Property<int>("DurationMinutes")
                                 .HasColumnType("int");

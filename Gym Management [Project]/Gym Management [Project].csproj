@@ -240,13 +240,9 @@
     <Compile Include="INFRASTRUCTURE\FileWorkoutRepository.cs" />
     <Compile Include="INFRASTRUCTURE\GymStorage.cs" />
     <Compile Include="ConsoleUI\Program.cs" />
-    <Compile Include="Migrations\20260531082636_InitialCreate.cs" />
-    <Compile Include="Migrations\20260531082636_InitialCreate.Designer.cs">
-      <DependentUpon>20260531082636_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20260531093321_ORM_supposedly_done.cs" />
-    <Compile Include="Migrations\20260531093321_ORM_supposedly_done.Designer.cs">
-      <DependentUpon>20260531093321_ORM_supposedly_done.cs</DependentUpon>
+    <Compile Include="Migrations\20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew.cs" />
+    <Compile Include="Migrations\20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew.Designer.cs">
+      <DependentUpon>20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

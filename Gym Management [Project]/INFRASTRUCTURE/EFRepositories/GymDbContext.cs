@@ -73,6 +73,8 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 entity.Property(m => m.SubscribtionType)
                 .IsRequired();
 
+                entity.Property(m => m.TotalCaloriesBurnt);
+
                 entity.HasMany(m => m.Workouts)
                 .WithOne(w => w.Member)
                 .HasForeignKey(w => w.MemberId);
@@ -101,10 +103,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                         .HasMaxLength(100)
                         .IsRequired();
 
-                    exercise.Property(e => e.DurationMinutes)
-                        .IsRequired();
-
-                    exercise.Property(e => e.MET)
+                    exercise.Property(e => e.CaloriesBurnt)
                         .IsRequired();
                 });
             });

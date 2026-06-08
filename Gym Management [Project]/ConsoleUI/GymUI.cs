@@ -160,12 +160,14 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.WriteLine("What exercise do you want to add in the workout?");
             string name = Console.ReadLine();
+            Console.Write("How much do you weigh (in kg)? ");
+            double weight = double.Parse(Console.ReadLine());
             Console.WriteLine("How long will the exercise last (in minutes)?");
             int duration = int.Parse(Console.ReadLine());
             Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
             double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
             Pause();
-            return new Exercises(name, duration, met);
+            return new Exercises(name, duration, met, weight);
         }
 
         private void BookTraining()
@@ -193,9 +195,14 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.WriteLine(w.Id + w.Name + "\nExercises:" + w.Exercises);
             }
             Console.Write("Write your choice: ");
-            int WorkoutId = int.Parse(Console.ReadLine());
-            if (WorkoutId == 0 || WorkoutId > members[memberId].Workouts.Count) throw new Exception("Invalid workout id");
-            gymService.BookTraining(memberId,trainerId,WorkoutId);
+            int workoutId = int.Parse(Console.ReadLine());
+            if (workoutId == 0 || workoutId > members[memberId].Workouts.Count) throw new Exception("Invalid workout id");
+            //actual booking
+            gymService.BookTraining(memberId, workoutId, trainerId, "book");
+
+            //adding the progress
+            members[memberId].progress.Add(members[memberId].Workouts.ToList()[workoutId]);
+            members[memberId].GetTotalCalories();
             Pause();
         }
 

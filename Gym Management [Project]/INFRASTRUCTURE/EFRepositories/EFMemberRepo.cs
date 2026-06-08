@@ -44,7 +44,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             context.SaveChanges();
         }
 
-        public void Update(Members member)
+        public void Update(int id, int wId, string action)
         {
             //context.Members.Update(member); ДА СЕ ОПРАВИ
             //context.SaveChanges();

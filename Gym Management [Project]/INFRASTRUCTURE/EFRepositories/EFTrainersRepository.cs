@@ -43,7 +43,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             context.SaveChanges();
         }
 
-        public void Update(Trainers trainer)
+        public void Update(int id, string action)
         {
             //context.Trainers.Update(trainer); ДА СЕ ОПРАВИ
             //context.SaveChanges();

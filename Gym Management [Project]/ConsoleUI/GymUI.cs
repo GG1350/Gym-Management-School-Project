@@ -141,20 +141,23 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
         }
-        private void CreateWorkout() //kosyo
+        private void CreateWorkout() //kosyo, TO DO
         {
             Console.WriteLine("What exercises do you want to add in the workout?");
             Pause();
         }
 
-        private void EditWorkout()//kosyo
+        private void EditWorkout()//kosyo, TO DO
         {
             var workouts = gymService.GetWorkouts();
             foreach (var w in workouts) Console.WriteLine($"What changes you want in the workout {w.Id}:");
             Pause();
         }
 
-        private void ShowWorkout() { }//kosyo; needs to show the workout by a specified id and the exercises in it. Overalps with the show exercises
+        private void ShowWorkout()//kosyo; needs to show the workout by a specified id and the exercises in it.
+        {
+
+        }
 
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {
@@ -318,7 +321,20 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void GetTrainingHistory() //the member's progress; kosyo
         {
-        
+            var members = gymService.GetMembers();
+            Console.WriteLine("Choose member:");
+            foreach (var m in members)
+            {
+                Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
+            }
+            int id = int.Parse(Console.ReadLine());
+            var member = gymService.GetMemberById(id);
+            Console.WriteLine($"Training history for {member.FirstName} {member.LastName}:");
+            foreach (var workout in member.progress)
+            {
+                Console.WriteLine(workout);
+            }
+            Pause();
         }
 
         private void CheckActiveMembers() //members with active subscription; kosyo

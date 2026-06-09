@@ -252,7 +252,17 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void CheckActiveMembers() //members with active subscription; kosyo
         {
-        
+            var members = gymService.GetMembers();
+
+            foreach (var member in members)
+            {
+                if (member.CardStatus == MemberCard.Active)
+                {
+                    Console.WriteLine(member);
+                }
+            }
+
+            Pause();
         }
         private void Pause()
         {

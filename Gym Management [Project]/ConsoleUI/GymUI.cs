@@ -210,19 +210,82 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.WriteLine("Who wants to unbook a training (write the id)?");
             ShowMembers();
+
             var members = gymService.GetMembers();
+
             Console.Write("Write your choice: ");
             int memberId = int.Parse(Console.ReadLine());
-            if (memberId == 0||memberId>members.Count) throw new Exception("Invalid member id!");
+
+            if (memberId == 0 || memberId > members.Count)
+                throw new Exception("Invalid member id!");
+
+            Console.WriteLine("Which trainer do you want to unbook from (write the id)?");
+            ShowTrainers();
+
+            var trainers = gymService.GetTrainers();
+
+            Console.Write("Write your choice: ");
+            int trainerId = int.Parse(Console.ReadLine());
+
+            if (trainerId == 0 || trainerId > trainers.Count)
+                throw new Exception("Invalid trainer id!");
+
+            Console.WriteLine("Which workout do you want to remove (write the id)?");
+
+            var workouts = gymService.GetWorkouts();
+
+            foreach (var workout in workouts)
+            {
+                Console.WriteLine(workout);
+            }
+
+            Console.Write("Write your choice: ");
+            int workoutId = int.Parse(Console.ReadLine());
+
+            if (workoutId == 0 || workoutId > workouts.Count)
+                throw new Exception("Invalid workout id!");
+
+            gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
+
+            Console.WriteLine("Training unbooked successfully!");
+            Pause();
 
         }
         private void CheckProgress() //calories; visits; kosyo
         {
+            Console.WriteLine("Choose member:");
+            ShowMembers();
 
+            int id = int.Parse(Console.ReadLine());
+
+            var member = gymService.GetMemberById(id);
+
+            Console.Write("Enter body weight (kg): ");
+            double bodyWeight = double.Parse(Console.ReadLine());
+
+            double totalCalories = 0;
+
+            foreach (var workout in member.progress)
+            {
+                foreach (var exercise in workout.Exercises)
+                {
+                    totalCalories += exercise.CalculateCalories(bodyWeight);
+                }
+            }
+
+            Console.WriteLine($"Completed workouts: {member.progress.Count}");
+            Console.WriteLine($"Calories burnt: {totalCalories:F2}");
+
+            Pause();
         }
         private void CheckTrainer()//availability and members; kosyo
         {
-        
+            ShowTrainers();
+
+            Console.Write("Trainer Id: ");
+            int id = int.Parse(Console.ReadLine());
+
+            var trainer = gymService.GetTrainer(id);
         }
 
         private void ManageTrainerTimetable() //maybe should happen with unbook training
@@ -242,7 +305,15 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void ManageMemberCards() 
         {
-        
+            Console.WriteLine("Choose member:");
+            ShowMembers();
+
+            int id = int.Parse(Console.ReadLine());
+
+            gymService.ChangeCardStatus(id);
+
+            Console.WriteLine("Card status changed!");
+            Pause();
         }
 
         private void GetTrainingHistory() //the member's progress; kosyo

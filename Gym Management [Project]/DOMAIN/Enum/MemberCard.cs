@@ -10,7 +10,6 @@ namespace Gym_Management__Project_.DOMAIN.Enum
     {
         Active,
         Frozen,
-        Terminated,
-        Expired
+        Terminated
     }
 }

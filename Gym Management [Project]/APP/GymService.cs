@@ -58,5 +58,9 @@ namespace Gym_Management__Project_.APP
         {
             return workoutRepository.GetAll();
         }
+        public Members GetMemberById(int memberId)
+        {
+            return memberRepository.GetById(memberId);
+        }
     }
 }

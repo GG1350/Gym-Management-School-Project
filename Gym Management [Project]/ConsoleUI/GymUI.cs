@@ -141,7 +141,7 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
         }
-        private void CreateWorkout() //kosyo, TO DO
+        private void CreateWorkout()
         {
             Console.WriteLine("Member id: ");
             ShowMembers();
@@ -159,6 +159,8 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void EditWorkout()//kosyo, TO DO
         {
+
+
             var workouts = gymService.GetWorkouts();
             foreach (var w in workouts) Console.WriteLine($"What changes you want in the workout {w.Id}:");
             Pause();
@@ -318,14 +320,61 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void ManageMemberCards() 
         {
-            Console.WriteLine("Choose member:");
+            Console.Write("Member Id: ");
             ShowMembers();
+            int memberId = int.Parse(Console.ReadLine());
+            var member = gymService.GetMemberById(memberId);
 
-            int id = int.Parse(Console.ReadLine());
+            switch (member.Status)
+            {
+                case MemberCard.Active:
 
-            gymService.ChangeCardStatus(id);
+                    Console.WriteLine("1. Freeze card");
+                    Console.WriteLine("2. Terminate card");
 
-            Console.WriteLine("Card status changed!");
+                    int activeChoice = int.Parse(Console.ReadLine());
+
+                    if (activeChoice == 1)
+                    {
+                        member.Status = MemberCard.Frozen;
+                    }
+                    else if (activeChoice == 2)
+                    {
+                        member.Status = MemberCard.Terminated;
+                    }
+
+                    break;
+
+                case MemberCard.Frozen:
+
+                    Console.WriteLine("1. Activate card");
+
+                    int frozenChoice = int.Parse(Console.ReadLine());
+
+                    if (frozenChoice == 1)
+                    {
+                        member.Status = MemberCard.Active;
+                    }
+
+                    break;
+
+                case MemberCard.Terminated:
+
+                    Console.WriteLine("1. Activate card");
+
+                    int terminatedChoice = int.Parse(Console.ReadLine());
+
+                    if (terminatedChoice == 1)
+                    {
+                        member.Status = MemberCard.Active;
+                    }
+
+                    break;
+            }
+
+            gymService.UpdateMember(member);
+
+            Console.WriteLine("Card status updated successfully!");
             Pause();
         }
 

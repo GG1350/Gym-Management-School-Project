@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Gym_Management__Project_.APP;
+﻿using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
+using Gym_Management__Project_.DOMAIN.Enum;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,16 +39,59 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         public void Save(Members member)
         {
             if (member == null)
-                throw new ArgumentNullException(nameof(member));
+                throw new Exception("Member not found.");
 
             context.Members.Add(member);
             context.SaveChanges();
         }
 
-        public void Update(int id, int wId, string action)
+        public void Update(int id, int tId, int wId, string action)
         {
-            //context.Members.Update(member); ДА СЕ ОПРАВИ
-            //context.SaveChanges();
+            var db = context.Database;
+            if (action == "book")
+            {
+                var member = context.Members
+                    .Include(m => m.Workouts)
+                    .FirstOrDefault(m => m.Id == id);
+                var workout = context.Workouts
+                    .FirstOrDefault(w => w.Id == wId);
+                var trainer = context.Trainers
+                    .FirstOrDefault(t => t.Id == tId);
+                if (member != null && workout != null)
+                {
+                    member.progress.Add(workout);
+                    member.Trainer = trainer;
+                }
+            }
+            else if (action == "unbook")
+            {
+                var member = context.Members
+                    .Include(m => m.Workouts)
+                    .FirstOrDefault(m => m.Id == id);
+                var workout = context.Workouts
+                    .FirstOrDefault(w => w.Id == wId);
+                if (member != null && workout != null)
+                {
+                    member.progress.Remove(workout);
+                    member.Trainer = null;
+                }
+            }
+            context.SaveChanges();
+        }
+
+        public void UpdateCard(MemberCard memberCard, int memberId)
+        {
+            var member = context.Members
+                .FirstOrDefault(m => m.Id == memberId);
+            if (member != null)
+            {
+                member.CardStatus = memberCard;
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Member not found.");
+            }
         }
     }
 }

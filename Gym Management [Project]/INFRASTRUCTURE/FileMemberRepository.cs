@@ -90,7 +90,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
 
             throw new Exception($"Members with Id {id} not found");
-
         }
         public void Update(int id, int tId, int wId, string action)
         {

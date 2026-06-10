@@ -46,6 +46,11 @@ namespace Gym_Management__Project_.APP
             workoutRepository.Save(Workout);
         }
 
+        public void UpdateCard(MemberCard)
+        {
+            memberRepository.Update(MemberCard);
+        }
+
         public Members GetMemberById(int memberId)
         {
             return memberRepository.GetById(memberId);
@@ -64,6 +69,11 @@ namespace Gym_Management__Project_.APP
         public IReadOnlyList<Workouts> GetWorkouts()
         {
             return workoutRepository.GetAll();
+        }
+
+        public Trainers GetTrainerById(int trainerId)
+        {
+            return trainersRepository.GetById(trainerId);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
 using Gym_Management__Project_.DOMAIN.Enum;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
@@ -295,12 +296,37 @@ namespace Gym_Management__Project_.ConsoleUI
         }
         private void CheckTrainer()//availability and members; kosyo
         {
-            ShowTrainers();
-
             Console.Write("Trainer Id: ");
+            ShowTrainers();
             int id = int.Parse(Console.ReadLine());
 
-            var trainer = gymService.GetTrainer(id);
+            var trainer = gymService.GetTrainerById(id);
+
+            if (trainer == null)
+            {
+                Console.WriteLine("Trainer not found!");
+                return;
+            }
+
+            Console.WriteLine($"Name: {trainer.FirstName}");
+            Console.WriteLine($"Name: {trainer.LastName}");
+            Console.WriteLine($"Available: {(trainer.IsAvailable ? "Yes" : "No")}");
+
+            Console.WriteLine("Members:");
+
+            if (trainer.Members.Count == 0)
+            {
+                Console.WriteLine("No assigned members.");
+            }
+            else
+            {
+                foreach (var member in trainer.Members)
+                {
+                    Console.WriteLine($"{member.Id}");
+                }
+            }
+
+            Pause();
         }
 
         private void ManageTrainerTimetable() //maybe should happen with unbook training
@@ -325,7 +351,7 @@ namespace Gym_Management__Project_.ConsoleUI
             int memberId = int.Parse(Console.ReadLine());
             var member = gymService.GetMemberById(memberId);
 
-            switch (member.Status)
+            switch (member.CardStatus)
             {
                 case MemberCard.Active:
 
@@ -336,11 +362,11 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     if (activeChoice == 1)
                     {
-                        member.Status = MemberCard.Frozen;
+                        member.CardStatus = MemberCard.Frozen;
                     }
                     else if (activeChoice == 2)
                     {
-                        member.Status = MemberCard.Terminated;
+                        member.CardStatus = MemberCard.Terminated;
                     }
 
                     break;
@@ -353,7 +379,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     if (frozenChoice == 1)
                     {
-                        member.Status = MemberCard.Active;
+                        member.CardStatus = MemberCard.Active;
                     }
 
                     break;
@@ -366,13 +392,14 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     if (terminatedChoice == 1)
                     {
-                        member.Status = MemberCard.Active;
+                        member.CardStatus = MemberCard.Active;
                     }
 
                     break;
             }
+            GymBcontext.SaveChanges();
 
-            gymService.UpdateMember(member);
+            gymService.UpdateCard(member);
 
             Console.WriteLine("Card status updated successfully!");
             Pause();

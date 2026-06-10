@@ -14,5 +14,6 @@ namespace Gym_Management__Project_.APP
         void Save(Members member);
         IReadOnlyList<Members> GetAll();
         void Update(int id, int tId,int wId, string action);
+        void UpdateCard(MemberCard memberCard);
     }
 }

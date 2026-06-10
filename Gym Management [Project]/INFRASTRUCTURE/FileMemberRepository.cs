@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
+using Gym_Management__Project_.DOMAIN.Enum;
 
 namespace Gym_Management__Project_.INFRASTRUCTURE
 {
@@ -104,6 +105,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                 db.Members[id].progress.Remove(db.Members[id].Workouts.ToList()[wId]);
                 db.Members[id].Trainer = null;
             }
+            storage.Save(db);
+        }
+        public void UpdateCard(MemberCard memberCard)
+        {
+            var db = storage.Load();
+
             storage.Save(db);
         }
     }

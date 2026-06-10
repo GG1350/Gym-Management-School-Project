@@ -1,27 +1,18 @@
 ﻿using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
 using Gym_Management__Project_.DOMAIN.Enum;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
 namespace Gym_Management__Project_.ConsoleUI
 {
     public class GymUI
     {
         private readonly GymService gymService;
-
-        public GymUI(GymService gymService)
+        public GymUI(GymService service)
         {
-            this.gymService = gymService;
+            this.gymService = service;
         }
-
         public void Run()
         {
             bool running = true;
@@ -409,8 +400,6 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     break;
             }
-            context.SaveChanges();
-
             gymService.UpdateCard(member);
             Pause();
         }//has errors concerned with the sql and gym service kosyo

@@ -51,6 +51,14 @@ namespace Gym_Management__Project_.APP
             memberRepository.UpdateCard(memberCard);
         }
 
+        public List<Workouts> GetWorkoutsByMemberId(int memberId)
+        {
+            return workoutRepository
+                .GetAll()
+                .Where(w => w.MemberId == memberId)
+                .ToList();
+        }
+
         public Members GetMemberById(int memberId)
         {
             return memberRepository.GetById(memberId);

@@ -169,7 +169,36 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void ShowWorkout()//kosyo; needs to show the workout by a specified id and the exercises in it.
         {
+            Console.WriteLine("Which member's workout do you want to see?");
+            ShowMembers();
+            Console.Write("Write your choice: ");
 
+            int WId = int.Parse(Console.ReadLine());
+
+            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(WId);
+
+            if (workouts.Count == 0)
+            {
+                Console.WriteLine("This member does not have any workouts.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("Workouts:");
+
+            foreach (var workout in workouts)
+            {
+                Console.WriteLine($"\nWorkout ID: {workout.Id}");
+                Console.WriteLine($"Workout Name: {workout.Name}");
+                Console.WriteLine("Exercises:");
+
+                foreach (var exercise in workout.Exercises)
+                {
+                    Console.WriteLine($"- {exercise.Name}");
+                }
+            }
+
+            Pause();
         }
 
         private Exercises AddExercise()//this will be used with the creation and editing of the workout

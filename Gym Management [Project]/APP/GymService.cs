@@ -40,6 +40,17 @@ namespace Gym_Management__Project_.APP
             trainersRepository.Update(trainerId, action);
         }
 
+        public void CreateWorkout(int memberId, string name, List<Exercises> exercises)
+        {
+            Workouts Workout = new Workouts(0, memberId, name, exercises);
+            workoutRepository.Save(Workout);
+        }
+
+        public Members GetMemberById(int memberId)
+        {
+            return memberRepository.GetById(memberId);
+        }
+
         public IReadOnlyList<Trainers> GetTrainers()
         {
             return trainersRepository.GetAll();
@@ -49,18 +60,10 @@ namespace Gym_Management__Project_.APP
         {
             return memberRepository.GetAll();
         }
-        public void CreateWorkout(int memberId,string name,List<Exercises> exercises)
-        {
-            Workouts Workout = new Workouts(0,memberId,name, exercises);
-            workoutRepository.Save(Workout);
-        }
+        
         public IReadOnlyList<Workouts> GetWorkouts()
         {
             return workoutRepository.GetAll();
-        }
-        public Members GetMemberById(int memberId)
-        {
-            return memberRepository.GetById(memberId);
         }
     }
 }

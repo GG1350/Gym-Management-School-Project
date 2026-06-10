@@ -143,7 +143,17 @@ namespace Gym_Management__Project_.ConsoleUI
         }
         private void CreateWorkout() //kosyo, TO DO
         {
-            Console.WriteLine("What exercises do you want to add in the workout?");
+            Console.WriteLine("Member id: ");
+            ShowMembers();
+            Console.WriteLine("Workout name: ");
+            string WName = Console.ReadLine();
+            int WId = int.Parse(Console.ReadLine());
+            List<Exercises> exercises = new List<Exercises>();
+            gymService.CreateWorkout(WId, WName, exercises);
+
+            exercises.Add(AddExercise());
+
+            Console.WriteLine("Workout created successfully!");
             Pause();
         }
 

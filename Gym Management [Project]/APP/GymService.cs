@@ -46,6 +46,11 @@ namespace Gym_Management__Project_.APP
             workoutRepository.Save(Workout);
         }
 
+        public void Save(Workouts Workout)
+        {
+            workoutRepository.Save(Workout);
+        }
+
         public void UpdateCard(MemberCard memberCard)
         {
             memberRepository.UpdateCard(memberCard);
@@ -57,6 +62,13 @@ namespace Gym_Management__Project_.APP
                 .GetAll()
                 .Where(w => w.MemberId == memberId)
                 .ToList();
+        }
+
+        public Workouts GetWorkoutById(int workoutId)
+        {
+            return workoutRepository
+                .GetAll()
+                .FirstOrDefault(w => w.Id == workoutId);
         }
 
         public Members GetMemberById(int memberId)

@@ -40,7 +40,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
             else
             {
-                bool isFound = true;
+                bool isFound = false;
 
                 for (int i = 0; i < db.Workouts.Count; i++)
                 {

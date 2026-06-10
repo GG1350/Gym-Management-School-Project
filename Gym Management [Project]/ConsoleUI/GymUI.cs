@@ -160,10 +160,93 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void EditWorkout()//kosyo, TO DO
         {
+            Console.WriteLine("Which member's workout do you want to edit?");
+            ShowMembers();
+            Console.Write("Write your choice: ");
 
+            int memberId = int.Parse(Console.ReadLine());
 
-            var workouts = gymService.GetWorkouts();
-            foreach (var w in workouts) Console.WriteLine($"What changes you want in the workout {w.Id}:");
+            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
+
+            if (workouts.Count == 0)
+            {
+                Console.WriteLine("This member has no workouts.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("Member workouts:");
+
+            foreach (var workout in workouts)
+            {
+                Console.WriteLine($"ID: {workout.Id} | Name: {workout.Name}");
+            }
+
+            Console.Write("Choose workout ID: ");
+            int workoutId = int.Parse(Console.ReadLine());
+
+            Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
+
+            if (selectedWorkout == null)
+            {
+                Console.WriteLine("Workout not found.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("What do you want to edit?");
+            Console.WriteLine("1. Change workout name");
+            Console.WriteLine("2. Add exercise");
+            Console.WriteLine("3. Remove exercise");
+            Console.Write("Choice: ");
+
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Write("Enter new workout name: ");
+                    selectedWorkout.Name = Console.ReadLine();
+                    break;
+
+                case 2:
+                    Exercises newExercise = AddExercise();
+                    selectedWorkout.Exercises.Add(newExercise);
+                    break;
+
+                case 3:
+                    Console.WriteLine("Exercises:");
+
+                    int index = 1;
+                    foreach (var exercise in selectedWorkout.Exercises)
+                    {
+                        Console.WriteLine($"{index}. {exercise.Name}");
+                        index++;
+                    }
+
+                    Console.Write("Choose exercise number to remove: ");
+                    int removeIndex = int.Parse(Console.ReadLine()) - 1;
+
+                    if (removeIndex >= 0 && removeIndex < selectedWorkout.Exercises.Count)
+                    {
+                        var exerciseToRemove = selectedWorkout.Exercises.ElementAt(removeIndex);
+                        selectedWorkout.Exercises.Remove(exerciseToRemove);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid choice.");
+                    }
+
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid option.");
+                    break;
+            }
+
+            gymService.Save(selectedWorkout);
+
+            Console.WriteLine("Workout updated successfully!");//Ще се промени при правенето на дизайна!!!
             Pause();
         }
 

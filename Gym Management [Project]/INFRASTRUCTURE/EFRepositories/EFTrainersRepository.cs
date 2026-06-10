@@ -43,10 +43,23 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             context.SaveChanges();
         }
 
-        public void Update(int id, string action)
+        public void Update(int id,int mId, string action)
         {
-            //context.Trainers.Update(trainer); ДА СЕ ОПРАВИ
-            //context.SaveChanges();
+            var trainer = context.Trainers
+                .FirstOrDefault(t => t.Id == id);
+            if(action == "book")
+            {
+                trainer.IsAvailable = false;
+                var member = context.Members.FirstOrDefault(m => m.Id == mId);
+                trainer.Members.Add(member);
+            }
+            else if (action == "unbook")
+            {
+                trainer.IsAvailable = true;
+                var member = context.Members.FirstOrDefault(m => m.Id == mId);
+                trainer.Members.Remove(member);
+            }
+            context.SaveChanges();
         }
     }
 }

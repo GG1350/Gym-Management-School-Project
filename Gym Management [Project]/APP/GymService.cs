@@ -51,9 +51,9 @@ namespace Gym_Management__Project_.APP
             workoutRepository.Save(Workout);
         }
 
-        public void UpdateCard(MemberCard memberCard)
+        public void UpdateCard(MemberCard memberCard, int memberId)
         {
-            memberRepository.UpdateCard(memberCard);
+            memberRepository.UpdateCard(memberCard, memberId);
         }
 
         public List<Workouts> GetWorkoutsByMemberId(int memberId)

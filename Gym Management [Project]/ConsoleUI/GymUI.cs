@@ -158,7 +158,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void EditWorkout()//kosyo, TO DO
+        private void EditWorkout()//validations
         {
             Console.WriteLine("Which member's workout do you want to edit?");
             ShowMembers();
@@ -210,6 +210,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     break;
 
                 case 2:
+                    Console.WriteLine("Enter details for the new exercise:");
                     Exercises newExercise = AddExercise();
                     selectedWorkout.Exercises.Add(newExercise);
                     break;
@@ -250,7 +251,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void ShowWorkout()//kosyo; needs to show the workout by a specified id and the exercises in it.
+        private void ShowWorkout()//validations; needs to show the workout by a specified id and the exercises in it.
         {
             Console.WriteLine("Which member's workout do you want to see?");
             ShowMembers();
@@ -458,11 +459,11 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     if (activeChoice == 1)
                     {
-                        member.CardStatus = MemberCard.Frozen;
+                        gymService.UpdateCard(MemberCard.Frozen, memberId);
                     }
                     else if (activeChoice == 2)
                     {
-                        member.CardStatus = MemberCard.Terminated;
+                        gymService.UpdateCard(MemberCard.Terminated, memberId);
                     }
                     else if (activeChoice == 3)
                     {
@@ -476,15 +477,20 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.WriteLine("The member's card is frozen.");
                     Console.WriteLine("What do you want to do with the card?");
                     Console.WriteLine("1. Activate card");
-                    Console.WriteLine("2. Exit");
+                    Console.WriteLine("2. Terminate card");
+                    Console.WriteLine("3. Exit");
 
                     int frozenChoice = int.Parse(Console.ReadLine());
 
                     if (frozenChoice == 1)
                     {
-                        member.CardStatus = MemberCard.Active;
+                        gymService.UpdateCard(MemberCard.Active, memberId);
                     }
                     else if (frozenChoice == 2)
+                    {
+                        gymService.UpdateCard(MemberCard.Terminated, memberId);
+                    }
+                    else if (frozenChoice == 3)
                     {
                         return;
                     }
@@ -502,7 +508,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     if (terminatedChoice == 1)
                     {
-                        member.CardStatus = MemberCard.Active;
+                        gymService.UpdateCard(MemberCard.Active, memberId);
                     }
                     else if (terminatedChoice == 2)
                     {
@@ -512,9 +518,8 @@ namespace Gym_Management__Project_.ConsoleUI
 
                     break;
             }
-            gymService.UpdateCard(member);
             Pause();
-        }//has errors concerned with the sql and gym service kosyo
+        }//has errors concerned with the sql and gym service; validations
 
         private void GetTrainingHistory() //the member's progress; kosyo
         {

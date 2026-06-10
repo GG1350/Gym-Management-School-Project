@@ -107,10 +107,14 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
             storage.Save(db);
         }
-        public void UpdateCard(MemberCard memberCard)
+        public void UpdateCard(MemberCard memberCard, int memberId)
         {
             var db = storage.Load();
-
+            var member = db.Members.FirstOrDefault(m => m.Id == memberId);
+            if (member != null)
+            {
+                member.CardStatus = memberCard;
+            }
             storage.Save(db);
         }
     }

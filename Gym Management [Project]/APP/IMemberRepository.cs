@@ -13,6 +13,6 @@ namespace Gym_Management__Project_.APP
         Members GetById(int id);
         void Save(Members member);
         IReadOnlyList<Members> GetAll();
-        void Update(int id, int wId, string action);
+        void Update(int id, int tId,int wId, string action);
     }
 }

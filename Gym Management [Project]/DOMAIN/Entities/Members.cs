@@ -39,6 +39,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         }
         public void GetTotalCalories()
         {
+            TotalCaloriesBurnt = 0;
             foreach(var w in progress)
             {
                 foreach(var e in w.Exercises)

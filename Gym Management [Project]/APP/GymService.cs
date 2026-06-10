@@ -36,8 +36,8 @@ namespace Gym_Management__Project_.APP
         }
         public void BookTraining(int memberId, int workoutId,int trainerId,string action)
         {
-            memberRepository.Update(memberId, workoutId, action);
-            trainersRepository.Update(trainerId, action);
+            memberRepository.Update(memberId,trainerId, workoutId, action);
+            trainersRepository.Update(trainerId,memberId, action);
         }
 
         public void CreateWorkout(int memberId, string name, List<Exercises> exercises)
@@ -46,9 +46,9 @@ namespace Gym_Management__Project_.APP
             workoutRepository.Save(Workout);
         }
 
-        public void UpdateCard(MemberCard)
+        public void UpdateCard(MemberCard memberCard)
         {
-            memberRepository.Update(MemberCard);
+            memberRepository.UpdateCard(memberCard);
         }
 
         public Members GetMemberById(int memberId)

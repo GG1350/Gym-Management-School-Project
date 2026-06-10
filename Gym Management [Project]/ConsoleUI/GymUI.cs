@@ -16,6 +16,7 @@ namespace Gym_Management__Project_.ConsoleUI
     public class GymUI
     {
         private readonly GymService gymService;
+
         public GymUI(GymService gymService)
         {
             this.gymService = gymService;
@@ -112,7 +113,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.WriteLine($"{t.Id} {t.FirstName} {t.LastName} {availability}"); 
             }
             Pause();
-        }
+        }//should maybe be move to the bottom!!!
 
         private void AddMember()
         {
@@ -142,19 +143,27 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             foreach (var m in members) Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
         }
-        private void CreateWorkout()
+        private void CreateWorkout()//validations
         {
-            Console.WriteLine("Member id: ");
+            Console.WriteLine("Which member wants to create a workout?");
             ShowMembers();
-            Console.WriteLine("Workout name: ");
-            string WName = Console.ReadLine();
+            Console.Write("Write your choice: ");
             int WId = int.Parse(Console.ReadLine());
+            Console.WriteLine("What should be the name of the workout?");
+            Console.Write("Write the name: ");
+            string WName = Console.ReadLine();
+            Console.WriteLine("Add exercises to the workout:");
             List<Exercises> exercises = new List<Exercises>();
+            while (true)
+            {
+                exercises.Add(AddExercise());
+                Console.WriteLine("Do you want to add another exercise? (yes/no)");
+                string choice = Console.ReadLine();
+                if (choice.ToLower() == "no")
+                    break;
+            }
+
             gymService.CreateWorkout(WId, WName, exercises);
-
-            exercises.Add(AddExercise());
-
-            Console.WriteLine("Workout created successfully!");
             Pause();
         }
 
@@ -174,7 +183,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {
-            Console.WriteLine("What exercise do you want to add in the workout?");
+            Console.WriteLine("What exercise do you want to add in the workout?(write the name)(!IT IS ALL CUSTOM!)");
             string name = Console.ReadLine();
             Console.Write("How much do you weigh (in kg)? ");
             double weight = double.Parse(Console.ReadLine());
@@ -193,7 +202,7 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             Console.Write("Write your choice: ");
             int memberId = int.Parse(Console.ReadLine());
-            if (memberId == 0||memberId>members.Count) throw new Exception("Invalid member id!");
+            if (memberId == 0||memberId>members.Count) Console.WriteLine("Invalid member id!");
 
             Console.WriteLine("Which available trainer is to be booked(write the id)?");
             var trainers = gymService.GetTrainers();
@@ -203,16 +212,17 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Console.Write("Write your choice: ");
             int trainerId = int.Parse(Console.ReadLine());
-            if(trainerId ==0||trainerId>trainers.Count) throw new Exception("Invalid trainer id!");
+            if(trainerId ==0||trainerId>trainers.Count) Console.WriteLine("Invalid trainer id!");
+
             Console.WriteLine("Which of your workouts do you want to book(write the Id): ");
-            if (members[memberId].Workouts.Count < 1) throw new Exception("You have no workout created!");
+            if (members[memberId].Workouts.Count < 1) Console.WriteLine("You have no workouts created!");
             foreach(var w in members[memberId].Workouts)
             {
                 Console.WriteLine(w.Id + w.Name + "\nExercises:" + w.Exercises);
             }
             Console.Write("Write your choice: ");
             int workoutId = int.Parse(Console.ReadLine());
-            if (workoutId == 0 || workoutId > members[memberId].Workouts.Count) throw new Exception("Invalid workout id");
+            if (workoutId == 0 || workoutId > members[memberId].Workouts.Count) Console.WriteLine("Invalid workout id");
             //actual booking
             gymService.BookTraining(memberId, workoutId, trainerId, "book");
 
@@ -220,9 +230,9 @@ namespace Gym_Management__Project_.ConsoleUI
             members[memberId].progress.Add(members[memberId].Workouts.ToList()[workoutId]);
             members[memberId].GetTotalCalories();
             Pause();
-        }
+        }//validations
 
-        private void UnbookTraining() //TO DO; kosyo
+        private void UnbookTraining() //validations
         {
             Console.WriteLine("Who wants to unbook a training (write the id)?");
             ShowMembers();
@@ -233,71 +243,54 @@ namespace Gym_Management__Project_.ConsoleUI
             int memberId = int.Parse(Console.ReadLine());
 
             if (memberId == 0 || memberId > members.Count)
-                throw new Exception("Invalid member id!");
-
-            Console.WriteLine("Which trainer do you want to unbook from (write the id)?");
-            ShowTrainers();
-
-            var trainers = gymService.GetTrainers();
-
-            Console.Write("Write your choice: ");
-            int trainerId = int.Parse(Console.ReadLine());
-
-            if (trainerId == 0 || trainerId > trainers.Count)
-                throw new Exception("Invalid trainer id!");
-
-            Console.WriteLine("Which workout do you want to remove (write the id)?");
-
-            var workouts = gymService.GetWorkouts();
-
-            foreach (var workout in workouts)
             {
-                Console.WriteLine(workout);
+                Console.WriteLine("Invalid member id!");
+                Pause();
+                return;
+            }
+            if (members[memberId].Trainer == null)
+            {
+                Console.WriteLine("This member has no trainer booked!");
+                Pause();
+                return;
             }
 
-            Console.Write("Write your choice: ");
-            int workoutId = int.Parse(Console.ReadLine());
-
-            if (workoutId == 0 || workoutId > workouts.Count)
-                throw new Exception("Invalid workout id!");
+            var trainers = gymService.GetTrainers();
+            int trainerId=0;
+            int workoutId = members[memberId].progress[members[memberId].progress.Count - 1].Id;
+            foreach (var t in trainers)
+            {
+                if (t.Members.Contains(members[memberId]))
+                {
+                    trainerId = t.Id;
+                }
+            }
 
             gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
-
-            Console.WriteLine("Training unbooked successfully!");
             Pause();
 
         }
-        private void CheckProgress() //calories; visits; kosyo
+        private void CheckProgress() //calories; visits; validations
         {
-            Console.WriteLine("Choose member:");
+            Console.WriteLine("Write the member's id whose progress you want to check.");
             ShowMembers();
-
+            Console.Write("Write your choice: ");
             int id = int.Parse(Console.ReadLine());
 
             var member = gymService.GetMemberById(id);
 
-            Console.Write("Enter body weight (kg): ");
-            double bodyWeight = double.Parse(Console.ReadLine());
-
-            double totalCalories = 0;
-
-            foreach (var workout in member.progress)
-            {
-                foreach (var exercise in workout.Exercises)
-                {
-                    totalCalories += exercise.CalculateCalories(bodyWeight);
-                }
-            }
+            member.GetTotalCalories();
 
             Console.WriteLine($"Completed workouts: {member.progress.Count}");
-            Console.WriteLine($"Calories burnt: {totalCalories:F2}");
+            Console.WriteLine($"Calories burnt: {member.TotalCaloriesBurnt}");
 
             Pause();
         }
-        private void CheckTrainer()//availability and members; kosyo
+        private void CheckTrainer()//availability and members; validations
         {
-            Console.Write("Trainer Id: ");
+            Console.WriteLine("Which trainer do you want to check? (write the id)");
             ShowTrainers();
+            Console.Write("Write your choice: ");
             int id = int.Parse(Console.ReadLine());
 
             var trainer = gymService.GetTrainerById(id);
@@ -308,25 +301,22 @@ namespace Gym_Management__Project_.ConsoleUI
                 return;
             }
 
-            Console.WriteLine($"Name: {trainer.FirstName}");
-            Console.WriteLine($"Name: {trainer.LastName}");
-            Console.WriteLine($"Available: {(trainer.IsAvailable ? "Yes" : "No")}");
-
-            Console.WriteLine("Members:");
+            Console.WriteLine($"Name: {trainer.FirstName} {trainer.LastName}  Available: {(trainer.IsAvailable ? "Yes" : "No")}");
 
             if (trainer.Members.Count == 0)
             {
                 Console.WriteLine("No assigned members.");
-            }
-            else
-            {
-                foreach (var member in trainer.Members)
-                {
-                    Console.WriteLine($"{member.Id}");
-                }
+                Pause();
+                return;
             }
 
+            Console.WriteLine("Members:");
+            foreach (var member in trainer.Members)
+            {
+                Console.WriteLine($"{member.Id}");
+            }
             Pause();
+            return;
         }
 
         private void ManageTrainerTimetable() //maybe should happen with unbook training
@@ -346,17 +336,20 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void ManageMemberCards() 
         {
-            Console.Write("Member Id: ");
+            Console.WriteLine("Choose member by id:");
             ShowMembers();
+            Console.Write("Write your choice: ");
             int memberId = int.Parse(Console.ReadLine());
             var member = gymService.GetMemberById(memberId);
 
             switch (member.CardStatus)
             {
                 case MemberCard.Active:
-
+                    Console.WriteLine("The member's card is active.");
+                    Console.WriteLine("What do you want to do with the card?");
                     Console.WriteLine("1. Freeze card");
                     Console.WriteLine("2. Terminate card");
+                    Console.WriteLine("3. Exit");
 
                     int activeChoice = int.Parse(Console.ReadLine());
 
@@ -368,12 +361,19 @@ namespace Gym_Management__Project_.ConsoleUI
                     {
                         member.CardStatus = MemberCard.Terminated;
                     }
+                    else if (activeChoice == 3)
+                    {
+                        return;
+                    }
+                    else Console.WriteLine("Invalid choice.");
 
                     break;
 
                 case MemberCard.Frozen:
-
+                    Console.WriteLine("The member's card is frozen.");
+                    Console.WriteLine("What do you want to do with the card?");
                     Console.WriteLine("1. Activate card");
+                    Console.WriteLine("2. Exit");
 
                     int frozenChoice = int.Parse(Console.ReadLine());
 
@@ -381,12 +381,19 @@ namespace Gym_Management__Project_.ConsoleUI
                     {
                         member.CardStatus = MemberCard.Active;
                     }
+                    else if (frozenChoice == 2)
+                    {
+                        return;
+                    }
+                    else Console.WriteLine("Invalid choice.");
 
                     break;
 
                 case MemberCard.Terminated:
-
+                    Console.WriteLine("The member's card is terminated.");
+                    Console.WriteLine("What do you want to do with the card?");
                     Console.WriteLine("1. Activate card");
+                    Console.WriteLine("2. Exit");
 
                     int terminatedChoice = int.Parse(Console.ReadLine());
 
@@ -394,25 +401,29 @@ namespace Gym_Management__Project_.ConsoleUI
                     {
                         member.CardStatus = MemberCard.Active;
                     }
+                    else if (terminatedChoice == 2)
+                    {
+                        return;
+                    }
+                    else Console.WriteLine("Invalid choice.");
 
                     break;
             }
-            GymBcontext.SaveChanges();
+            context.SaveChanges();
 
             gymService.UpdateCard(member);
-
-            Console.WriteLine("Card status updated successfully!");
             Pause();
-        }
+        }//has errors concerned with the sql and gym service kosyo
 
         private void GetTrainingHistory() //the member's progress; kosyo
         {
             var members = gymService.GetMembers();
-            Console.WriteLine("Choose member:");
+            Console.WriteLine("Choose member by id:");
             foreach (var m in members)
             {
                 Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
             }
+            Console.Write("Write your choice:");
             int id = int.Parse(Console.ReadLine());
             var member = gymService.GetMemberById(id);
             Console.WriteLine($"Training history for {member.FirstName} {member.LastName}:");

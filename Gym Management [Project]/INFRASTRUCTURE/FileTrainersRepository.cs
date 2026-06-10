@@ -78,12 +78,18 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             throw new Exception($"Trainers with Id {id} not found");
 
         }
-        public void Update(int id, string action)
+        public void Update(int id,int mId, string action)
         {
             var db = storage.Load();
             if (action == "book")
             {
                 db.Trainers[id].IsAvailable = false;
+                db.Trainers[id].Members.Add(db.Members[mId]);
+            }
+            else if(action == "unbook")
+            {
+                db.Trainers[id].IsAvailable = true;
+                db.Trainers[id].Members.Remove(db.Members[mId]);
             }
             storage.Save(db);
         }

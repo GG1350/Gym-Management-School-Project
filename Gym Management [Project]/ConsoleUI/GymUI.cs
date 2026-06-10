@@ -435,7 +435,65 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void CheckMostUsedExercises() 
         {
-        
+            var members = gymService.GetMembers();
+
+            List<string> allExercises = new List<string>();
+
+            // събираме всички упражнения
+            foreach (var member in members)
+            {
+                foreach (var workout in member.progress)
+                {
+                    foreach (var exercise in workout.Exercises)
+                    {
+                        allExercises.Add(exercise.Name);
+                    }
+                }
+            }
+
+            if (allExercises.Count == 0)
+            {
+                Console.WriteLine("No exercises found.");
+                Pause();
+                return;
+            }
+
+            Console.WriteLine("=== MOST USED EXERCISES ===");
+
+            List<string> checkedExercises = new List<string>();
+            string mostUsed = "";
+            int maxCount = 0;
+
+            foreach (var ex in allExercises)
+            {
+                // ако вече сме го броили -> skip
+                if (checkedExercises.Contains(ex))
+                    continue;
+
+                int count = 0;
+
+                // броим колко пъти се среща
+                foreach (var item in allExercises)
+                {
+                    if (item == ex)
+                        count++;
+                }
+
+                checkedExercises.Add(ex);
+
+                Console.WriteLine($"{ex} -> {count} times");
+
+                if (count > maxCount)
+                {
+                    maxCount = count;
+                    mostUsed = ex;
+                }
+            }
+
+            Console.WriteLine("----------------------");
+            Console.WriteLine($"Most used exercise: {mostUsed} ({maxCount} times)");
+
+            Pause();
         }
 
         private void ManageMemberCards() 

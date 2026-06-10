@@ -624,11 +624,13 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             var members = gymService.GetMembers();
 
+            Console.WriteLine("Active members:");
+
             foreach (var member in members)
             {
                 if (member.CardStatus == MemberCard.Active)
                 {
-                    Console.WriteLine(member);
+                    Console.WriteLine($"{member.Id} {member.FirstName} {member.LastName}");
                 }
             }
 

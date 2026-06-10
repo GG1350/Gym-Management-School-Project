@@ -430,7 +430,29 @@ namespace Gym_Management__Project_.ConsoleUI
 
         private void CheckGymBusyness() //get the availability of each trainer; kosyo
         {
-        
+            var trainers = gymService.GetTrainers();
+            int totalMembers = 0;
+
+            Console.WriteLine("=== GYM BUSYNESS ===");
+
+            foreach (var trainer in trainers)
+            {
+                Console.WriteLine($"{trainer.FirstName} {trainer.LastName} has {trainer.Members.Count} members.");
+                totalMembers += trainer.Members.Count;
+            }
+
+            Console.WriteLine($"Total members training: {totalMembers}");
+
+            if (totalMembers < 5)
+            {
+                Console.WriteLine("The gym is not busy.");
+            }
+            else
+            {
+                Console.WriteLine("The gym is busy.");
+            }
+
+            Pause();
         }
 
         private void CheckMostUsedExercises() 

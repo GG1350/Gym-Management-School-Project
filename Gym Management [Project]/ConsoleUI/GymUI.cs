@@ -1,6 +1,7 @@
 ﻿using Gym_Management__Project_.APP;
 using Gym_Management__Project_.DOMAIN.Entities;
 using Gym_Management__Project_.DOMAIN.Enum;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,8 +116,10 @@ namespace Gym_Management__Project_.ConsoleUI
                                 }
                                 break;
                             case "5":
+                                CheckGymBusyness();
                                 break;
                             case "6":
+                                CheckMostUsedExercises();
                                 break;
                         }
                         break;
@@ -150,7 +153,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("  [5] "); Console.ResetColor(); Console.WriteLine("Gym busyness");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [6] "); Console.ResetColor(); Console.WriteLine("Most Exercise");
+            Console.Write("  [6] "); Console.ResetColor(); Console.WriteLine("Most common exercise");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("  [X] Exit");
             Console.ResetColor();
@@ -1012,25 +1015,41 @@ namespace Gym_Management__Project_.ConsoleUI
 
 
 
-        
 
+        
         private void CheckGymBusyness() //get the availability of each trainer; validations
         {
             var trainers = gymService.GetTrainers();
             int totalMembers = 0;
 
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("=== GYM BUSYNESS ===");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
 
             foreach (var trainer in trainers)
             {
-                Console.WriteLine($"{trainer.FirstName} {trainer.LastName} has {trainer.Members.Count} members.");
+                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{trainer.Members.Count}]"); Console.ResetColor(); Console.WriteLine("members.");
                 totalMembers += trainer.Members.Count;
             }
 
-            Console.WriteLine($"Total members training: {totalMembers}");
+            Console.Write($"Total members training: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{totalMembers}]"); Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
 
             Pause();
         }
+
+
+
+
 
         private void CheckMostUsedExercises() //validations
         {
@@ -1052,12 +1071,21 @@ namespace Gym_Management__Project_.ConsoleUI
 
             if (allExercises.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("No exercises found.");
+                Console.ResetColor();
                 Pause();
                 return;
             }
 
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
             Console.WriteLine("=== MOST USED EXERCISES ===");
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
 
             List<string> checkedExercises = new List<string>();
             string mostUsed = "";
@@ -1089,28 +1117,38 @@ namespace Gym_Management__Project_.ConsoleUI
                 }
             }
 
-            Console.WriteLine("----------------------");
-            Console.WriteLine($"Most used exercise: {mostUsed} ({maxCount} times)");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+==============================+");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("Most used exercise: "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine($"[{mostUsed}] [{maxCount}]"); Console.ResetColor(); Console.WriteLine(" times)");
 
             Pause();
         }
         //sub methods
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {
-            Console.WriteLine("What exercise do you want to add in the workout?(write the name)(!IT IS ALL CUSTOM!)");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below (all exercises are user-defined and fully customizable).");
+            Console.ResetColor();
             string name = Console.ReadLine();
-            Console.Write("How much do you weigh (in kg)? ");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("Enter your weight in KG: ");
+            Console.ResetColor();
             double weight = double.Parse(Console.ReadLine());
-            Console.WriteLine("How long will the exercise last (in minutes)?");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Enter the preferable time duration of one exercise in minutes: ");
+            Console.ResetColor();
             int duration = int.Parse(Console.ReadLine());
-            Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
+            Console.WriteLine("How intense will the exercise be? For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
             double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
             Pause();
             return new Exercises(name, duration, met, weight);
         }
         private void Pause()
         {
-            Console.WriteLine("Press Enter to continue...");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("Press "); Console.ResetColor(); Console.WriteLine("'Enter'"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine(" to continue"); Console.ResetColor();
             Console.ReadKey();
         }
     }

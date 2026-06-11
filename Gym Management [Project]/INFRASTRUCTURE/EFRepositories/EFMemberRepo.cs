@@ -48,7 +48,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 throw new Exception("Member not found.");
 
             context.Members.Add(member);
-            context.SaveChanges();
+            //context.SaveChanges();
         }
 
         public void Update(int id, int tId, int wId, string action)

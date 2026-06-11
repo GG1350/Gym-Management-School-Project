@@ -93,5 +93,20 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 throw new Exception("Member not found.");
             }
         }
+
+        public void UpdateSub(Subscribtion sub, int memberId)
+        {
+            var member = context.Members
+                .FirstOrDefault(m => m.Id == memberId);
+            if (member != null)
+            {
+                member.SubscribtionType = sub;
+                context.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Member not found.");
+            }
+        }
     }
 }

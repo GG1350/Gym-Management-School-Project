@@ -81,12 +81,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             var db = storage.Load();
             if (action == "book")
             {
-                db.Members.FirstOrDefault(m => m.Id == id).progress.Add(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
+                db.Members.FirstOrDefault(m => m.Id == id).Progress.ToList().Add(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
                 db.Members.FirstOrDefault(m => m.Id == id).Trainer = db.Trainers.FirstOrDefault(t => t.Id == tId);
             }
             else if (action == "unbook")
             {
-                db.Members.FirstOrDefault(m => m.Id == id).progress.Remove(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
+                db.Members.FirstOrDefault(m => m.Id == id).Progress.ToList().Remove(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
                 db.Members.FirstOrDefault(m => m.Id == id).Trainer = null;
             }
             storage.Save(db);

@@ -29,7 +29,7 @@ namespace Gym_Management__Project_
                 .UseSqlServer("Server=DESKTOP-VIPRQ43\\LOCALDB;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;")
                 .Options;
             var context = new GymDbContext();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             IMemberRepository memberRepository = new EfMemberRepository(context);
             ITrainersRepository trainerRepository = new EFTrainersRepository(context);

@@ -95,6 +95,8 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
         }
 
+
+
         private void AddTrainer() 
         {
             Console.WriteLine("First name: ");

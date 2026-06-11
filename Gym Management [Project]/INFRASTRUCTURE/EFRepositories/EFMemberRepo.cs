@@ -22,7 +22,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         public Members GetById(int id)
         {
             var member = context.Members
-                .FirstOrDefault(m => m.Id == id);
+            .Include(m => m.Workouts)
+                .ThenInclude(w => w.Exercises)
+            .Include(m => m.Trainer)
+            .FirstOrDefault(m => m.Id == id);
 
             if (member == null)
                 throw new Exception("Member not found.");
@@ -33,7 +36,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         public IReadOnlyList<Members> GetAll()
         {
             return context.Members
-                .ToList();
+            .Include(m => m.Workouts)
+                .ThenInclude(w => w.Exercises)
+            .Include(m => m.Trainer)
+            .ToList();
         }
 
         public void Save(Members member)
@@ -51,30 +57,32 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             if (action == "book")
             {
                 var member = context.Members
-                    .Include(m => m.progress)
+                    .Include(m => m.Workouts)
+                    .ThenInclude (w => w.Exercises)
+                    .Include(m => m.Trainer)
                     .FirstOrDefault(m => m.Id == id);
+
                 var workout = context.Workouts
-                    .Include(w => w.Exercises)
                     .FirstOrDefault(w => w.Id == wId);
+
                 var trainer = context.Trainers
                     .FirstOrDefault(t => t.Id == tId);
                 if (member != null && workout != null)
                 {
-                    member.progress.Add(workout);
+                    workout.IsCompleted = true;
                     member.Trainer = trainer;
                 }
             }
             else if (action == "unbook")
             {
                 var member = context.Members
-                    .Include(m => m.progress)
+                    .Include(m => m.Workouts)
                     .FirstOrDefault(m => m.Id == id);
                 var workout = context.Workouts
-                    .Include(w => w.Exercises)
                     .FirstOrDefault(w => w.Id == wId);
                 if (member != null && workout != null)
                 {
-                    member.progress.Remove(workout);
+                    workout.IsCompleted = false;
                     member.Trainer = null;
                 }
             }

@@ -17,11 +17,12 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public Trainers Trainer { get; set; }
         public MemberCard CardStatus { get; set; }
         public Subscribtion SubscribtionType { get; set; }
-        public ICollection<Workouts> progress { get; set; } = new List<Workouts>();
+        //public ICollection<Workouts> progress { get; set; } = new List<Workouts>();
         public double TotalCaloriesBurnt { get; set; }// this is progress too
         public bool HasTrainer => SubscribtionType == Subscribtion.MonthTrainer || SubscribtionType == Subscribtion.TrimesterTrainer || SubscribtionType == Subscribtion.YearTrainer;
-        public ICollection<Workouts> Workouts { get; private set; }
-        = new List<Workouts>();
+        public ICollection<Workouts> Workouts { get; set; }= new List<Workouts>();
+        public IEnumerable<Workouts> CreatedWorkouts =>Workouts.Where(w => !w.IsCompleted);
+        public IEnumerable<Workouts> Progress => Workouts.Where(w => w.IsCompleted);
 
         public Members() { }
         public Members(int id, string firstName, string lastName, List<Workouts> workouts, Subscribtion subscribtionType)
@@ -40,7 +41,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public void GetTotalCalories()
         {
             TotalCaloriesBurnt = 0;
-            foreach(var w in progress)
+            foreach(var w in Progress)
             {
                 foreach(var e in w.Exercises)
                 {

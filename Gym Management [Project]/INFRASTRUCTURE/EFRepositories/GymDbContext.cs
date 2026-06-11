@@ -75,6 +75,9 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
 
                 entity.Property(m => m.TotalCaloriesBurnt);
 
+                entity.Ignore(m => m.CreatedWorkouts);
+                entity.Ignore(m => m.Progress);
+
                 entity.HasMany(m => m.Workouts)
                 .WithOne(w => w.Member)
                 .HasForeignKey(w => w.MemberId);
@@ -88,6 +91,9 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 entity.Property(w => w.Name)
                 .IsRequired()
                 .HasMaxLength(100);
+
+                entity.Property(w => w.IsCompleted)
+                .IsRequired();
 
                 entity.OwnsMany(w => w.Exercises, exercise =>
                 {

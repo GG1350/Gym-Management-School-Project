@@ -291,8 +291,8 @@ namespace Gym_Management__Project_.ConsoleUI
             ShowMembers();
             var members = gymService.GetMembers();
             Console.Write("Write your choice: ");
-            int memberId = int.Parse(Console.ReadLine());
-            if (memberId == 0||memberId>members.Count) Console.WriteLine("Invalid member id!");
+            int memberId = int.Parse(Console.ReadLine())-1;
+            if (memberId < 0||memberId>=members.Count) Console.WriteLine("Invalid member id!");
 
             Console.WriteLine("Which available trainer is to be booked(write the id)?");
             var trainers = gymService.GetTrainers();
@@ -316,8 +316,6 @@ namespace Gym_Management__Project_.ConsoleUI
             //actual booking
             gymService.BookTraining(memberId, workoutId, trainerId, "book");
 
-            //adding the progress
-            members[memberId].progress.Add(members[memberId].Workouts.ToList()[workoutId]);
             members[memberId].GetTotalCalories();
             Pause();
         }//validations
@@ -330,9 +328,9 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
 
             Console.Write("Write your choice: ");
-            int memberId = int.Parse(Console.ReadLine());
+            int memberId = int.Parse(Console.ReadLine())-1;
 
-            if (memberId == 0 || memberId > members.Count)
+            if (memberId < 0 || memberId >= members.Count)
             {
                 Console.WriteLine("Invalid member id!");
                 Pause();
@@ -347,7 +345,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             var trainers = gymService.GetTrainers();
             int trainerId=0;
-            int workoutId = members[memberId].progress.ToList()[members[memberId].progress.Count - 1].Id;
+            int workoutId = members[memberId].Progress.ToList()[members[memberId].Progress.Count() - 1].Id;
             foreach (var t in trainers)
             {
                 if (t.Members.Contains(members[memberId]))
@@ -370,7 +368,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             member.GetTotalCalories();
 
-            Console.WriteLine($"Completed workouts: {member.progress.Count}");
+            Console.WriteLine($"Completed workouts: {member.Progress.Count()}");
             Console.WriteLine($"Calories burnt: {member.TotalCaloriesBurnt}");
 
             Pause();
@@ -426,7 +424,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     {
                         if (m == trainers[tChoice].Members.ToList()[0])
                         {
-                            gymService.BookTraining(m.Id, m.progress.Count, tChoice, "unbook");
+                            gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
                         }
                     }
                     break;
@@ -435,7 +433,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     {
                         if (m == trainers[tChoice].Members.ToList()[0])
                         {
-                            gymService.BookTraining(m.Id, m.progress.Count, tChoice, "book");
+                            gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "book");
                         }
                     }
                         break;
@@ -469,7 +467,7 @@ namespace Gym_Management__Project_.ConsoleUI
             // събираме всички упражнения
             foreach (var member in members)
             {
-                foreach (var workout in member.progress)
+                foreach (var workout in member.Progress)
                 {
                     foreach (var exercise in workout.Exercises)
                     {
@@ -618,7 +616,7 @@ namespace Gym_Management__Project_.ConsoleUI
             int id = int.Parse(Console.ReadLine());
             var member = gymService.GetMemberById(id);
             Console.WriteLine($"Training history for {member.FirstName} {member.LastName}:");
-            foreach (var workout in member.progress)
+            foreach (var workout in member.Progress)
             {
                 Console.WriteLine($"{workout.Id} {workout.Name}");
             }

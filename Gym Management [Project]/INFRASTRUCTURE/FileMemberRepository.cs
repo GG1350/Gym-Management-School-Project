@@ -30,8 +30,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             if (Members.Id == 0)
             {
-                if (Members.HasTrainer == true)
-                {
                     //bool found = true;
                     var newMembers = new Members(
                         db.NextId++,
@@ -41,23 +39,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                         Members.SubscribtionType
                         );
                     db.Members.Add(newMembers);
-                }
-                else
-                {
-                    //bool found = true;
-                    var newMembers = new Members(
-                        db.NextId++,
-                        Members.FirstName,
-                        Members.LastName,
-                        Members.Workouts.ToList(),
-                        Members.SubscribtionType
-                        );
-                    db.Members.Add(newMembers);
-                }
             }
             else
             {
-                bool found = true;
+                bool found = false;
                 for (int i = 0; i < db.Members.Count; i++)
                 {
                     if (db.Members[i].Id == Members.Id)

@@ -642,18 +642,24 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private void ManageSubsription()
+        private void ManageSubsription()//validations
         {
             var members = gymService.GetMembers();
             Console.WriteLine("Which member's subscription do you want to change: ");
             ShowMembers();
             Console.Write("Write your choice: ");
             int mChoice = int.Parse(Console.ReadLine());
-            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>();
-            foreach(var sub in Subscribtion)
+            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
+            Console.WriteLine("What do you want to change the subscription to?");
+            foreach(var sub in subs)
             {
-
+                if (sub != members[mChoice].SubscribtionType)
+                {
+                    Console.WriteLine(sub);
+                }
             }
+            Subscribtion newSub = (Subscribtion)Enum.Parse(typeof(Subscribtion), Console.ReadLine());
+            gymService.UpdateSub(newSub, mChoice);
 
         }
 

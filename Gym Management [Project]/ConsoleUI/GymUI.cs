@@ -93,7 +93,7 @@ namespace Gym_Management__Project_.ConsoleUI
             string LName = Console.ReadLine();
             List<Members> members = new List<Members>();
             gymService.CreateTrainer(FName, LName, members);
-        }
+        }//validations
 
         private void ShowTrainers()
         {
@@ -104,7 +104,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.WriteLine($"{t.Id} {t.FirstName} {t.LastName} {availability}"); 
             }
             Pause();
-        }//should maybe be move to the bottom!!!
+        }//validations
 
         private void AddMember()
         {
@@ -285,20 +285,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-        private Exercises AddExercise()//this will be used with the creation and editing of the workout
-        {
-            Console.WriteLine("What exercise do you want to add in the workout?(write the name)(!IT IS ALL CUSTOM!)");
-            string name = Console.ReadLine();
-            Console.Write("How much do you weigh (in kg)? ");
-            double weight = double.Parse(Console.ReadLine());
-            Console.WriteLine("How long will the exercise last (in minutes)?");
-            int duration = int.Parse(Console.ReadLine());
-            Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
-            double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
-            Pause();
-            return new Exercises(name, duration, met, weight);
-        }
-
         private void BookTraining()
         {
             Console.WriteLine("Who wants to book a training(write the id)?");
@@ -372,7 +358,6 @@ namespace Gym_Management__Project_.ConsoleUI
 
             gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
             Pause();
-
         }
         private void CheckProgress() //calories; visits; validations
         {
@@ -423,12 +408,41 @@ namespace Gym_Management__Project_.ConsoleUI
             return;
         }
 
-        private void ManageTrainerTimetable() //maybe should happen with unbook training
+        private void ManageTrainerTimetable() //maybe should happen with unbook training; validations
         {
-        
+            var members = gymService.GetMembers();
+            var trainers = gymService.GetTrainers();
+            Console.Write("Which trainer's timetable should be altered: ");
+            int tChoice = int.Parse(Console.ReadLine());
+            Console.WriteLine("What do you want to do:");
+            Console.WriteLine("1) Unbook training");
+            Console.WriteLine("2) Book training");
+            Console.Write("Write your choide: ");
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1:
+                    foreach(var m in members)
+                    {
+                        if (m == trainers[tChoice].Members.ToList()[0])
+                        {
+                            gymService.BookTraining(m.Id, m.progress.Count, tChoice, "unbook");
+                        }
+                    }
+                    break;
+                case 2:
+                    foreach (var m in members)
+                    {
+                        if (m == trainers[tChoice].Members.ToList()[0])
+                        {
+                            gymService.BookTraining(m.Id, m.progress.Count, tChoice, "book");
+                        }
+                    }
+                        break;
+            }
         }
 
-        private void CheckGymBusyness() //get the availability of each trainer; kosyo
+        private void CheckGymBusyness() //get the availability of each trainer; validations
         {
             var trainers = gymService.GetTrainers();
             int totalMembers = 0;
@@ -443,19 +457,10 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Console.WriteLine($"Total members training: {totalMembers}");
 
-            if (totalMembers < 5)
-            {
-                Console.WriteLine("The gym is not busy.");
-            }
-            else
-            {
-                Console.WriteLine("The gym is busy.");
-            }
-
             Pause();
         }
 
-        private void CheckMostUsedExercises() 
+        private void CheckMostUsedExercises() //validations
         {
             var members = gymService.GetMembers();
 
@@ -601,7 +606,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }//has errors concerned with the sql and gym service; validations
 
-        private void GetTrainingHistory() //the member's progress; kosyo
+        private void GetTrainingHistory() //the member's progress; validations
         {
             var members = gymService.GetMembers();
             Console.WriteLine("Choose member by id:");
@@ -615,12 +620,12 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine($"Training history for {member.FirstName} {member.LastName}:");
             foreach (var workout in member.progress)
             {
-                Console.WriteLine(workout);
+                Console.WriteLine($"{workout.Id} {workout.Name}");
             }
             Pause();
         }
 
-        private void CheckActiveMembers() //members with active subscription; kosyo
+        private void CheckActiveMembers() //members with active subscription; validations
         {
             var members = gymService.GetMembers();
 
@@ -636,6 +641,36 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
+
+        private void ManageSubsription()
+        {
+            var members = gymService.GetMembers();
+            Console.WriteLine("Which member's subscription do you want to change: ");
+            ShowMembers();
+            Console.Write("Write your choice: ");
+            int mChoice = int.Parse(Console.ReadLine());
+            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>();
+            foreach(var sub in Subscribtion)
+            {
+
+            }
+
+        }
+
+        //sub methods
+        private Exercises AddExercise()//this will be used with the creation and editing of the workout
+        {
+            Console.WriteLine("What exercise do you want to add in the workout?(write the name)(!IT IS ALL CUSTOM!)");
+            string name = Console.ReadLine();
+            Console.Write("How much do you weigh (in kg)? ");
+            double weight = double.Parse(Console.ReadLine());
+            Console.WriteLine("How long will the exercise last (in minutes)?");
+            int duration = int.Parse(Console.ReadLine());
+            Console.WriteLine("How heavy will the exercise be (for example running at a low pace is equal 3.5 and fast  pace running could be 10 or higher)");
+            double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
+            Pause();
+            return new Exercises(name, duration, met, weight);
+        }
         private void Pause()
         {
             Console.WriteLine("Press Enter to continue...");
@@ -643,5 +678,3 @@ namespace Gym_Management__Project_.ConsoleUI
         }
     }
 }
-
-

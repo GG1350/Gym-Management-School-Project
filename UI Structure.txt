@@ -1,0 +1,23 @@
+UI
+1) Member
+     -Add Member
+     -Show Members
+     -Book Workout
+     -Unbook Workout
+     -Check Progress
+2) Workout
+     -Create Workout
+     -Edit Workout
+     -Show Workout
+3) Trainers
+     -Add Trainer
+     -Show Trainers
+     -Manage Trainer Timetable
+     -Check Trainer
+     -Check Active Members
+     -Get Training History
+4) Check gym busyness
+5)Check Most Exercise
+6)Manage Member Cards and Subscriptions
+     -Manage Member Cards
+     -Manage Subscriptions

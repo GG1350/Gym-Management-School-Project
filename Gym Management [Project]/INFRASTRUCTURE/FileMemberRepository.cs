@@ -116,5 +116,15 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
             storage.Save(db);
         }
+        public void UpdateSub(Subscribtion sub, int memberId)
+        {
+            var db = storage.Load();
+            var member = db.Members.FirstOrDefault(m=>m.Id == memberId);
+            if(member != null)
+            {
+                member.SubscribtionType = sub;
+            }
+            storage.Save(db);
+        }
     }
 }

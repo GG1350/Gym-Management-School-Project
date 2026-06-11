@@ -55,6 +55,10 @@ namespace Gym_Management__Project_.APP
         {
             memberRepository.UpdateCard(memberCard, memberId);
         }
+        public void UpdateSub(Subscribtion sub,int memberId)
+        {
+            memberRepository.UpdateSub(sub, memberId);
+        }
 
         public List<Workouts> GetWorkoutsByMemberId(int memberId)
         {

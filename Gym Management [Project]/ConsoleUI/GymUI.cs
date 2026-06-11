@@ -27,9 +27,6 @@ namespace Gym_Management__Project_.ConsoleUI
                 switch (input)
                 {
                     case "1":
-                        BookTraining();
-                        break;
-                    case "2":
                         Winput = Console.ReadLine();
                         switch (Winput)
                         {
@@ -37,7 +34,18 @@ namespace Gym_Management__Project_.ConsoleUI
                                 break;
                             case "2":
                                 break;
+                            case "3":
+                                break;
+                            case "4":
+                                break;
+                            case "5":
+                                break;
+                            case "6":
+                                break;
                         }
+                        break;
+                    case "2":
+                        AddTrainer();
                         break;
                     case "3":
                         AddMember();
@@ -68,15 +76,17 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[1] "); Console.ResetColor(); Console.WriteLine("Create MEMBER account");
+            Console.Write("[1] "); Console.ResetColor(); Console.WriteLine("Member management");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[2] "); Console.ResetColor(); Console.WriteLine("Show plan");
+            Console.Write("[2] "); Console.ResetColor(); Console.WriteLine("Trainer management");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Actions with Trainers");
+            Console.Write("[3] "); Console.ResetColor(); Console.WriteLine("Subscription management");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("");
+            Console.Write("[4] "); Console.ResetColor(); Console.WriteLine("Workout management");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("CreateWorkout");
+            Console.Write("[5] "); Console.ResetColor(); Console.WriteLine("Gym busyness");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("[6] "); Console.ResetColor(); Console.WriteLine("Most Exercise");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("[X] Exit");
             Console.ResetColor();

@@ -83,6 +83,19 @@ namespace Gym_Management__Project_.ConsoleUI
                                 }
                                 break;
                             case "3":
+                                SubscribtionUI();
+                                Winput = Console.ReadLine();
+                                switch (Winput)
+                                {
+                                    case "1":
+                                        ManageMemberCards();
+                                        break;
+                                    case "2":
+                                        ManageSubsription();
+                                        break;
+                                    case "x":
+                                        break;
+                                }
                                 break;
                             case "4":
                                 WorkoutUI();
@@ -572,7 +585,168 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
+        public static void SubscribtionUI()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+===================================+");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("  ==== SUBSCRIPTION MANAGEMENT ====");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+===================================+");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Manage card plan");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("  [2] "); Console.ResetColor(); Console.WriteLine("Manage subscription plan");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("  [X] Exit");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("+===================================+");
+            Console.ResetColor();
+        }
+        private void ManageMemberCards()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Enter your member ID");
+            Console.ResetColor();
+            int memberId = int.Parse(Console.ReadLine());
+            var member = gymService.GetMemberById(memberId);
 
+            switch (member.CardStatus)
+            {
+                case MemberCard.Active:
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+==============================+");
+                    Console.ResetColor();
+                    Console.WriteLine("The member's card is active!");
+                    Console.WriteLine("What do you want to do with the card?");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+==============================+");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Freeze card");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("  [2] "); Console.ResetColor(); Console.WriteLine("Terminate card");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write("  [X] "); Console.ResetColor(); Console.WriteLine("Exit");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+==============================+");
+                    Console.ResetColor();
+
+                    int activeChoice = int.Parse(Console.ReadLine());
+
+                    if (activeChoice == 1)
+                    {
+                        gymService.UpdateCard(MemberCard.Frozen, memberId);
+                    }
+                    else if (activeChoice == 2)
+                    {
+                        gymService.UpdateCard(MemberCard.Terminated, memberId);
+                    }
+                    else if (activeChoice == 3)
+                    {
+                        return;
+                    }
+                    else Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid choice!"); Console.ResetColor();
+
+                    break;
+
+                case MemberCard.Frozen:
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+                    Console.WriteLine("The member's card is frozen!");
+                    Console.WriteLine("What do you want to do with the card?");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Activate card");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("  [2] "); Console.ResetColor(); Console.WriteLine("Terminate card");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write("  [X] "); Console.ResetColor(); Console.WriteLine("Exit");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+
+                    int frozenChoice = int.Parse(Console.ReadLine());
+
+                    if (frozenChoice == 1)
+                    {
+                        gymService.UpdateCard(MemberCard.Active, memberId);
+                    }
+                    else if (frozenChoice == 2)
+                    {
+                        gymService.UpdateCard(MemberCard.Terminated, memberId);
+                    }
+                    else if (frozenChoice == 3)
+                    {
+                        return;
+                    }
+                    else Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid choice!"); Console.ResetColor();
+
+                    break;
+
+                case MemberCard.Terminated:
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+                    Console.WriteLine("The member's card is terminated!");
+                    Console.WriteLine("What do you want to do with the card?");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Activate card");
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write("  [X] "); Console.ResetColor(); Console.WriteLine("Exit");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("+=======================================+");
+                    Console.ResetColor();
+
+                    int terminatedChoice = int.Parse(Console.ReadLine());
+
+                    if (terminatedChoice == 1)
+                    {
+                        gymService.UpdateCard(MemberCard.Active, memberId);
+                    }
+                    else if (terminatedChoice == 2)
+                    {
+                        return;
+                    }
+                    else Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid choice!"); Console.ResetColor();
+
+                    break;
+            }
+            Pause();
+        }//has errors concerned with the sql and gym service; validations
+        private void ManageSubsription()//validations
+        {
+            var members = gymService.GetMembers();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Enter your member ID");
+            Console.ResetColor();
+            int mChoice = int.Parse(Console.ReadLine());
+            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("To what plan you want ot change?");
+            Console.ResetColor();
+            foreach (var sub in subs)
+            {
+                if (sub != members[mChoice].SubscribtionType)
+                {
+                    Console.WriteLine(sub);
+                }
+            }
+            Subscribtion newSub = (Subscribtion)Enum.Parse(typeof(Subscribtion), Console.ReadLine());
+            gymService.UpdateSub(newSub, mChoice);
+
+        }
 
 
 
@@ -920,110 +1094,6 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-
-        private void ManageMemberCards() 
-        {
-            Console.WriteLine("Choose member by id:");
-            ShowMembers();
-            Console.Write("Write your choice: ");
-            int memberId = int.Parse(Console.ReadLine());
-            var member = gymService.GetMemberById(memberId);
-
-            switch (member.CardStatus)
-            {
-                case MemberCard.Active:
-                    Console.WriteLine("The member's card is active.");
-                    Console.WriteLine("What do you want to do with the card?");
-                    Console.WriteLine("1. Freeze card");
-                    Console.WriteLine("2. Terminate card");
-                    Console.WriteLine("3. Exit");
-
-                    int activeChoice = int.Parse(Console.ReadLine());
-
-                    if (activeChoice == 1)
-                    {
-                        gymService.UpdateCard(MemberCard.Frozen, memberId);
-                    }
-                    else if (activeChoice == 2)
-                    {
-                        gymService.UpdateCard(MemberCard.Terminated, memberId);
-                    }
-                    else if (activeChoice == 3)
-                    {
-                        return;
-                    }
-                    else Console.WriteLine("Invalid choice.");
-
-                    break;
-
-                case MemberCard.Frozen:
-                    Console.WriteLine("The member's card is frozen.");
-                    Console.WriteLine("What do you want to do with the card?");
-                    Console.WriteLine("1. Activate card");
-                    Console.WriteLine("2. Terminate card");
-                    Console.WriteLine("3. Exit");
-
-                    int frozenChoice = int.Parse(Console.ReadLine());
-
-                    if (frozenChoice == 1)
-                    {
-                        gymService.UpdateCard(MemberCard.Active, memberId);
-                    }
-                    else if (frozenChoice == 2)
-                    {
-                        gymService.UpdateCard(MemberCard.Terminated, memberId);
-                    }
-                    else if (frozenChoice == 3)
-                    {
-                        return;
-                    }
-                    else Console.WriteLine("Invalid choice.");
-
-                    break;
-
-                case MemberCard.Terminated:
-                    Console.WriteLine("The member's card is terminated.");
-                    Console.WriteLine("What do you want to do with the card?");
-                    Console.WriteLine("1. Activate card");
-                    Console.WriteLine("2. Exit");
-
-                    int terminatedChoice = int.Parse(Console.ReadLine());
-
-                    if (terminatedChoice == 1)
-                    {
-                        gymService.UpdateCard(MemberCard.Active, memberId);
-                    }
-                    else if (terminatedChoice == 2)
-                    {
-                        return;
-                    }
-                    else Console.WriteLine("Invalid choice.");
-
-                    break;
-            }
-            Pause();
-        }//has errors concerned with the sql and gym service; validations
-        private void ManageSubsription()//validations
-        {
-            var members = gymService.GetMembers();
-            Console.WriteLine("Which member's subscription do you want to change: ");
-            ShowMembers();
-            Console.Write("Write your choice: ");
-            int mChoice = int.Parse(Console.ReadLine());
-            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
-            Console.WriteLine("What do you want to change the subscription to?");
-            foreach(var sub in subs)
-            {
-                if (sub != members[mChoice].SubscribtionType)
-                {
-                    Console.WriteLine(sub);
-                }
-            }
-            Subscribtion newSub = (Subscribtion)Enum.Parse(typeof(Subscribtion), Console.ReadLine());
-            gymService.UpdateSub(newSub, mChoice);
-
-        }
-
         //sub methods
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {

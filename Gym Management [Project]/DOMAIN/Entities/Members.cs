@@ -17,7 +17,7 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public Trainers Trainer { get; set; }
         public MemberCard CardStatus { get; set; }
         public Subscribtion SubscribtionType { get; set; }
-        public List<Workouts> progress = new List<Workouts>();
+        public ICollection<Workouts> progress { get; set; } = new List<Workouts>();
         public double TotalCaloriesBurnt { get; set; }// this is progress too
         public bool HasTrainer => SubscribtionType == Subscribtion.MonthTrainer || SubscribtionType == Subscribtion.TrimesterTrainer || SubscribtionType == Subscribtion.YearTrainer;
         public ICollection<Workouts> Workouts { get; private set; }

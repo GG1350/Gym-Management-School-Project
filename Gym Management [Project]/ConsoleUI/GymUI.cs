@@ -347,7 +347,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             var trainers = gymService.GetTrainers();
             int trainerId=0;
-            int workoutId = members[memberId].progress[members[memberId].progress.Count - 1].Id;
+            int workoutId = members[memberId].progress.ToList()[members[memberId].progress.Count - 1].Id;
             foreach (var t in trainers)
             {
                 if (t.Members.Contains(members[memberId]))

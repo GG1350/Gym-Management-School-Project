@@ -51,9 +51,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             if (action == "book")
             {
                 var member = context.Members
-                    .Include(m => m.Workouts)
+                    .Include(m => m.progress)
                     .FirstOrDefault(m => m.Id == id);
                 var workout = context.Workouts
+                    .Include(w => w.Exercises)
                     .FirstOrDefault(w => w.Id == wId);
                 var trainer = context.Trainers
                     .FirstOrDefault(t => t.Id == tId);
@@ -66,9 +67,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             else if (action == "unbook")
             {
                 var member = context.Members
-                    .Include(m => m.Workouts)
+                    .Include(m => m.progress)
                     .FirstOrDefault(m => m.Id == id);
                 var workout = context.Workouts
+                    .Include(w => w.Exercises)
                     .FirstOrDefault(w => w.Id == wId);
                 if (member != null && workout != null)
                 {

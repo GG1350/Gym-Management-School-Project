@@ -20,7 +20,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
 
         public Workouts GetById(int id)
         {
-            var workouts = context.Workouts
+            var workouts = context.Workouts.Include(w => w.Exercises)
                 .FirstOrDefault(m => m.Id == id);
 
             if (workouts == null)
@@ -31,7 +31,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
 
         public IReadOnlyList<Workouts> GetAll()
         {
-            return context.Workouts
+            return context.Workouts.Include(w => w.Exercises)
                 .ToList();
         }
 

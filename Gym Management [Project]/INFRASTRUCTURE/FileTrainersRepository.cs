@@ -83,13 +83,13 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             var db = storage.Load();
             if (action == "book")
             {
-                db.Trainers[id].IsAvailable = false;
-                db.Trainers[id].Members.Add(db.Members[mId]);
+                db.Trainers.FirstOrDefault(t => t.Id == id).IsAvailable = false;
+                db.Trainers.FirstOrDefault(t => t.Id == id).Members.Add(db.Members[mId]);
             }
             else if(action == "unbook")
             {
-                db.Trainers[id].IsAvailable = true;
-                db.Trainers[id].Members.Remove(db.Members[mId]);
+                db.Trainers.FirstOrDefault(t => t.Id == id).IsAvailable = true;
+                db.Trainers.FirstOrDefault(t => t.Id == id).Members.Remove(db.Members[mId]);
             }
             storage.Save(db);
         }

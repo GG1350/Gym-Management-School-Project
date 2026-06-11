@@ -96,13 +96,13 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             var db = storage.Load();
             if (action == "book")
             {
-                db.Members[id].progress.Add(db.Members[id].Workouts.ToList()[wId]);
-                db.Members[id].Trainer = db.Trainers[tId];
+                db.Members.FirstOrDefault(m => m.Id == id).progress.Add(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
+                db.Members.FirstOrDefault(m => m.Id == id).Trainer = db.Trainers.FirstOrDefault(t => t.Id == tId);
             }
             else if (action == "unbook")
             {
-                db.Members[id].progress.Remove(db.Members[id].Workouts.ToList()[wId]);
-                db.Members[id].Trainer = null;
+                db.Members.FirstOrDefault(m => m.Id == id).progress.Remove(db.Members.FirstOrDefault(m => m.Id == id).Workouts.ToList()[wId]);
+                db.Members.FirstOrDefault(m => m.Id == id).Trainer = null;
             }
             storage.Save(db);
         }

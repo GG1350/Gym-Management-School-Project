@@ -238,6 +238,12 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
             if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             if (gymService.GetMemberById(memberId).SubscribtionType == Subscribtion.Month ||
@@ -268,7 +274,13 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter the ID of the trainer you want");
             Console.ResetColor();
-            var trainers = gymService.GetTrainers();
+            var trainers = gymService.GetTrainers(); 
+            if (trainers.Count == 0)
+            {
+                Console.WriteLine("There are no trainers created");
+                Pause();
+                return;
+            }
             foreach (var t in trainers)
             {
                 if (t.IsAvailable)
@@ -341,6 +353,12 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.WriteLine("Enter your member ID");
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
             if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             memberId--;
             if (memberId < 0 || memberId >= members.Count)
@@ -361,6 +379,12 @@ namespace Gym_Management__Project_.ConsoleUI
             }
 
             var trainers = gymService.GetTrainers();
+            if (trainers.Count == 0)
+            {
+                Console.WriteLine("There are no trainers created");
+                Pause();
+                return;
+            }
             int trainerId = 0;
             int workoutId = gymService.GetMemberById(memberId).Progress.ToList()[gymService.GetMemberById(memberId).Progress.Count() - 1].Id;
             foreach (var t in trainers)
@@ -377,6 +401,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void ShowMembers()//Done
         {
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
             foreach (var m in members)
                 Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
             Pause();
@@ -455,6 +485,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void ShowTrainers()
         {
             var trainers = gymService.GetTrainers();
+            if (trainers.Count == 0)
+            {
+                Console.WriteLine("There are no trainers created");
+                Pause();
+                return;
+            }
             foreach (var t in trainers)
             {
                 string availability = t.IsAvailable ? "Available" : "Not Available";
@@ -471,6 +507,12 @@ namespace Gym_Management__Project_.ConsoleUI
             if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             var trainer = gymService.GetTrainerById(id);
+            if(trainer == null)
+            {
+                Console.WriteLine("There is no trainer with this id");
+                Pause();
+                return;
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write($"Name: "); Console.ResetColor(); Console.WriteLine($"{trainer.FirstName} {trainer.LastName}"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"Available: "); Console.ResetColor(); Console.WriteLine($"{(trainer.IsAvailable ? "Yes" : "No")}");
@@ -498,7 +540,19 @@ namespace Gym_Management__Project_.ConsoleUI
         private void ManageTrainerTimetable() //maybe should happen with unbook training; Done
         {
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
             var trainers = gymService.GetTrainers();
+            if (trainers.Count == 0)
+            {
+                Console.WriteLine("There are no trainers created");
+                Pause();
+                return;
+            }
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter the trainer ID whom's timetable you want to change: ");
             if (!int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
@@ -544,6 +598,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void GetTrainingHistory() //the member's progress; Done
         {
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter member ID");
             Console.ResetColor();
@@ -566,6 +626,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void CheckActiveMembers() //members with active subscription; Done
         {
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Active members:");
@@ -817,6 +883,12 @@ namespace Gym_Management__Project_.ConsoleUI
             if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
+            if(workouts.Count == 0)
+            {
+                Console.WriteLine("You do not have any workouts created");
+                Pause();
+                return;
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Your workouts:");
@@ -834,6 +906,12 @@ namespace Gym_Management__Project_.ConsoleUI
             if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
+            if (workouts.Count == 0)
+            {
+                Console.WriteLine("You do not have any workouts created");
+                Pause();
+                return;
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+=================================+");
@@ -931,6 +1009,12 @@ namespace Gym_Management__Project_.ConsoleUI
             if (!int.TryParse(Console.ReadLine(), out int MId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             List<Workouts> workouts = gymService.GetWorkoutsByMemberId(MId);
+            if (workouts.Count == 0)
+            {
+                Console.WriteLine("You do not have any workouts created");
+                Pause();
+                return;
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Workouts:");
@@ -957,6 +1041,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void CheckGymBusyness() //get the availability of each trainer; Done
         {
             var trainers = gymService.GetTrainers();
+            if( trainers.Count == 0)
+            {
+                Console.WriteLine("There are no trainers created");
+                Pause(); 
+                return;
+            }
             int totalMembers = 0;
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -986,6 +1076,12 @@ namespace Gym_Management__Project_.ConsoleUI
         private void CheckMostUsedExercises() //Done
         {
             var members = gymService.GetMembers();
+            if (members.Count == 0)
+            {
+                Console.WriteLine("There are no member created");
+                Pause();
+                return;
+            }
 
             List<string> allExercises = new List<string>();
 

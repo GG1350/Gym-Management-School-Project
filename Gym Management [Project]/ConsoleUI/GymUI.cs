@@ -756,7 +756,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         //workout UI
 
-        public static void WorkoutUI()
+        public static void WorkoutUI()//Done
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -781,15 +781,15 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
-        private void CreateWorkout()//validations DESIGN CORECTION
+        private void CreateWorkout()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("!!! Note that this workout is usable only once in this version !!!");
             Console.WriteLine("Write your id: ");
-            int WId = int.Parse(Console.ReadLine());
-            Console.WriteLine("What should be the name of the workout?");
-            Console.Write("Write the name: ");
+            if (int.TryParse(Console.ReadLine(), out int WId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            Console.Write("What should be the name of the workout?: ");
             string WName = Console.ReadLine();
+            if (int.TryParse(WName, out int Wnumber) || string.IsNullOrWhiteSpace(WName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             Console.WriteLine("Add exercises to the workout:");
             List<Exercises> exercises = new List<Exercises>();
             while (true)
@@ -804,22 +804,13 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateWorkout(WId, WName, exercises);
             Pause();
         }
-        private void EditWorkout()//validations
+        private void EditWorkout()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
-            int memberId = int.Parse(Console.ReadLine());
+            if (int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
-
-            if (workouts.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("You don't have any workouts!");
-                Console.ResetColor();
-                Pause();
-                return;
-            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Your workouts:");
@@ -834,16 +825,9 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Select the workout by the ID");
             Console.ResetColor();
-            int workoutId = int.Parse(Console.ReadLine());
+            if (int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
-
-            if (selectedWorkout == null)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Workout not found!"); Console.ResetColor();
-                Pause();
-                return;
-            }
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+=================================+");
@@ -864,7 +848,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+=================================+");
             Console.ResetColor();
 
-            int choice = int.Parse(Console.ReadLine());
+            if (int.TryParse(Console.ReadLine(), out int choice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             switch (choice)
             {
@@ -872,7 +856,10 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write("Enter new workout name: ");
                     Console.ResetColor();
-                    selectedWorkout.Name = Console.ReadLine();
+                    
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    selectedWorkout.Name = input;
                     break;
 
                 case 2:
@@ -897,7 +884,8 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write("Choose exercise ID to remove");
                     Console.ResetColor();
-                    int removeIndex = int.Parse(Console.ReadLine()) - 1;
+                    if (int.TryParse(Console.ReadLine(), out int removeIndex)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    removeIndex--;
 
                     if (removeIndex >= 0 && removeIndex < selectedWorkout.Exercises.Count)
                     {
@@ -909,6 +897,8 @@ namespace Gym_Management__Project_.ConsoleUI
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Invalid choice!");
                         Console.ResetColor();
+                        Pause();
+                        return;
                     }
 
                     break;
@@ -917,6 +907,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("Invalid option!");
                     Console.ResetColor();
+                    Pause();
                     break;
             }
 
@@ -927,22 +918,13 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             Pause();
         }
-        private void ShowWorkout()//validations; needs to show the workout by a specified id and the exercises in it.
+        private void ShowWorkout()// needs to show the workout by a specified id and the exercises in it;Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
-            int WId = int.Parse(Console.ReadLine());
+            if (int.TryParse(Console.ReadLine(), out int MId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
-            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(WId);
-
-            if (workouts.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("This member does not have any workouts!");
-                Console.ResetColor();
-                Pause();
-                return;
-            }
+            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(MId);
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Workouts:");
@@ -966,7 +948,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-        private void CheckGymBusyness() //get the availability of each trainer; validations
+        private void CheckGymBusyness() //get the availability of each trainer; Done
         {
             var trainers = gymService.GetTrainers();
             int totalMembers = 0;
@@ -995,13 +977,13 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-        private void CheckMostUsedExercises() //validations
+        private void CheckMostUsedExercises() //Done
         {
             var members = gymService.GetMembers();
 
             List<string> allExercises = new List<string>();
 
-            // събираме всички упражнения
+            // get all exercises
             foreach (var member in members)
             {
                 foreach (var workout in member.Progress)
@@ -1011,15 +993,6 @@ namespace Gym_Management__Project_.ConsoleUI
                         allExercises.Add(exercise.Name);
                     }
                 }
-            }
-
-            if (allExercises.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("No exercises found.");
-                Console.ResetColor();
-                Pause();
-                return;
             }
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -1037,13 +1010,13 @@ namespace Gym_Management__Project_.ConsoleUI
 
             foreach (var ex in allExercises)
             {
-                // ако вече сме го броили -> skip
+                // if it's already counted => skip
                 if (checkedExercises.Contains(ex))
                     continue;
 
                 int count = 0;
 
-                // броим колко пъти се среща
+                // count how much there are
                 foreach (var item in allExercises)
                 {
                     if (item == ex)
@@ -1072,22 +1045,23 @@ namespace Gym_Management__Project_.ConsoleUI
 
         //sub methods
 
-        private Exercises AddExercise()//this will be used with the creation and editing of the workout
+        private Exercises AddExercise()//this will be used with the creation and editing of the workout; Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below (all exercises are user-defined and fully customizable).");
             Console.ResetColor();
             string name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name)) throw new Exception("Invalid Input");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter your weight in KG: ");
             Console.ResetColor();
-            double weight = double.Parse(Console.ReadLine());
+            if (double.TryParse(Console.ReadLine(), out double weight)) throw new Exception("Invalid Input");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Enter the time duration of the exercise in minutes: ");
+            Console.Write("Enter the time duration of the exercise in minutes(whole number): ");
             Console.ResetColor();
-            int duration = int.Parse(Console.ReadLine());
+            if (int.TryParse(Console.ReadLine(), out int duration)) throw new Exception("Invalid Input");
             Console.WriteLine("How intense will the exercise be? For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
-            double met = double.Parse(Console.ReadLine());//check Exercises.cs for more info about MET
+            if (double.TryParse(Console.ReadLine(), out double met)) throw new Exception("Invalid Input");//check Exercises.cs for more info about MET
             Pause();
             return new Exercises(name, duration, met, weight);
         }

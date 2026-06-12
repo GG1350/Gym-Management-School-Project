@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Web;
 namespace Gym_Management__Project_.ConsoleUI
 {
     public class GymUI
@@ -15,7 +16,7 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             this.gymService = service;
         }
-        // number validation:             if (int.TryParse(input, out int number)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+        // number validation:             if (!int.TryParse(input, out int number)) { Console.WriteLine("Invalid Input"); Pause(); return; }
         // string validation:             if (int.TryParse(input, out int number)||string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
         public void Run()//Done
         {
@@ -201,13 +202,15 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("First name: ");
             Console.ResetColor();
-            string FName = Console.ReadLine();
-            if (int.TryParse(FName, out int Fnumber) || string.IsNullOrWhiteSpace(FName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string Finput = Console.ReadLine();
+            if (int.TryParse(Finput, out int Fnumber) || string.IsNullOrWhiteSpace(Finput)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string FName = Finput;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Last name: ");
             Console.ResetColor();
-            string LName = Console.ReadLine();
-            if (int.TryParse(LName, out int Lnumber) || string.IsNullOrWhiteSpace(LName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string Linput = Console.ReadLine();
+            if (int.TryParse(Linput, out int Lnumber) || string.IsNullOrWhiteSpace(Linput)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string LName = Linput;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter the ID of the subscription plan you want");
             Console.ResetColor();
@@ -216,7 +219,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write($"[{(int)s}] - "); Console.ResetColor(); Console.WriteLine($"{s}");
             }
-            if (int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             if (!Enum.IsDefined(typeof(Subscribtion), id))
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -235,7 +238,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
             var members = gymService.GetMembers();
-            if (int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             if (gymService.GetMemberById(memberId).SubscribtionType == Subscribtion.Month ||
                 gymService.GetMemberById(memberId).SubscribtionType == Subscribtion.Trimester ||
@@ -278,7 +281,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Write your choice: ");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int trainerId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int trainerId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             if (trainerId == 0 || trainerId > trainers.Count)
             {
@@ -318,7 +321,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.Write("Write your choice: ");
             Console.ResetColor();
 
-            if (int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             if (workoutId == 0 || workoutId > gymService.GetMemberById(memberId).Workouts.Count)
             {
@@ -338,7 +341,7 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.WriteLine("Enter your member ID");
             var members = gymService.GetMembers();
-            if (int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             memberId--;
             if (memberId < 0 || memberId >= members.Count)
             {
@@ -384,7 +387,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             var member = gymService.GetMemberById(id);
 
@@ -437,13 +440,15 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("First name: ");
             Console.ResetColor();
-            string FName = Console.ReadLine();
-            if (int.TryParse(FName, out int Fnumber) || string.IsNullOrWhiteSpace(FName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int Fnumber) || string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string FName = input;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Last name: ");
             Console.ResetColor();
-            string LName = Console.ReadLine();
-            if (int.TryParse(LName, out int Lnumber) || string.IsNullOrWhiteSpace(LName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string Linput = Console.ReadLine();
+            if (int.TryParse(input, out int Lnumber) || string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string LName = input;
             List<Members> members = new List<Members>();
             gymService.CreateTrainer(FName, LName, members);
         }//Done
@@ -463,7 +468,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter trainer ID");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             var trainer = gymService.GetTrainerById(id);
 
@@ -496,7 +501,7 @@ namespace Gym_Management__Project_.ConsoleUI
             var trainers = gymService.GetTrainers();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter the trainer ID whom's timetable you want to change: ");
-            if (int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
             Console.ResetColor();
@@ -513,7 +518,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int choice)||choice>3||choice<1) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int choice)||choice>3||choice<1) { Console.WriteLine("Invalid Input"); Pause(); return; }
             switch (choice)
             {
                 case 1:
@@ -547,7 +552,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.Write($"[{m.Id}] "); Console.ResetColor(); Console.WriteLine($"{m.FirstName} {m.LastName}");
             }
-            if (int.TryParse(Console.ReadLine(), out int id)||id<members.Count+1||id>members.Count+1) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int id)||id<members.Count+1||id>members.Count+1) { Console.WriteLine("Invalid Input"); Pause(); return; }
             var member = gymService.GetMemberById(id);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write($"Training history for "); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}:");
@@ -608,7 +613,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             var member = gymService.GetMemberById(memberId);
 
             switch (member.CardStatus)
@@ -632,7 +637,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.WriteLine("+==============================+");
                     Console.ResetColor();
 
-                    if (int.TryParse(Console.ReadLine(), out int activeChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    if (!int.TryParse(Console.ReadLine(), out int activeChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
                     if (activeChoice == 1)
                     {
@@ -676,7 +681,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.WriteLine("+=======================================+");
                     Console.ResetColor();
 
-                    if (int.TryParse(Console.ReadLine(), out int frozenChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    if (!int.TryParse(Console.ReadLine(), out int frozenChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
                     if (frozenChoice == 1) gymService.UpdateCard(MemberCard.Active, memberId);
 
@@ -712,7 +717,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.WriteLine("+=======================================+");
                     Console.ResetColor();
 
-                    if (int.TryParse(Console.ReadLine(), out int terminatedChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    if (!int.TryParse(Console.ReadLine(), out int terminatedChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
                     if (terminatedChoice == 1)
                     {
@@ -737,7 +742,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int mChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int mChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("To what plan do you want to change?");
@@ -786,10 +791,11 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("!!! Note that this workout is usable only once in this version !!!");
             Console.WriteLine("Write your id: ");
-            if (int.TryParse(Console.ReadLine(), out int WId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int WId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             Console.Write("What should be the name of the workout?: ");
-            string WName = Console.ReadLine();
-            if (int.TryParse(WName, out int Wnumber) || string.IsNullOrWhiteSpace(WName)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string Winput = Console.ReadLine();
+            if (int.TryParse(Winput, out int Wnumber) || string.IsNullOrWhiteSpace(Winput)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            string WName = Winput;
             Console.WriteLine("Add exercises to the workout:");
             List<Exercises> exercises = new List<Exercises>();
             while (true)
@@ -808,7 +814,7 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
-            if (int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
 
@@ -825,7 +831,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Select the workout by the ID");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
 
@@ -848,7 +854,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+=================================+");
             Console.ResetColor();
 
-            if (int.TryParse(Console.ReadLine(), out int choice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int choice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             switch (choice)
             {
@@ -884,7 +890,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write("Choose exercise ID to remove");
                     Console.ResetColor();
-                    if (int.TryParse(Console.ReadLine(), out int removeIndex)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                    if (!int.TryParse(Console.ReadLine(), out int removeIndex)) { Console.WriteLine("Invalid Input"); Pause(); return; }
                     removeIndex--;
 
                     if (removeIndex >= 0 && removeIndex < selectedWorkout.Exercises.Count)
@@ -922,7 +928,7 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
-            if (int.TryParse(Console.ReadLine(), out int MId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (!int.TryParse(Console.ReadLine(), out int MId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
 
             List<Workouts> workouts = gymService.GetWorkoutsByMemberId(MId);
 
@@ -1050,18 +1056,19 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below (all exercises are user-defined and fully customizable).");
             Console.ResetColor();
-            string name = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(name)) throw new Exception("Invalid Input");
+            string input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input)) throw new Exception("Invalid Input");
+            string name = input;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter your weight in KG: ");
             Console.ResetColor();
-            if (double.TryParse(Console.ReadLine(), out double weight)) throw new Exception("Invalid Input");
+            if (!double.TryParse(Console.ReadLine(), out double weight)) throw new Exception("Invalid Input");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter the time duration of the exercise in minutes(whole number): ");
             Console.ResetColor();
-            if (int.TryParse(Console.ReadLine(), out int duration)) throw new Exception("Invalid Input");
+            if (!int.TryParse(Console.ReadLine(), out int duration)) throw new Exception("Invalid Input");
             Console.WriteLine("How intense will the exercise be? For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
-            if (double.TryParse(Console.ReadLine(), out double met)) throw new Exception("Invalid Input");//check Exercises.cs for more info about MET
+            if (!double.TryParse(Console.ReadLine(), out double met)) throw new Exception("Invalid Input");//check Exercises.cs for more info about MET
             Pause();
             return new Exercises(name, duration, met, weight);
         }

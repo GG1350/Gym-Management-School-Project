@@ -225,7 +225,13 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             var members = gymService.GetMembers();
             int memberId = int.Parse(Console.ReadLine());
-            if (memberId < 0 || members.Max(m=>m.Id) !=memberId)
+            if(gymService.GetMemberById(memberId).TranerId !=null)
+            {
+                Console.WriteLine("You already have a booked workout!");
+                Pause();
+                return;
+            }
+            if (memberId < 0 || members.Max(m=>m.Id)+1 <memberId)
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Invalid member ID!");
@@ -338,6 +344,7 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             foreach (var m in members)
                 Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
+            Pause();
         }
         private void CheckProgress() //calories; visits; validations
         {
@@ -460,7 +467,7 @@ namespace Gym_Management__Project_.ConsoleUI
             var members = gymService.GetMembers();
             var trainers = gymService.GetTrainers();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Enter the trainer ID of the trainer's timetable you want to change");
+            Console.Write("Enter the trainer ID whom's timetable you want to change: ");
             int tChoice = int.Parse(Console.ReadLine());
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
@@ -484,7 +491,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 case 1:
                     foreach (var m in members)
                     {
-                        if (gymService.GetTrainerById(tChoice).Members.ToList().Contains(m))
+                        if (m.TranerId==gymService.GetTrainerById(tChoice).Id)
                         {
                             gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
                         }
@@ -734,9 +741,8 @@ namespace Gym_Management__Project_.ConsoleUI
         private void CreateWorkout()//validations DESIGN CORECTION
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Which member wants to create a workout?");
-            ShowMembers();
-            Console.Write("Write your choice: ");
+            Console.WriteLine("!!! Note that this workout is usable only once in this version !!!");
+            Console.WriteLine("Write your id: ");
             int WId = int.Parse(Console.ReadLine());
             Console.WriteLine("What should be the name of the workout?");
             Console.Write("Write the name: ");
@@ -1034,7 +1040,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             double weight = double.Parse(Console.ReadLine());
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Enter the preferable time duration of one exercise in minutes: ");
+            Console.Write("Enter the time duration of the exercise in minutes: ");
             Console.ResetColor();
             int duration = int.Parse(Console.ReadLine());
             Console.WriteLine("How intense will the exercise be? For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
@@ -1045,7 +1051,7 @@ namespace Gym_Management__Project_.ConsoleUI
         private void Pause()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Press "); Console.ResetColor(); Console.WriteLine("'Enter'"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine(" to continue"); Console.ResetColor();
+            Console.Write("Press "); Console.ResetColor(); Console.Write("'Enter'"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write(" to continue"); Console.ResetColor();
             Console.ReadKey();
         }
     }

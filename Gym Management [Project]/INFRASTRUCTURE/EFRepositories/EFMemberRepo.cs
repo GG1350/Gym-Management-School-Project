@@ -67,6 +67,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
 
                 var trainer = context.Trainers
                     .FirstOrDefault(t => t.Id == tId);
+                if (member.TranerId != null) return;
                 if (member != null && workout != null)
                 {
                     workout.IsCompleted = true;
@@ -83,7 +84,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                     .FirstOrDefault(w => w.Id == wId);
                 if (member != null && workout != null)
                 {
-                    workout.IsCompleted = false;
                     member.Trainer = null;
                 }
             }

@@ -244,6 +244,10 @@
     <Compile Include="Migrations\20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew.Designer.cs">
       <DependentUpon>20260608163602_A_new_migration_because_the_old_ones_had_a_conflict_and_decided_to_remove_all_of_the_old_ones_and_start_anew.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20260612123241_Trying_To_Fix_A_Problem_With_The_Workouts.cs" />
+    <Compile Include="Migrations\20260612123241_Trying_To_Fix_A_Problem_With_The_Workouts.Designer.cs">
+      <DependentUpon>20260612123241_Trying_To_Fix_A_Problem_With_The_Workouts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -30,7 +30,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
 
             if (Members.Id == 0)
             {
-                    //bool found = true;
                     var newMembers = new Members(
                         db.NextId++,
                         Members.FirstName,

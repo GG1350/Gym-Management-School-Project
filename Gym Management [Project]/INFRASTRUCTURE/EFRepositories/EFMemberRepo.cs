@@ -71,6 +71,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 {
                     workout.IsCompleted = true;
                     member.Trainer = trainer;
+                    member.TranerId = trainer.Id;
                 }
             }
             else if (action == "unbook")

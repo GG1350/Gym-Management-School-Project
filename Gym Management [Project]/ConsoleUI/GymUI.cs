@@ -24,112 +24,106 @@ namespace Gym_Management__Project_.ConsoleUI
                 UI();
 
                 Console.Write("Choose: ");
-                string input = Console.ReadLine();
-                string Winput;//workoutUI
+                string input;//workoutUI
+                input = Console.ReadLine();
                 switch (input)
                 {
                     case "1":
-                        Winput = Console.ReadLine();
-                        switch (Winput)
+                        MemberUI();
+                        input = Console.ReadLine();
+                        switch (input)
                         {
                             case "1":
-                                MemberUI();
-                                Winput = Console.ReadLine();
-                                switch (Winput)
-                                {
-                                    case "1":
-                                        AddMember();
-                                        break;
-                                    case "2":
-                                        BookTraining();
-                                        break;
-                                    case "3":
-                                        UnbookTraining();
-                                        break;
-                                    case "4":
-                                        ShowMembers();
-                                        break;
-                                    case "5":
-                                        CheckProgress();
-                                        break;
-                                    case "x":
-                                        break;
-                                }
+                                AddMember();
                                 break;
                             case "2":
-                                TrainerUI();
-                                Winput = Console.ReadLine();
-                                switch (Winput)
-                                {
-                                    case "1":
-                                        AddTrainer();
-                                        break;
-                                    case "2":
-                                        ManageTrainerTimetable();
-                                        break;
-                                    case "3":
-                                        CheckTrainer();
-                                        break;
-                                    case "4":
-                                        ShowTrainers();
-                                        break;
-                                    case "5":
-                                        GetTrainingHistory();
-                                        break;
-                                    case "6":
-                                        CheckActiveMembers();
-                                        break;
-                                    case "x":
-                                        break;
-                                }
+                                BookTraining();
                                 break;
                             case "3":
-                                SubscribtionUI();
-                                Winput = Console.ReadLine();
-                                switch (Winput)
-                                {
-                                    case "1":
-                                        ManageMemberCards();
-                                        break;
-                                    case "2":
-                                        ManageSubsription();
-                                        break;
-                                    case "x":
-                                        break;
-                                }
+                                UnbookTraining();
                                 break;
                             case "4":
-                                WorkoutUI();
-                                 Winput = Console.ReadLine();
-                                switch (Winput)
-                                {   case "1":
-                                        CreateWorkout();
-                                        break;
-                                    case "2":
-                                        EditWorkout();
-                                        break;
-                                    case "3":
-                                        ShowWorkout();
-                                        break;
-                                    case "x":
-                                        break;
-                                }
+                                ShowMembers();
                                 break;
                             case "5":
-                                CheckGymBusyness();
+                                CheckProgress();
                                 break;
-                            case "6":
-                                CheckMostUsedExercises();
+                            case "x":
                                 break;
                         }
                         break;
-                    case "x":
-                        running = false;
+                    case "2":
+                        TrainerUI();
+                        input = Console.ReadLine();
+                        switch (input)
+                        {
+                            case "1":
+                                AddTrainer();
+                                break;
+                            case "2":
+                                ManageTrainerTimetable();
+                                break;
+                            case "3":
+                                CheckTrainer();
+                                break;
+                            case "4":
+                                ShowTrainers();
+                                break;
+                            case "5":
+                                GetTrainingHistory();
+                                break;
+                            case "6":
+                                CheckActiveMembers();
+                                break;
+                            case "x":
+                                break;
+                        }
+                        break;
+                    case "3":
+                        SubscribtionUI();
+                        input = Console.ReadLine();
+                        switch (input)
+                        {
+                            case "1":
+                                ManageMemberCards();
+                                break;
+                            case "2":
+                                ManageSubsription();
+                                break;
+                            case "x":
+                                break;
+                        }
+                        break;
+                    case "4":
+                        WorkoutUI();
+                        input = Console.ReadLine();
+                        switch (input)
+                        {
+                            case "1":
+                                CreateWorkout();
+                                break;
+                            case "2":
+                                EditWorkout();
+                                break;
+                            case "3":
+                                ShowWorkout();
+                                break;
+                            case "x":
+                                break;
+                        }
+                        break;
+                    case "5":
+                        CheckGymBusyness();
+                        break;
+                    case "6":
+                        CheckMostUsedExercises();
                         break;
                 }
+                    //case "x":
+                    //    running = false;
+                    //    break;
             }
         }
-
         public static void UI()
         {
             Console.Clear();
@@ -162,9 +156,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
         }
 
-
-
-
+        //member UI
 
         public static void MemberUI()
         {
@@ -195,11 +187,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+=============================+");
             Console.ResetColor();
         }
-
-
-
-
-
         private void AddMember()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -231,59 +218,84 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateMember(FName, LName, workouts, subscribtion);
             Pause();
         }
-
-
-
-
-
         private void BookTraining()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
             var members = gymService.GetMembers();
-            int memberId = int.Parse(Console.ReadLine()) - 1;
-            if (memberId < 0 || memberId >= members.Count) Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid member ID!"); Console.ResetColor();
+            int memberId = int.Parse(Console.ReadLine());
+            if (memberId < 0 || members.Max(m=>m.Id) !=memberId)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Invalid member ID!");
+                Console.ResetColor();
+            }
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter the ID of the trainer you want");
             Console.ResetColor();
             var trainers = gymService.GetTrainers();
             foreach (var t in trainers)
             {
-                if (t.IsAvailable) Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"{t.Id}"); Console.ResetColor(); Console.WriteLine($"{t.FirstName} {t.LastName}");
+                if (t.IsAvailable)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[{t.Id}] "); Console.ResetColor();
+                    Console.WriteLine($"{t.FirstName} {t.LastName}");
+                }
             }
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Type your choice: ");
             Console.ResetColor();
             int trainerId = int.Parse(Console.ReadLine());
-            
-            if (trainerId == 0 || trainerId > trainers.Count) Console.ForegroundColor = ConsoleColor.DarkYellow;  Console.WriteLine("Invalid trainer id!"); Console.ResetColor();
+
+            if (trainerId == 0 || trainerId > trainers.Count)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Invalid trainer id!");
+                Console.ResetColor();
+            }
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter the workout ID you want to book");
             Console.ResetColor();
-            if (members[memberId].Workouts.Count < 1) Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("You have no workouts created!"); Console.ResetColor();
-            foreach (var w in members[memberId].Workouts)
+            if (gymService.GetMemberById(memberId).Workouts.Count < 1)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write(w.Id); Console.ResetColor(); Console.Write(w.Name); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.Write("Exercises:"); Console.Write( w.Exercises); Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("You have no workouts created!");
+                Console.ResetColor();
+            }
+            foreach (var w in gymService.GetMemberById(memberId).Workouts)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write($"[{w.Id}] "); 
+                Console.ResetColor();
+                Console.WriteLine(w.Name);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("     Exercises:");
+                foreach(var e in w.Exercises)
+                {
+                    Console.WriteLine($"        -{e.Name}");
+                }
+                Console.ResetColor();
             }
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Write your choice");
+            Console.Write("Write your choice: ");
             Console.ResetColor();
 
             int workoutId = int.Parse(Console.ReadLine());
-            if (workoutId == 0 || workoutId > members[memberId].Workouts.Count) Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid workout id"); Console.ResetColor();
+            if (workoutId == 0 || workoutId > gymService.GetMemberById(memberId).Workouts.Count)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Invalid workout id");
+                Console.ResetColor();
+            }
             //actual booking
             gymService.BookTraining(memberId, workoutId, trainerId, "book");
 
-            members[memberId].GetTotalCalories();
+            gymService.GetMemberById(memberId).GetTotalCalories();
             Pause();
         }//validations
-
-
-
-
-
         private void UnbookTraining() //validations
         {
             Console.WriteLine("Enter your member ID");
@@ -298,7 +310,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 Pause();
                 return;
             }
-            if (members[memberId].Trainer == null)
+            if (gymService.GetMemberById(memberId).Trainer == null)
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("This member has no trainer booked!");
@@ -309,10 +321,10 @@ namespace Gym_Management__Project_.ConsoleUI
 
             var trainers = gymService.GetTrainers();
             int trainerId = 0;
-            int workoutId = members[memberId].Progress.ToList()[members[memberId].Progress.Count() - 1].Id;
+            int workoutId = gymService.GetMemberById(memberId).Progress.ToList()[gymService.GetMemberById(memberId).Progress.Count() - 1].Id;
             foreach (var t in trainers)
             {
-                if (t.Members.Contains(members[memberId]))
+                if (t.Members.Contains(gymService.GetMemberById(memberId)))
                 {
                     trainerId = t.Id;
                 }
@@ -321,22 +333,12 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
             Pause();
         }
-
-
-
-
-
         private void ShowMembers()//DESIGN CORECTION
         {
             var members = gymService.GetMembers();
             foreach (var m in members)
                 Console.WriteLine($"{m.Id} {m.FirstName} {m.LastName}");
         }
-
-
-
-
-
         private void CheckProgress() //calories; visits; validations
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -356,25 +358,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //trainer UI
 
         public static void TrainerUI()
         {
@@ -407,11 +391,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
-
-
-
-
-
         private void AddTrainer()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -425,11 +404,6 @@ namespace Gym_Management__Project_.ConsoleUI
             List<Members> members = new List<Members>();
             gymService.CreateTrainer(FName, LName, members);
         }//validations
-
-
-
-
-
         private void ShowTrainers()
         {
             var trainers = gymService.GetTrainers();
@@ -441,11 +415,6 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Pause();
         }//validations
-
-
-
-
-
         private void CheckTrainer()//availability and members; validations
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -486,11 +455,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
             return;
         }
-
-
-
-
-
         private void ManageTrainerTimetable() //maybe should happen with unbook training; validations
         {
             var members = gymService.GetMembers();
@@ -520,7 +484,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 case 1:
                     foreach (var m in members)
                     {
-                        if (m == trainers[tChoice].Members.ToList()[0])
+                        if (gymService.GetTrainerById(tChoice).Members.ToList().Contains(m))
                         {
                             gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
                         }
@@ -529,7 +493,7 @@ namespace Gym_Management__Project_.ConsoleUI
                 case 2:
                     foreach (var m in members)
                     {
-                        if (m == trainers[tChoice].Members.ToList()[0])
+                        if (m == gymService.GetTrainerById(tChoice).Members.ToList()[0])
                         {
                             gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "book");
                         }
@@ -537,11 +501,6 @@ namespace Gym_Management__Project_.ConsoleUI
                     break;
             }
         }
-
-
-
-
-
         private void GetTrainingHistory() //the member's progress; validations
         {
             var members = gymService.GetMembers();
@@ -564,11 +523,6 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Pause();
         }
-
-
-
-
-
         private void CheckActiveMembers() //members with active subscription; validations
         {
             var members = gymService.GetMembers();
@@ -730,7 +684,6 @@ namespace Gym_Management__Project_.ConsoleUI
         }//has errors concerned with the sql and gym service; validations
         private void ManageSubsription()//validations
         {
-            var members = gymService.GetMembers();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
@@ -741,7 +694,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             foreach (var sub in subs)
             {
-                if (sub != members[mChoice].SubscribtionType)
+                if (sub != gymService.GetMemberById(mChoice).SubscribtionType)
                 {
                     Console.WriteLine(sub);
                 }
@@ -751,23 +704,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //workout UI
 
         public static void WorkoutUI()
         {
@@ -794,11 +731,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
-
-
-
-
-
         private void CreateWorkout()//validations DESIGN CORECTION
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -823,11 +755,6 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateWorkout(WId, WName, exercises);
             Pause();
         }
-
-
-
-
-
         private void EditWorkout()//validations
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -951,11 +878,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             Pause();
         }
-
-
-
-
-
         private void ShowWorkout()//validations; needs to show the workout by a specified id and the exercises in it.
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -995,28 +917,6 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
         private void CheckGymBusyness() //get the availability of each trainer; validations
         {
             var trainers = gymService.GetTrainers();
@@ -1046,11 +946,6 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-
-
-
-
-
         private void CheckMostUsedExercises() //validations
         {
             var members = gymService.GetMembers();
@@ -1125,7 +1020,9 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
+
         //sub methods
+
         private Exercises AddExercise()//this will be used with the creation and editing of the workout
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;

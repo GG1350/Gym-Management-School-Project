@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11903.348 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym Management [Project]", "Gym Management [Project]\Gym Management [Project].csproj", "{4B0E8B6D-F941-4874-8FB0-A52D9A458111}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktop UI", "Desktop UI\Desktop UI.csproj", "{3B92D896-C1F5-47A0-983F-3363D2E2F920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym_Management_Project_Tests", "Gym_Management_Project_Tests\Gym_Management_Project_Tests.csproj", "{84BD9C40-E5E2-4CF3-906C-7EB9AEC48FD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3B92D896-C1F5-47A0-983F-3363D2E2F920}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B92D896-C1F5-47A0-983F-3363D2E2F920}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B92D896-C1F5-47A0-983F-3363D2E2F920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84BD9C40-E5E2-4CF3-906C-7EB9AEC48FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84BD9C40-E5E2-4CF3-906C-7EB9AEC48FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84BD9C40-E5E2-4CF3-906C-7EB9AEC48FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84BD9C40-E5E2-4CF3-906C-7EB9AEC48FD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

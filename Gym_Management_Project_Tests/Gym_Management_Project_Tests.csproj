@@ -181,7 +181,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gym_Management_Tests.cs" />
+    <Compile Include="Gym_Management_Tests_Entities.cs" />
+    <Compile Include="Gym_Management_Tests_Services.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

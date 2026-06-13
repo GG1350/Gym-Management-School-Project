@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Gym_Management_Project_Tests
 {
         [TestFixture]
-    public class Gym_Management_Tests
+    public class Gym_Management_Tests_Entities
     {
         GymService gymService;
         GymUI gymUI;

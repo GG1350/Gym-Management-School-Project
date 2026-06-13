@@ -245,6 +245,10 @@
     <Compile Include="Migrations\20260612123241_Trying_To_Fix_A_Problem_With_The_Workouts.Designer.cs">
       <DependentUpon>20260612123241_Trying_To_Fix_A_Problem_With_The_Workouts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20260613221012_Fixing.cs" />
+    <Compile Include="Migrations\20260613221012_Fixing.Designer.cs">
+      <DependentUpon>20260613221012_Fixing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

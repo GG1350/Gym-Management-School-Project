@@ -319,10 +319,12 @@ namespace Gym_Management__Project_.ConsoleUI
                 Pause();
                 return;
             }
+            int i = 1;
             foreach (var w in gymService.GetMemberById(memberId).Workouts)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{w.Id}] "); 
+                Console.Write($"[{i}] ");
+                i++;
                 Console.ResetColor();
                 Console.WriteLine(w.Name);
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -338,6 +340,14 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
 
             if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+
+            for (int x = 0; x <= gymService.GetMembers().Count - memberId; x++) 
+            {
+                foreach (var w in gymService.GetMemberById(memberId).Workouts) 
+                {
+                    workoutId++; 
+                }
+            }
 
             if (workoutId == 0 || workoutId > gymService.GetMemberById(memberId).Workouts.Count)
             {

@@ -1201,7 +1201,10 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.WriteLine();
             Console.ResetColor();
-            Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("(all exercises are user-defined and fully customizable).");
+            Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("! ! ! ALL EXERCISES ARE USER-DEFINED AND FULLY CUSTOMIZABLE ! ! !");
+            Console.WriteLine();
+            Console.ResetColor();
+            Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below:"); 
             Console.ResetColor();
             string input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input))

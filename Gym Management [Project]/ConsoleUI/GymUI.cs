@@ -1077,18 +1077,18 @@ namespace Gym_Management__Project_.ConsoleUI
             int totalMembers = 0;
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+=============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("=== GYM BUSYNESS ===");
+            Console.WriteLine("     === GYM BUSYNESS ===");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+=============================+");
             Console.ResetColor();
 
             foreach (var trainer in trainers)
             {
-                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{trainer.Members.Count}]"); Console.ResetColor(); Console.Write("members.");
+                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"[{trainer.Members.Count}]"); Console.ResetColor(); Console.Write("members.");
                 totalMembers += trainer.Members.Count;
             }
 
@@ -1096,7 +1096,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.Write($"Total members training: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{totalMembers}]"); Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+=============================+");
             Console.ResetColor();
 
             Pause();

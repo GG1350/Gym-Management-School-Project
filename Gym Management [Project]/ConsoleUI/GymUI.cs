@@ -1231,9 +1231,8 @@ namespace Gym_Management__Project_.ConsoleUI
                 throw new Exception("Invalid Input");
             };
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed; 
             Console.WriteLine();
-            Console.WriteLine("How intense will the exercise be? For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
+            Console.WriteLine("How intense will the exercise be?"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("For example, running at a slow pace may correspond to an intensity level of approximately 3.5, whereas running at a fast pace may reach an intensity level of 10 or higher.");
             Console.ResetColor();
             if (!double.TryParse(Console.ReadLine(), out double met)) throw new Exception("Invalid Input");//check Exercises.cs for more info about MET
             Pause();

@@ -319,12 +319,10 @@ namespace Gym_Management__Project_.ConsoleUI
                 Pause();
                 return;
             }
-            int i = 1;
             foreach (var w in gymService.GetMemberById(memberId).Workouts)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{i}] ");
-                i++;
+                Console.Write($"[{w.Id}] ");
                 Console.ResetColor();
                 Console.WriteLine(w.Name);
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -340,14 +338,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
 
             if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-
-            for (int x = 0; x <= gymService.GetMembers().Count - memberId; x++) 
-            {
-                foreach (var w in gymService.GetMemberById(memberId).Workouts) 
-                {
-                    workoutId++; 
-                }
-            }
 
             if (workoutId == 0 || workoutId > gymService.GetMemberById(memberId).Workouts.Count)
             {
@@ -587,7 +577,6 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Unbook training");
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [2] "); Console.ResetColor(); Console.WriteLine("Book training");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
             Console.ResetColor();
@@ -600,15 +589,6 @@ namespace Gym_Management__Project_.ConsoleUI
                         if (m.TranerId==gymService.GetTrainerById(tChoice).Id)
                         {
                             gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
-                        }
-                    }
-                    break;
-                case 2:
-                    foreach (var m in members)
-                    {
-                        if (m == gymService.GetTrainerById(tChoice).Members.ToList()[0])
-                        {
-                            gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "book");
                         }
                     }
                     break;

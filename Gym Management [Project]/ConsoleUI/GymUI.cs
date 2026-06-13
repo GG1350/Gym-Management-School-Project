@@ -174,13 +174,13 @@ namespace Gym_Management__Project_.ConsoleUI
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+===============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("  ==== MEMBER MANAGEMENT ====");
+            Console.WriteLine("   ==== MEMBER MANAGEMENT ====");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+===============================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Create a member account");
@@ -196,7 +196,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("  [X] Exit");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=============================+");
+            Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
         public void AddMember()//Done
@@ -892,10 +892,10 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine();
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int WId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            Console.Write("What should be the name of the workout?: "); Console.ResetColor();
+            if (!int.TryParse(Console.ReadLine(), out int WId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
+            Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write("What should be the name of the workout?: "); Console.ResetColor();
             string Winput = Console.ReadLine();
-            if (int.TryParse(Winput, out int Wnumber) || string.IsNullOrWhiteSpace(Winput)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            if (int.TryParse(Winput, out int Wnumber) || string.IsNullOrWhiteSpace(Winput)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
             string WName = Winput;
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkRed;

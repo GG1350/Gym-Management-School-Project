@@ -82,7 +82,7 @@ namespace Gym_Management_Project_Tests
                 new List<Workouts>(),
                 Subscribtion.Year);
 
-            var member = gymService.GetMembers().First();
+            var member = gymService.GetMembers().Last();
 
             Assert.That(member.SubscribtionType,
                 Is.EqualTo(Subscribtion.Year));
@@ -96,7 +96,7 @@ namespace Gym_Management_Project_Tests
                 new List<Workouts>(),
                 Subscribtion.Month);
 
-            var member = gymService.GetMembers().First();
+            var member = gymService.GetMembers().Last();
 
             Assert.That(member.CardStatus,
                 Is.EqualTo(MemberCard.Active));
@@ -135,12 +135,12 @@ namespace Gym_Management_Project_Tests
                 "Smith",
                 new List<Members>());
 
-            var trainer = gymService.GetTrainers().First();
+            var trainer = gymService.GetTrainers().Last();
 
             Assert.That(trainer.IsAvailable, Is.True);
         }
         [Test]
-        public void CreateWorkout_ShouldIncreaseWorkoutCount()
+        public void CreateWorkout_ShouldIncreaseWorkoutCount()//it works
         {
             gymService.CreateWorkout(
                 1,
@@ -159,7 +159,7 @@ namespace Gym_Management_Project_Tests
                 "Leg Day",
                 new List<Exercises>());
 
-            var workout = gymService.GetWorkouts().First();
+            var workout = gymService.GetWorkouts().Last();
 
             Assert.That(workout.Name, Is.EqualTo("Leg Day"));
         }
@@ -171,12 +171,12 @@ namespace Gym_Management_Project_Tests
                 "Cardio",
                 new List<Exercises>());
 
-            var workout = gymService.GetWorkouts().First();
+            var workout = gymService.GetWorkouts().Last();
 
             Assert.That(workout.MemberId, Is.EqualTo(5));
         }
         [Test]
-        public void GetWorkoutsByMemberId_ShouldReturnCorrectWorkouts()
+        public void GetWorkoutsByMemberId_ShouldReturnCorrectWorkouts()// it works
         {
             gymService.CreateWorkout(1, "A", new List<Exercises>());
             gymService.CreateWorkout(1, "B", new List<Exercises>());

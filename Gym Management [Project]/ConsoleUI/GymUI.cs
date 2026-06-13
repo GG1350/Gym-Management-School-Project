@@ -197,7 +197,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+=============================+");
             Console.ResetColor();
         }
-        private void AddMember()//Done
+        public void AddMember()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("First name: ");
@@ -232,7 +232,7 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateMember(FName, LName, workouts, subscribtion);
             Pause();
         }
-        private void BookTraining()//Done
+        public void BookTraining()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -349,7 +349,7 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.GetMemberById(memberId).GetTotalCalories();
             Pause();
         }
-        private void UnbookTraining() //Done
+        public void UnbookTraining() //Done
         {
             Console.WriteLine("Enter your member ID");
             var members = gymService.GetMembers();
@@ -398,7 +398,7 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
             Pause();
         }
-        private void ShowMembers()//Done
+        public void ShowMembers()//Done
         {
             var members = gymService.GetMembers();
             if (members.Count == 0)
@@ -412,7 +412,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
             return;
         }
-        private void CheckProgress() //calories; visits; Done
+        public void CheckProgress() //calories; visits; Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -465,7 +465,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
-        private void AddTrainer()
+        public void AddTrainer()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("First name: ");
@@ -482,7 +482,7 @@ namespace Gym_Management__Project_.ConsoleUI
             List<Members> members = new List<Members>();
             gymService.CreateTrainer(FName, LName, members);
         }//Done
-        private void ShowTrainers()
+        public void ShowTrainers()
         {
             var trainers = gymService.GetTrainers();
             if (trainers.Count == 0)
@@ -499,7 +499,7 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Pause();
         }//Done
-        private void CheckTrainer()//availability and members; Done
+        public void CheckTrainer()//availability and members; Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter trainer ID");
@@ -537,7 +537,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Pause();
             return;
         }
-        private void ManageTrainerTimetable() //maybe should happen with unbook training; Done
+        public void ManageTrainerTimetable() //maybe should happen with unbook training; Done
         {
             var members = gymService.GetMembers();
             if (members.Count == 0)
@@ -595,7 +595,7 @@ namespace Gym_Management__Project_.ConsoleUI
                     break;
             }
         }
-        private void GetTrainingHistory() //the member's progress; Done
+        public void GetTrainingHistory() //the member's progress; Done
         {
             var members = gymService.GetMembers();
             if (members.Count == 0)
@@ -623,7 +623,7 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Pause();
         }
-        private void CheckActiveMembers() //members with active subscription; Done
+        public void CheckActiveMembers() //members with active subscription; Done
         {
             var members = gymService.GetMembers();
             if (members.Count == 0)
@@ -674,7 +674,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+===================================+");
             Console.ResetColor();
         }
-        private void ManageMemberCards()
+        public void ManageMemberCards()
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -803,7 +803,7 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Pause();
         }//Done
-        private void ManageSubsription()//Done
+        public void ManageSubsription()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -852,7 +852,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("+==============================+");
             Console.ResetColor();
         }
-        private void CreateWorkout()//Done
+        public void CreateWorkout()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("!!! Note that this workout is usable only once in this version !!!");
@@ -876,7 +876,7 @@ namespace Gym_Management__Project_.ConsoleUI
             gymService.CreateWorkout(WId, WName, exercises);
             Pause();
         }
-        private void EditWorkout()//Done
+        public void EditWorkout()//Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -1002,7 +1002,7 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ResetColor();
             Pause();
         }
-        private void ShowWorkout()// needs to show the workout by a specified id and the exercises in it;Done
+        public void ShowWorkout()// needs to show the workout by a specified id and the exercises in it;Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Enter your member ID");
@@ -1038,7 +1038,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-        private void CheckGymBusyness() //get the availability of each trainer; Done
+        public void CheckGymBusyness() //get the availability of each trainer; Done
         {
             var trainers = gymService.GetTrainers();
             if( trainers.Count == 0)
@@ -1073,7 +1073,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
             Pause();
         }
-        private void CheckMostUsedExercises() //Done
+        public void CheckMostUsedExercises() //Done
         {
             var members = gymService.GetMembers();
             if (members.Count == 0)
@@ -1147,7 +1147,7 @@ namespace Gym_Management__Project_.ConsoleUI
 
         //sub methods
 
-        private Exercises AddExercise()//this will be used with the creation and editing of the workout; Done
+        public Exercises AddExercise()//this will be used with the creation and editing of the workout; Done
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("Please specify the exercise you would like to include in your workout. Enter the exercise name below (all exercises are user-defined and fully customizable).");

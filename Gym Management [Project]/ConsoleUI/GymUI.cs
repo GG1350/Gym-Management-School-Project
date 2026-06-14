@@ -1090,7 +1090,8 @@ namespace Gym_Management__Project_.ConsoleUI
 
             foreach (var trainer in trainers)
             {
-                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"[{trainer.Members.Count}]"); Console.ResetColor(); Console.Write("members.");
+                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"[{trainer.Members.Count}] "); Console.ResetColor(); Console.Write("members.");
+                Console.WriteLine();
                 totalMembers += trainer.Members.Count;
             }
 
@@ -1130,7 +1131,9 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
             Console.ResetColor();
-            Console.WriteLine("  == MOST USED EXERCISE ==");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("    == MOST USED EXERCISE ==");
+            Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("+==============================+");
             Console.ResetColor();

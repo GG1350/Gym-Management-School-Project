@@ -85,6 +85,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 if (member != null && workout != null)
                 {
                     member.Trainer = null;
+                    member.TranerId = null;
                 }
             }
             context.SaveChanges();

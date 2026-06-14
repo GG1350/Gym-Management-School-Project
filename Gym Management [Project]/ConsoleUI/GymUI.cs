@@ -434,6 +434,7 @@ namespace Gym_Management__Project_.ConsoleUI
             member.GetTotalCalories();
 
             Console.Write($"Completed workouts: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.Progress.Count()}]");
+            Console.ResetColor();
             Console.Write($"Calories burnt: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.TotalCaloriesBurnt}]");
             Console.ResetColor();
 
@@ -564,21 +565,22 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Enter the trainer ID whom's timetable you want to change: ");
+            Console.ResetColor();
             if (!int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+================================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("  == What do you want to do ==");
+            Console.WriteLine("   == What do you want to do ==");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+================================+");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Unbook training");
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
+            Console.WriteLine("+================================+");
             Console.ResetColor();
             if (!int.TryParse(Console.ReadLine(), out int choice)||choice>3||choice<1) { Console.WriteLine("Invalid Input"); Pause(); return; }
             switch (choice)

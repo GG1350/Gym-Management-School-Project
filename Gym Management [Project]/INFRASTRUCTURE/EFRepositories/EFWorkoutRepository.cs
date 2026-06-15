@@ -43,5 +43,12 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
             context.Workouts.Add(workouts);
             context.SaveChanges();
         }
+        public void Update(Workouts workouts)
+        {
+            if (workouts == null)
+                throw new ArgumentNullException(nameof(workouts));
+            context.Workouts.Update(workouts);
+            context.SaveChanges();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Gym_Management__Project_.APP
     {
         Workouts GetById(int id);
         void Save(Workouts Workout);
+        void Update(Workouts Workout);
         IReadOnlyList<Workouts> GetAll();
     }
 }

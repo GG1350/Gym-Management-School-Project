@@ -253,6 +253,10 @@
     <Compile Include="Migrations\20260614103509_Fix.Designer.cs">
       <DependentUpon>20260614103509_Fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20260615094515_FIXII.cs" />
+    <Compile Include="Migrations\20260615094515_FIXII.Designer.cs">
+      <DependentUpon>20260615094515_FIXII.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GymDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

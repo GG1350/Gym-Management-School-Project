@@ -31,7 +31,6 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             {
                 //bool found = true;
                 var newWorkouts = new Workouts(
-                    db.NextId++,
                     Workouts.MemberId,
                     Workouts.Name,
                     Workouts.Exercises.ToList()
@@ -74,6 +73,10 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
             }
 
             throw new Exception($"Workouts with Id {id} not found");
+
+        }
+        public void Update(Workouts Workouts)
+        {
 
         }
     }

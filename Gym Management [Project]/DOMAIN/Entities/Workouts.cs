@@ -17,9 +17,9 @@ namespace Gym_Management__Project_.DOMAIN.Entities
         public ICollection<Exercises> Exercises { get; set; } = new List<Exercises>();
 
         public Workouts() { }
-        public Workouts(int id,int memberId,string name, List<Exercises> exercises)
+        public Workouts(int memberId,string name, List<Exercises> exercises)
         {
-            Id = id;
+            
             MemberId = memberId;
             Name = name;
             Exercises = exercises;

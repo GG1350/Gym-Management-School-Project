@@ -42,13 +42,17 @@ namespace Gym_Management__Project_.APP
 
         public void CreateWorkout(int memberId, string name, List<Exercises> exercises)
         {
-            Workouts Workout = new Workouts(0, memberId, name, exercises);
+            Workouts Workout = new Workouts(memberId, name, exercises);
             workoutRepository.Save(Workout);
         }
 
         public void Save(Workouts Workout)
         {
             workoutRepository.Save(Workout);
+        }
+        public void UpdateWorkout(Workouts Workout)
+        {
+            workoutRepository.Update(Workout);
         }
 
         public void UpdateCard(MemberCard memberCard, int memberId)

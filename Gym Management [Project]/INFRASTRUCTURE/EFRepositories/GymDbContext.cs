@@ -24,7 +24,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-VIPRQ43\\LOCALDB;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;");
             }
         }
 

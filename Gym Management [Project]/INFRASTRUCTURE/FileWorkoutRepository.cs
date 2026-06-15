@@ -56,8 +56,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE
                     throw new Exception("Trainer not found");
                 }
             }
-
-            storage.Save(db);
+                storage.Save(db);
         }
 
         public Workouts GetById(int id)

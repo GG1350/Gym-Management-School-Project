@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using System.Windows.Forms;
 namespace Gym_Management__Project_.ConsoleUI
 {
     public class GymUI
@@ -231,8 +232,9 @@ namespace Gym_Management__Project_.ConsoleUI
             }
             var subscribtion = (Subscribtion)id-1;
             List<Workouts> workouts = new List<Workouts>();
-            gymService.CreateMember(FName, LName, workouts, subscribtion);
-            Pause();
+            try { gymService.CreateMember(FName, LName, workouts, subscribtion); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return;}
+            Pause(); 
         }
         public void BookTraining()//Done
         {
@@ -348,9 +350,11 @@ namespace Gym_Management__Project_.ConsoleUI
                 return;
             }
             //actual booking
-            gymService.BookTraining(memberId, workoutId, trainerId, "book");
+            try { gymService.BookTraining(memberId, workoutId, trainerId, "book"); }
+            catch(Exception ex) { Console.WriteLine(ex.Message); Pause(); return;  }
 
-            gymService.GetMemberById(memberId).GetTotalCalories();
+            try { gymService.GetMemberById(memberId).GetTotalCalories(); }
+            catch(Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void UnbookTraining() //Done
@@ -404,25 +408,30 @@ namespace Gym_Management__Project_.ConsoleUI
                 }
             }
 
-            gymService.BookTraining(memberId, workoutId, trainerId, "unbook");
+            try { gymService.BookTraining(memberId, workoutId, trainerId, "unbook"); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); return; }
             Pause();
         }
         public void ShowMembers()//Done
         {
-            var members = gymService.GetMembers();
-            if (members.Count == 0)
+            try
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("There are no member created!");
-                Console.ResetColor();
-                Pause();
-                return;
+                var members = gymService.GetMembers();
+                if (members.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("There are no member created!");
+                    Console.ResetColor();
+                    Pause();
+                    return;
+                }
+                foreach (var m in members)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"\n[{m.Id}] "); Console.ResetColor(); Console.WriteLine($"{m.FirstName} {m.LastName}");
+                }
             }
-            foreach (var m in members)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"\n[{m.Id}] "); Console.ResetColor(); Console.WriteLine($"{m.FirstName} {m.LastName}");
-            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
             return;
         }
@@ -432,16 +441,18 @@ namespace Gym_Management__Project_.ConsoleUI
             Console.WriteLine("Enter your member ID");
             Console.ResetColor();
             if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+            try
+            {
+                var member = gymService.GetMemberById(id);
 
-            var member = gymService.GetMemberById(id);
+                member.GetTotalCalories();
 
-            member.GetTotalCalories();
-
-            Console.Write($"Completed workouts: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.Progress.Count()}]");
-            Console.ResetColor();
-            Console.Write($"Calories burnt: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.TotalCaloriesBurnt}]");
-            Console.ResetColor();
-
+                Console.Write($"Completed workouts: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.Progress.Count()}]");
+                Console.ResetColor();
+                Console.Write($"Calories burnt: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{member.TotalCaloriesBurnt}]");
+                Console.ResetColor();
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
             return;
         }
@@ -494,165 +505,184 @@ namespace Gym_Management__Project_.ConsoleUI
             if (int.TryParse(input, out int Lnumber) || string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
             string LName = Linput;
             List<Members> members = new List<Members>();
-            gymService.CreateTrainer(FName, LName, members);
+            try { gymService.CreateTrainer(FName, LName, members); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
         }//Done
         public void ShowTrainers()
         {
-            var trainers = gymService.GetTrainers();
-            if (trainers.Count == 0)
+            try
             {
-                Console.WriteLine("There are no trainers created");
-                Pause();
-                return;
+                var trainers = gymService.GetTrainers();
+                if (trainers.Count == 0)
+                {
+                    Console.WriteLine("There are no trainers created");
+                    Pause();
+                    return;
+                }
+                foreach (var t in trainers)
+                {
+                    string availability = t.IsAvailable ? "Available" : "Not Available";
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[{t.Id}] "); Console.ResetColor(); Console.WriteLine($"{t.FirstName} {t.LastName} - {availability}");
+                }
             }
-            foreach (var t in trainers)
-            {
-                string availability = t.IsAvailable ? "Available" : "Not Available";
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{t.Id}] "); Console.ResetColor(); Console.WriteLine($"{t.FirstName} {t.LastName} - {availability}");
-            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }//Done
         public void CheckTrainer()//availability and members; Done
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Enter trainer ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-
-            var trainer = gymService.GetTrainerById(id);
-            if(trainer == null)
-            {
-                Console.WriteLine("There is no trainer with this id");
-                Pause();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write($"Name: "); Console.ResetColor(); Console.WriteLine($"{trainer.FirstName} {trainer.LastName}"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"Available: "); Console.ResetColor(); Console.WriteLine($"{(trainer.IsAvailable ? "Yes" : "No")}");
-
-            if (trainer.Members.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("No assigned members!");
-                Console.ResetColor();
-                Pause();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Members:");
-            Console.ResetColor();
-            foreach (var member in trainer.Members)
+            try
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{member.Id}]"); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}");
+                Console.WriteLine("Enter trainer ID");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+
+                var trainer = gymService.GetTrainerById(id);
+                if (trainer == null)
+                {
+                    Console.WriteLine("There is no trainer with this id");
+                    Pause();
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write($"Name: "); Console.ResetColor(); Console.WriteLine($"{trainer.FirstName} {trainer.LastName}"); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"Available: "); Console.ResetColor(); Console.WriteLine($"{(trainer.IsAvailable ? "Yes" : "No")}");
+
+                if (trainer.Members.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("No assigned members!");
+                    Console.ResetColor();
+                    Pause();
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Members:");
+                Console.ResetColor();
+                foreach (var member in trainer.Members)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[{member.Id}]"); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}");
+                }
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
             return;
         }
         public void ManageTrainerTimetable() //maybe should happen with unbook training; Done
         {
-            var members = gymService.GetMembers();
-            if (members.Count == 0)
+            try
             {
-                Console.WriteLine("There are no member created");
-                Pause();
-                return;
-            }
-            var trainers = gymService.GetTrainers();
-            if (trainers.Count == 0)
-            {
-                Console.WriteLine("There are no trainers created");
-                Pause();
-                return;
-            }
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Enter the trainer ID whom's timetable you want to change: ");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+================================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("   == What do you want to do ==");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+================================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Unbook training");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+================================+");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int choice)||choice>3||choice<1) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            switch (choice)
-            {
-                case 1:
-                    foreach (var m in members)
-                    {
-                        if (m.TranerId==gymService.GetTrainerById(tChoice).Id)
+                var members = gymService.GetMembers();
+                if (members.Count == 0)
+                {
+                    Console.WriteLine("There are no member created");
+                    Pause();
+                    return;
+                }
+                var trainers = gymService.GetTrainers();
+                if (trainers.Count == 0)
+                {
+                    Console.WriteLine("There are no trainers created");
+                    Pause();
+                    return;
+                }
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("Enter the trainer ID whom's timetable you want to change: ");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int tChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+================================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("   == What do you want to do ==");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+================================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("  [1] "); Console.ResetColor(); Console.WriteLine("Unbook training");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+================================+");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int choice) || choice > 3 || choice < 1) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                switch (choice)
+                {
+                    case 1:
+                        foreach (var m in members)
                         {
-                            gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
+                            if (m.TranerId == gymService.GetTrainerById(tChoice).Id)
+                            {
+                                gymService.BookTraining(m.Id, m.Progress.Count(), tChoice, "unbook");
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
         }
         public void GetTrainingHistory() //the member's progress; Done
-        {
-            var members = gymService.GetMembers();
-            if (members.Count == 0)
+        { try
             {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("There are no member created");
+                var members = gymService.GetMembers();
+                if (members.Count == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("There are no member created");
+                    Console.ResetColor();
+                    Pause();
+                    return;
+                }
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Enter member ID");
                 Console.ResetColor();
-                Pause();
-                return;
-            }
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Enter member ID");
-            Console.ResetColor();
-            foreach (var m in members)
-            {
+                foreach (var m in members)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[{m.Id}] "); Console.ResetColor(); Console.WriteLine($"{m.FirstName} {m.LastName}");
+                }
+                if (!int.TryParse(Console.ReadLine(), out int id) || id < 0 || id > members.Count + 1) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
+                var member = gymService.GetMemberById(id);
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{m.Id}] "); Console.ResetColor(); Console.WriteLine($"{m.FirstName} {m.LastName}");
+                Console.Write($"Training history for "); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}:");
+                foreach (var workout in member.Progress)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"[{workout.Id}]"); Console.ResetColor(); Console.WriteLine($"| Name: {workout.Name}");
+                }
             }
-            if (!int.TryParse(Console.ReadLine(), out int id)||id<0||id>members.Count+1) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor();  Pause(); return; }
-            var member = gymService.GetMemberById(id);
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write($"Training history for "); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}:");
-            foreach (var workout in member.Progress)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{workout.Id}]"); Console.ResetColor(); Console.WriteLine($"| Name: {workout.Name}");
-            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void CheckActiveMembers() //members with active subscription; Done
         {
-            var members = gymService.GetMembers();
-            if (members.Count == 0)
+            try
             {
-                Console.WriteLine("There are no member created");
-                Pause();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Active members:");
-            Console.ResetColor();
-
-            foreach (var member in members)
-            {
-                if (member.CardStatus == MemberCard.Active)
+                var members = gymService.GetMembers();
+                if (members.Count == 0)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write($"[{member.Id}] "); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}");
+                    Console.WriteLine("There are no member created");
+                    Pause();
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Active members:");
+                Console.ResetColor();
+
+                foreach (var member in members)
+                {
+                    if (member.CardStatus == MemberCard.Active)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write($"[{member.Id}] "); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}");
+                    }
                 }
             }
-
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
 
@@ -683,165 +713,174 @@ namespace Gym_Management__Project_.ConsoleUI
         }
         public void ManageMemberCards()
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Enter your member ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            var member = gymService.GetMemberById(memberId);
-
-            switch (member.CardStatus)
+            try
             {
-                case MemberCard.Active:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("active!"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("  What do you want to do with the card?");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkBlue; Console.WriteLine("Freeze card"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  [2] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Terminate card"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("  [X] Exit");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Enter your member ID");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                var member = gymService.GetMemberById(memberId);
 
-                    string activeChoice = Console.ReadLine();
-
-                    if (activeChoice == "1")
-                    {
-                        gymService.UpdateCard(MemberCard.Frozen, memberId);
-                    }
-                    else if (activeChoice == "2")
-                    {
-                        gymService.UpdateCard(MemberCard.Terminated, memberId);
-                    }
-                    else if (activeChoice == "x")
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Invalid choice!");
+                switch (member.CardStatus)
+                {
+                    case MemberCard.Active:
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
                         Console.ResetColor();
-                        Pause();
-                        return;
-                    }
-
-                    break;
-
-                case MemberCard.Frozen:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine("frozen!"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("  What do you want to do with the card?");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Activate card"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  [2] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Terminate card"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("  [X] Exit");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+=======================================+");
-                    Console.ResetColor();
-
-                    string frozenChoice = Console.ReadLine();
-
-                    if (frozenChoice == "1") gymService.UpdateCard(MemberCard.Active, memberId);
-
-                    else if (frozenChoice == "2") gymService.UpdateCard(MemberCard.Terminated, memberId);
-
-                    else if (frozenChoice == "x") return;
-
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Invalid choice!");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("active!"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("  What do you want to do with the card?");
                         Console.ResetColor();
-                        Pause();
-                        return;
-                    }
-
-                    break;
-
-                case MemberCard.Terminated:
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("terminated!"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("  What do you want to do with the card?");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+==================================+");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Activate card"); Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("  [X] Exit");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine("+=======================================+");
-                    Console.ResetColor();
-
-                    string terminatedChoice = Console.ReadLine();
-
-                    if (terminatedChoice == "1")
-                    {
-                        gymService.UpdateCard(MemberCard.Active, memberId);
-                    }
-                    else if (terminatedChoice == "x")
-                    {
-                        return;
-                    }
-                    else {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Invalid choice!");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
                         Console.ResetColor();
-                    }
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkBlue; Console.WriteLine("Freeze card"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  [2] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Terminate card"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("  [X] Exit");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
+                        Console.ResetColor();
 
-                    break;
+                        string activeChoice = Console.ReadLine();
+
+                        if (activeChoice == "1")
+                        {
+                            gymService.UpdateCard(MemberCard.Frozen, memberId);
+                        }
+                        else if (activeChoice == "2")
+                        {
+                            gymService.UpdateCard(MemberCard.Terminated, memberId);
+                        }
+                        else if (activeChoice == "x")
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Invalid choice!");
+                            Console.ResetColor();
+                            Pause();
+                            return;
+                        }
+
+                        break;
+
+                    case MemberCard.Frozen:
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine("frozen!"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("  What do you want to do with the card?");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Activate card"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  [2] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Terminate card"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("  [X] Exit");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+=======================================+");
+                        Console.ResetColor();
+
+                        string frozenChoice = Console.ReadLine();
+
+                        if (frozenChoice == "1") gymService.UpdateCard(MemberCard.Active, memberId);
+
+                        else if (frozenChoice == "2") gymService.UpdateCard(MemberCard.Terminated, memberId);
+
+                        else if (frozenChoice == "x") return;
+
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Invalid choice!");
+                            Console.ResetColor();
+                            Pause();
+                            return;
+                        }
+
+                        break;
+
+                    case MemberCard.Terminated:
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  The member's card is "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Yellow; Console.WriteLine("terminated!"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("  What do you want to do with the card?");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+==================================+");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("  [1] "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.Green; Console.WriteLine("Activate card"); Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("  [X] Exit");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("+=======================================+");
+                        Console.ResetColor();
+
+                        string terminatedChoice = Console.ReadLine();
+
+                        if (terminatedChoice == "1")
+                        {
+                            gymService.UpdateCard(MemberCard.Active, memberId);
+                        }
+                        else if (terminatedChoice == "x")
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Invalid choice!");
+                            Console.ResetColor();
+                        }
+
+                        break;
+                }
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }//Done
         public void ManageSubsription()//Done
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Enter your member ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int mChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("To what plan do you want to change? (Write the plan)");
-            Console.ResetColor();
-            foreach (var sub in subs)
+            try
             {
-                if (sub != gymService.GetMemberById(mChoice).SubscribtionType)
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Enter your member ID");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int mChoice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                List<Subscribtion> subs = Enum.GetValues(typeof(Subscribtion)).Cast<Subscribtion>().ToList();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("To what plan do you want to change? (Write the plan)");
+                Console.ResetColor();
+                foreach (var sub in subs)
                 {
-                    Console.WriteLine(sub);
+                    if (sub != gymService.GetMemberById(mChoice).SubscribtionType)
+                    {
+                        Console.WriteLine(sub);
+                    }
                 }
+                //Subscribtion newSub = (Subscribtion)Enum.Parse(typeof(Subscribtion), Console.ReadLine());
+                if (!Enum.TryParse(Console.ReadLine(), out Subscribtion newSub)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                gymService.UpdateSub(newSub, mChoice);
             }
-            //Subscribtion newSub = (Subscribtion)Enum.Parse(typeof(Subscribtion), Console.ReadLine());
-            if (!Enum.TryParse(Console.ReadLine(), out Subscribtion newSub)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-            gymService.UpdateSub(newSub, mChoice);
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
         }
 
         //workout UI
@@ -873,314 +912,339 @@ namespace Gym_Management__Project_.ConsoleUI
         }
         public void CreateWorkout()//Done
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("!!! NOTE THAT THIS WORKOUT IS USABLE ONLY ONCE IN THIS VERSION !!!");
-            Console.WriteLine();
-            Console.WriteLine("Enter your member ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int WId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
-            Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write("What should be the name of the workout?: "); Console.ResetColor();
-            string Winput = Console.ReadLine();
-            if (int.TryParse(Winput, out int Wnumber) || string.IsNullOrWhiteSpace(Winput)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
-            string WName = Winput;
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Add exercises to the workout:");
-            Console.ResetColor();
-            List<Exercises> exercises = new List<Exercises>();
-            while (true)
+            try
             {
-                exercises.Add(AddExercise());
-                Console.Write("Do you want to add another exercise? "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("(yes/no)");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("!!! NOTE THAT THIS WORKOUT IS USABLE ONLY ONCE IN THIS VERSION !!!");
+                Console.WriteLine();
+                Console.WriteLine("Enter your member ID");
                 Console.ResetColor();
-                string choice = Console.ReadLine();
-                if (choice.ToLower() == "no")
-                    break;
-            }
+                if (!int.TryParse(Console.ReadLine(), out int WId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
+                Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write("What should be the name of the workout?: "); Console.ResetColor();
+                string Winput = Console.ReadLine();
+                if (int.TryParse(Winput, out int Wnumber) || string.IsNullOrWhiteSpace(Winput)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
+                string WName = Winput;
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Add exercises to the workout:");
+                Console.ResetColor();
+                List<Exercises> exercises = new List<Exercises>();
+                while (true)
+                {
+                    try
+                    {
+                        exercises.Add(AddExercise());
+                    }
+                    catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); }
+                    Console.Write("Do you want to add another exercise? "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine("(yes/no)");
+                    Console.ResetColor();
+                    string choice = Console.ReadLine();
+                    if (choice.ToLower() == "no")
+                        break;
+                }
 
-            gymService.CreateWorkout(WId, WName, exercises);
+                gymService.CreateWorkout(WId, WName, exercises);
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void EditWorkout()//Done
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("\nEnter your member ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor();  Pause(); return; }
-
-            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
-            if(workouts.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("You do not have any workouts created");
-                Console.ResetColor();
-                Pause();
-                return;
-            }
-
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Your workouts:");
-            Console.ResetColor();
-
-            foreach (var workout in workouts)
+            try
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"\n  [{workout.Id}]"); Console.ResetColor(); Console.WriteLine($" Name: {workout.Name}");
-            }
+                Console.WriteLine("\nEnter your member ID");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int memberId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
 
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("\nSelect the workout by ID: ");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-
-            Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
-            if (workouts.Count == 0)
-            {
-                Console.WriteLine("You do not have any workouts created");
-                Pause();
-                return;
-            }
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=================================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("  == What changes to implement ==");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=================================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [1]  "); Console.ResetColor(); Console.WriteLine("Change workout name");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [2]  "); Console.ResetColor(); Console.WriteLine("Add exercise");
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("  [3]  "); Console.ResetColor(); Console.WriteLine("Remove exercise");
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=================================+");
-            Console.ResetColor();
-
-            if (!int.TryParse(Console.ReadLine(), out int choice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-
-            switch (choice)
-            {
-                case 1:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("Enter new workout name: ");
-                    Console.ResetColor();
-                    
-                    string input = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
-                    selectedWorkout.Name = input;
-                    break;
-
-                case 2:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Enter details for the new exercise: ");
-                    Console.ResetColor();
-                    Exercises newExercise = AddExercise();
-                    selectedWorkout.Exercises.Add(newExercise);
-                    break;
-
-                case 3:
-                    Console.WriteLine("Exercises:");
-
-                    int index = 1;
-                    foreach (var exercise in selectedWorkout.Exercises)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write($"[{index}] "); Console.ResetColor(); Console.Write($"{ exercise.Name}");
-                        index++;
-                    }
-
-                    Console.WriteLine();
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Choose exercise ID to remove");
-                    Console.ResetColor();
-                    if (!int.TryParse(Console.ReadLine(), out int removeIndex)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
-                    removeIndex--;
-
-                    if (removeIndex >= 0 && removeIndex < selectedWorkout.Exercises.Count)
-                    {
-                        var exerciseToRemove = selectedWorkout.Exercises.ElementAt(removeIndex);
-                        selectedWorkout.Exercises.Remove(exerciseToRemove);
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine("Invalid choice!");
-                        Console.ResetColor();
-                        Pause();
-                        return;
-                    }
-                    break;
-
-                default:
+                List<Workouts> workouts = gymService.GetWorkoutsByMemberId(memberId);
+                if (workouts.Count == 0)
+                {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine("Invalid option!");
+                    Console.WriteLine("You do not have any workouts created");
                     Console.ResetColor();
                     Pause();
-                    break;
+                    return;
+                }
+
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Your workouts:");
+                Console.ResetColor();
+
+                foreach (var workout in workouts)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"\n  [{workout.Id}]"); Console.ResetColor(); Console.WriteLine($" Name: {workout.Name}");
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("\nSelect the workout by ID: ");
+                Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int workoutId)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+
+                Workouts selectedWorkout = gymService.GetWorkoutById(workoutId);
+                if (workouts.Count == 0)
+                {
+                    Console.WriteLine("You do not have any workouts created");
+                    Pause();
+                    return;
+                }
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=================================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("  == What changes to implement ==");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=================================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("  [1]  "); Console.ResetColor(); Console.WriteLine("Change workout name");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("  [2]  "); Console.ResetColor(); Console.WriteLine("Add exercise");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("  [3]  "); Console.ResetColor(); Console.WriteLine("Remove exercise");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=================================+");
+                Console.ResetColor();
+
+                if (!int.TryParse(Console.ReadLine(), out int choice)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("Enter new workout name: ");
+                        Console.ResetColor();
+
+                        string input = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid Input"); Pause(); return; }
+                        selectedWorkout.Name = input;
+                        break;
+
+                    case 2:
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Enter details for the new exercise: ");
+                        Console.ResetColor();
+                        try
+                        {
+                            Exercises newExercise = AddExercise();
+
+                            selectedWorkout.Exercises.Add(newExercise);
+                        }
+                        catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); }
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Exercises:");
+
+                        int index = 1;
+                        foreach (var exercise in selectedWorkout.Exercises)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write($"[{index}] "); Console.ResetColor(); Console.Write($"{exercise.Name}");
+                            index++;
+                        }
+
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Choose exercise ID to remove");
+                        Console.ResetColor();
+                        if (!int.TryParse(Console.ReadLine(), out int removeIndex)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
+                        removeIndex--;
+
+                        if (removeIndex >= 0 && removeIndex < selectedWorkout.Exercises.Count)
+                        {
+                            var exerciseToRemove = selectedWorkout.Exercises.ElementAt(removeIndex);
+                            selectedWorkout.Exercises.Remove(exerciseToRemove);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.WriteLine("Invalid choice!");
+                            Console.ResetColor();
+                            Pause();
+                            return;
+                        }
+                        break;
+
+                    default:
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("Invalid option!");
+                        Console.ResetColor();
+                        Pause();
+                        break;
+                }
+
+                gymService.UpdateWorkout(selectedWorkout);
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\nWorkout updated");
+                Console.ResetColor();
             }
-
-            gymService.UpdateWorkout(selectedWorkout);
-
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("\nWorkout updated");
-            Console.ResetColor();
-
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void ShowWorkout()// needs to show the workout by a specified id and the exercises in it;Done
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("\nEnter your member ID");
-            Console.ResetColor();
-            if (!int.TryParse(Console.ReadLine(), out int MId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
-
-            List<Workouts> workouts = gymService.GetWorkoutsByMemberId(MId);
-            if (workouts.Count == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("You do not have any workouts created");
-                Console.ResetColor();
-                Pause();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("\nWorkouts:");
-            Console.ResetColor();
-
-            foreach (var workout in workouts)
+            try
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"\n[{workout.Id}]"); Console.ResetColor(); Console.WriteLine($" Name: {workout.Name}");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("  Exercises:");
+                Console.WriteLine("\nEnter your member ID");
                 Console.ResetColor();
+                if (!int.TryParse(Console.ReadLine(), out int MId)) { Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine("Invalid Input"); Console.ResetColor(); Pause(); return; }
 
-                foreach (var exercise in workout.Exercises)
+                List<Workouts> workouts = gymService.GetWorkoutsByMemberId(MId);
+                if (workouts.Count == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine($"     - {exercise.Name}");
+                    Console.WriteLine("You do not have any workouts created");
                     Console.ResetColor();
+                    Pause();
+                    return;
+                }
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("\nWorkouts:");
+                Console.ResetColor();
+
+                foreach (var workout in workouts)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.Write($"\n[{workout.Id}]"); Console.ResetColor(); Console.WriteLine($" Name: {workout.Name}");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("  Exercises:");
+                    Console.ResetColor();
+
+                    foreach (var exercise in workout.Exercises)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine($"     - {exercise.Name}");
+                        Console.ResetColor();
+                    }
                 }
             }
-
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void CheckGymBusyness() //get the availability of each trainer; Done
         {
-            var trainers = gymService.GetTrainers();
-            if( trainers.Count == 0)
+            try
             {
-                Console.WriteLine("There are no trainers created");
-                Pause(); 
-                return;
-            }
-            int totalMembers = 0;
+                var trainers = gymService.GetTrainers();
+                if (trainers.Count == 0)
+                {
+                    Console.WriteLine("There are no trainers created");
+                    Pause();
+                    return;
+                }
+                int totalMembers = 0;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=============================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("     === GYM BUSYNESS ===");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=============================+");
-            Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=============================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("     === GYM BUSYNESS ===");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=============================+");
+                Console.ResetColor();
 
-            foreach (var trainer in trainers)
-            {
-                Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"[{trainer.Members.Count}] "); Console.ResetColor(); Console.Write("members.");
+                foreach (var trainer in trainers)
+                {
+                    Console.Write($"{trainer.FirstName} {trainer.LastName} has "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write($"[{trainer.Members.Count}] "); Console.ResetColor(); Console.Write("members.");
+                    Console.WriteLine();
+                    totalMembers += trainer.Members.Count;
+                }
+
                 Console.WriteLine();
-                totalMembers += trainer.Members.Count;
+                Console.Write($"Total members training: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{totalMembers}]"); Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+=============================+");
+                Console.ResetColor();
             }
-
-            Console.WriteLine();
-            Console.Write($"Total members training: "); Console.ForegroundColor = ConsoleColor.DarkRed; Console.WriteLine($"[{totalMembers}]"); Console.ResetColor();
-
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+=============================+");
-            Console.ResetColor();
-
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
         public void CheckMostUsedExercises() //Done
         {
-            var members = gymService.GetMembers();
-            if (members.Count == 0)
+            try
             {
-                Console.WriteLine("There are no member created");
-                Pause();
-                return;
-            }
-
-            List<string> allExercises = new List<string>();
-
-            // get all exercises
-            foreach (var member in members)
-            {
-                foreach (var workout in member.Progress)
+                var members = gymService.GetMembers();
+                if (members.Count == 0)
                 {
-                    foreach (var exercise in workout.Exercises)
+                    Console.WriteLine("There are no member created");
+                    Pause();
+                    return;
+                }
+
+                List<string> allExercises = new List<string>();
+
+                // get all exercises
+                foreach (var member in members)
+                {
+                    foreach (var workout in member.Progress)
                     {
-                        allExercises.Add(exercise.Name);
+                        foreach (var exercise in workout.Exercises)
+                        {
+                            allExercises.Add(exercise.Name);
+                        }
                     }
                 }
-            }
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("    == MOST USED EXERCISE ==");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
-            Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+==============================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("    == MOST USED EXERCISE ==");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+==============================+");
+                Console.ResetColor();
 
-            List<string> checkedExercises = new List<string>();
-            string mostUsed = "";
-            int maxCount = 0;
+                List<string> checkedExercises = new List<string>();
+                string mostUsed = "";
+                int maxCount = 0;
 
-            foreach (var ex in allExercises)
-            {
-                // if it's already counted => skip
-                if (checkedExercises.Contains(ex))
-                    continue;
-
-                int count = 0;
-
-                // count how much there are
-                foreach (var item in allExercises)
+                foreach (var ex in allExercises)
                 {
-                    if (item == ex)
-                        count++;
+                    // if it's already counted => skip
+                    if (checkedExercises.Contains(ex))
+                        continue;
+
+                    int count = 0;
+
+                    // count how much there are
+                    foreach (var item in allExercises)
+                    {
+                        if (item == ex)
+                            count++;
+                    }
+
+                    checkedExercises.Add(ex);
+
+                    Console.WriteLine();
+                    Console.WriteLine($"{ex} -> {count} times");
+                    Console.WriteLine();
+
+                    if (count > maxCount)
+                    {
+                        maxCount = count;
+                        mostUsed = ex;
+                    }
                 }
 
-                checkedExercises.Add(ex);
-
-                Console.WriteLine();
-                Console.WriteLine($"{ex} -> {count} times");
-                Console.WriteLine();
-
-                if (count > maxCount)
-                {
-                    maxCount = count;
-                    mostUsed = ex;
-                }
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("+==============================+");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("Most used exercise: "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine($"[{mostUsed}] [{maxCount}]"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write(" times");
+                Console.ResetColor();
             }
-
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("+==============================+");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Most used exercise: "); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkYellow; Console.WriteLine($"[{mostUsed}] [{maxCount}]"); Console.ResetColor(); Console.ForegroundColor = ConsoleColor.DarkRed; Console.Write(" times");
-            Console.ResetColor();
-
+            catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
         }
 

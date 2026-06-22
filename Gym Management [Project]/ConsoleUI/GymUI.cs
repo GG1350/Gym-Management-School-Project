@@ -321,10 +321,12 @@ namespace Gym_Management__Project_.ConsoleUI
                 Pause();
                 return;
             }
+            int index = 1;
             foreach (var w in gymService.GetMemberById(memberId).Workouts)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.Write($"[{w.Id}] ");
+                Console.Write($"[{index}] ");
+                index++;
                 Console.ResetColor();
                 Console.WriteLine(w.Name);
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -561,11 +563,9 @@ namespace Gym_Management__Project_.ConsoleUI
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Members:");
                 Console.ResetColor();
-                foreach (var member in trainer.Members)
-                {
+                Members member = trainer.Members.ToList()[0];
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write($"[{member.Id}]"); Console.ResetColor(); Console.WriteLine($"{member.FirstName} {member.LastName}");
-                }
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); Pause(); return; }
             Pause();
@@ -743,7 +743,7 @@ namespace Gym_Management__Project_.ConsoleUI
                         Console.Write("  [X] Exit");
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkGray;
-                        Console.WriteLine("+==================================+");
+                        Console.WriteLine("\n+==================================+");
                         Console.ResetColor();
 
                         string activeChoice = Console.ReadLine();

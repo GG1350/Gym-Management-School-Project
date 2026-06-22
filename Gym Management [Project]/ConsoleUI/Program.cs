@@ -26,7 +26,7 @@ namespace Gym_Management__Project_
             //var UI = new GymUI(service);
 
             var options = new DbContextOptionsBuilder<GymDbContext>()
-                .UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;")
+                .UseSqlServer("Server=K308\\SQLEXPRESS;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;")
                 .Options;
             var context = new GymDbContext();
             context.Database.EnsureCreated();

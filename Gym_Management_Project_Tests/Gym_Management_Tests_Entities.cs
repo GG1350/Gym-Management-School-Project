@@ -171,7 +171,7 @@ namespace Gym_Management_Project_Tests
         {
             var trainer = new Trainers(
                 1,
-                "John",
+                "John", 
                 "Smith",
                 new List<Members>());
 
@@ -203,7 +203,6 @@ namespace Gym_Management_Project_Tests
         {
             var workout = new Workouts(
                 1,
-                1,
                 "Leg Day",
                 new List<Exercises>());
 
@@ -214,7 +213,6 @@ namespace Gym_Management_Project_Tests
         public void Workout_ShouldNotBeCompletedByDefault()
         {
             var workout = new Workouts(
-                1,
                 1,
                 "Leg Day",
                 new List<Exercises>());
@@ -227,7 +225,6 @@ namespace Gym_Management_Project_Tests
             var exercise = new Exercises("Running", 60, 8, 70);
 
             var workout = new Workouts(
-                1,
                 1,
                 "Cardio",
                 new List<Exercises> { exercise });
@@ -248,10 +245,10 @@ namespace Gym_Management_Project_Tests
         [Test]
         public void Progress_ShouldReturnOnlyCompletedWorkouts()
         {
-            var completed = new Workouts(1, 1, "A", new List<Exercises>());
+            var completed = new Workouts(1, "A", new List<Exercises>());
             completed.IsCompleted = true;
 
-            var active = new Workouts(2, 1, "B", new List<Exercises>());
+            var active = new Workouts(2, "B", new List<Exercises>());
 
             var member = new Members(
                 1,
@@ -265,10 +262,10 @@ namespace Gym_Management_Project_Tests
         [Test]
         public void CreatedWorkouts_ShouldReturnOnlyUnfinishedWorkouts()
         {
-            var completed = new Workouts(1, 1, "A", new List<Exercises>());
+            var completed = new Workouts(1, "A", new List<Exercises>());
             completed.IsCompleted = true;
 
-            var active = new Workouts(2, 1, "B", new List<Exercises>());
+            var active = new Workouts(2, "B", new List<Exercises>());
 
             var member = new Members(
                 1,

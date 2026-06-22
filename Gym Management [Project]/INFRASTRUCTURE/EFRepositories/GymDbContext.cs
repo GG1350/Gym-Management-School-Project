@@ -24,7 +24,7 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=K308\\SQLEXPRESS;Database=GymDB;Integrated Security=True;TrustServerCertificate=True;");
             }
         }
 
@@ -92,8 +92,8 @@ namespace Gym_Management__Project_.INFRASTRUCTURE.EFRepositories
                 .IsRequired()
                 .HasMaxLength(100);
 
-                entity.Property(w => w.IsCompleted)
-                .IsRequired();
+                //entity.Property(w => w.IsCompleted)
+                //.IsRequired();
 
                 entity.OwnsMany(w => w.Exercises, exercise =>
                 {
